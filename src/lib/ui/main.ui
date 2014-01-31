@@ -73,6 +73,8 @@
      <string>Relatórios</string>
     </property>
     <addaction name="actionRepSales"/>
+    <addaction name="actionLivros"/>
+    <addaction name="actionRepBazar"/>
     <addaction name="actionRepLibrary"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -85,7 +87,7 @@
     <property name="title">
      <string>Biblioteca</string>
     </property>
-    <addaction name="actionLibRent"/>
+    <addaction name="actionLibLend"/>
     <addaction name="actionLibReturn"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -168,7 +170,7 @@
   <action name="actionRegAssociate">
    <property name="icon">
     <iconset resource="../../../res/icons.qrc">
-     <normaloff>:/icons/associate.png</normaloff>:/icons/associate.png</iconset>
+     <normaloff>:/icons/associate_add.png</normaloff>:/icons/associate_add.png</iconset>
    </property>
    <property name="text">
     <string>Associado</string>
@@ -214,6 +216,10 @@
    </property>
   </action>
   <action name="actionRegBook">
+   <property name="icon">
+    <iconset resource="../../../res/icons.qrc">
+     <normaloff>:/icons/book_add.png</normaloff>:/icons/book_add.png</iconset>
+   </property>
    <property name="text">
     <string>Livro</string>
    </property>
@@ -222,6 +228,10 @@
    </property>
   </action>
   <action name="actionRegProduct">
+   <property name="icon">
+    <iconset resource="../../../res/icons.qrc">
+     <normaloff>:/icons/product_add.png</normaloff>:/icons/product_add.png</iconset>
+   </property>
    <property name="text">
     <string>Produto</string>
    </property>
@@ -229,7 +239,11 @@
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionLibRent">
+  <action name="actionLibLend">
+   <property name="icon">
+    <iconset resource="../../../res/icons.qrc">
+     <normaloff>:/icons/book_lend.png</normaloff>:/icons/book_lend.png</iconset>
+   </property>
    <property name="text">
     <string>Alugar</string>
    </property>
@@ -238,6 +252,10 @@
    </property>
   </action>
   <action name="actionLibReturn">
+   <property name="icon">
+    <iconset resource="../../../res/icons.qrc">
+     <normaloff>:/icons/book_return.png</normaloff>:/icons/book_return.png</iconset>
+   </property>
    <property name="text">
     <string>Devolver</string>
    </property>
@@ -283,6 +301,16 @@
   <action name="actionRepLibrary">
    <property name="text">
     <string>Biblioteca</string>
+   </property>
+  </action>
+  <action name="actionRepBazar">
+   <property name="text">
+    <string>Bazar</string>
+   </property>
+  </action>
+  <action name="actionLivros">
+   <property name="text">
+    <string>Livros</string>
    </property>
   </action>
  </widget>

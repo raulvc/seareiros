@@ -7,11 +7,16 @@
      <file>icons/about.png</file>
      <file>icons/logo_big.png</file>
      <file>icons/book.png</file>
+     <file>icons/book_add.png</file>
+     <file>icons/book_lend.png</file>
+     <file>icons/book_return.png</file>
      <file>icons/product.png</file>
+     <file>icons/product_add.png</file>
      <file>icons/preferences.png</file>
      <file>icons/copy.png</file>
      <file>icons/events.png</file>
      <file>icons/associate.png</file>
+     <file>icons/associate_add.png</file>
      <file>icons/loading.gif</file>
  </qresource>
  </RCC>

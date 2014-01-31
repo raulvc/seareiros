@@ -1,22 +1,22 @@
 # -*- coding: UTF-8 -*-
 
-from PySide.QtGui import *
+from PySide.QtGui import QDialog, QDialogButtonBox, QMovie, QIcon, QMessageBox
 from src.lib.db_util import Db_Thread
 from src.lib.ui.ui_login import Ui_Dialog
 
 
 class Login(QDialog, Ui_Dialog):
-    """User validation class"""
+    """User validation"""
 
     def __init__(self, parent=None):
         super(Login, self).__init__(parent)
         self.setupUi(self)
         self.btnBoxLogin.button(QDialogButtonBox.Cancel).setText("Cancelar")
-        self.btnBoxLogin.button(QDialogButtonBox.Cancel).clicked.connect(self.closeEvent)
+        self.btnBoxLogin.button(QDialogButtonBox.Cancel).clicked.connect(self.close)
         self.btnBoxLogin.button(QDialogButtonBox.Ok).clicked.connect(self.ok_clicked)
         self.load_icon = QMovie(":icons/loading.gif")
-        sql_statement = """SELECT username, password FROM user WHERE
-                      user.username=:username AND user.password=:password"""
+        sql_statement = """SELECT username, password FROM users WHERE
+                      users.username=:username AND users.password=:password"""
         self.validate_job = Db_Thread(name="validation", query=sql_statement)
         self.validate_job.query_finished.connect(self.validate_login)
 
@@ -39,7 +39,7 @@ class Login(QDialog, Ui_Dialog):
         self.validate_job.exit()
         if db_result:
             # correct username and password
-            print db_result
+            self.accept()
         else:
             QMessageBox.critical(self, "Seareiros - Login", unicode("Erro de autenticação\n\n"
                                                                     "Usuário e/ou Senha inválido(s)".decode('utf-8')))
