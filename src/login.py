@@ -4,7 +4,6 @@ from PySide.QtGui import QDialog, QDialogButtonBox, QMovie, QIcon, QMessageBox
 from src.lib.db_util import Db_Thread
 from src.lib.ui.ui_login import Ui_Dialog
 
-
 class Login(QDialog, Ui_Dialog):
     """User validation"""
 
@@ -35,14 +34,17 @@ class Login(QDialog, Ui_Dialog):
         self.validate_job.set_params(parameters)
         self.validate_job.start()
 
-    def validate_login(self, db_result):
+    def validate_login(self, db_result, error=None):
         self.validate_job.exit()
         if db_result:
             # correct username and password
             self.accept()
         else:
-            QMessageBox.critical(self, "Seareiros - Login", unicode("Erro de autenticação\n\n"
-                                                                    "Usuário e/ou Senha inválido(s)".decode('utf-8')))
+            if error == 'connError':
+                message = unicode("Erro de autenticação\n\n""Banco de dados indisponível".decode('utf-8'))
+            else:
+                message = unicode("Erro de autenticação\n\n""Usuário e/ou Senha inválido(s)".decode('utf-8'))
+            QMessageBox.critical(self, "Seareiros - Login", message)
             self.btnBoxLogin.button(QDialogButtonBox.Ok).setText("&OK")
             self.load_icon.frameChanged.disconnect(self.set_loading_icon)
             self.load_icon.stop()

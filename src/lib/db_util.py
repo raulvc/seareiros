@@ -1,9 +1,13 @@
 # -*- coding: UTF-8 -*-
 from time import sleep
 from PySide.QtCore import QThread, Signal, QObject
-from PySide.QtGui import QMessageBox
 from PySide.QtSql import QSqlDatabase, QSqlQuery
-import sys
+import logging
+
+# logging.basicConfig(filename="seareiros.log", format="""%(asctime)-15s:
+#                     %(name)-18s - %(levelname)-8s - %(module)-15s -
+#                     %(funcname)-20s - %(lineno)-6d - %(message)s""")
+logger = logging.getLogger('db_util')
 
 class Db_Thread(QThread):
     """
@@ -11,7 +15,7 @@ class Db_Thread(QThread):
         I got the idea from here: http://www.linuxjournal.com/article/9602
     """
     # Custom Signals
-    query_finished = Signal(list)
+    query_finished = Signal(list, str)
     ready = Signal(bool)
     progress = Signal(str)
     query_queue = Signal(str, list)
@@ -35,12 +39,15 @@ class Db_Thread(QThread):
         self.ready.emit(False)
         self.progress.emit("Fetching database...")
         worker = Worker(self.name)
-        self.query_queue.connect(worker.slot_exec)
-        worker.result.connect(self.query_finished)
-        worker.cleanup.connect(self.cleanup)
-        self.progress.emit("Ready to run a query.")
-        self.ready.emit(True)
-        self.query_queue.emit(self.query, self.params)
+        if worker.connError:
+            self.query_finished.emit([], 'connError')
+        else:
+            self.query_queue.connect(worker.slot_exec)
+            worker.result.connect(self.query_finished)
+            worker.cleanup.connect(self.cleanup)
+            self.progress.emit("Ready to run a query.")
+            self.ready.emit(True)
+            self.query_queue.emit(self.query, self.params)
         # start event loop
         self.exec_()
 
@@ -56,10 +63,12 @@ class Worker(QObject):
         queued query.
     """
     # Custom Signals
-    result = Signal(list)
+    result = Signal(list, str)
     cleanup = Signal(str)
 
     def __init__(self, name, parent=None):
+        self.log = logging.getLogger('Worker')
+        self.connError = False
         super(Worker, self).__init__(parent)
         # avoid overwriting connections that ain't finished yet
         while name in QSqlDatabase.connectionNames():
@@ -72,10 +81,13 @@ class Worker(QObject):
         self.db.setDatabaseName("seareiros_bd")
         self.db.setUserName("seareiros")
         self.db.setPassword("localadm")
+
         if not self.db.open():
-            QMessageBox.warning(None, unicode("Erro de conexão com o banco".decode('utf-8')),
-                                unicode("Descrição: \n".decode('utf-8')) + self.db.lastError().text())
-            sys.exit(1)
+            self.log.error(self.db.lastError())
+            self.connError = True
+
+    def connError(self):
+        return self.connError
 
     def slot_exec(self, query, params):
         records = []
@@ -87,7 +99,7 @@ class Worker(QObject):
         sql.exec_()
         while sql.next():
             records.append(sql.record())
-        self.result.emit(records)
+        self.result.emit(records, '')
         self.cleanup.emit(self.db.connectionName())
 
     def set_value(self, sqlquery, param):

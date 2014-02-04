@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'main.ui'
+# Form implementation generated from reading ui file 'src/lib/ui/main.ui'
 #
-# Created: Fri Jan 31 19:56:11 2014
+# Created: Tue Feb  4 10:27:02 2014
 #      by: pyside-uic 0.2.14 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -140,6 +140,16 @@ class Ui_MainWindow(object):
         self.actionRepBazar.setObjectName("actionRepBazar")
         self.actionLivros = QtGui.QAction(MainWindow)
         self.actionLivros.setObjectName("actionLivros")
+        self.actionSearch = QtGui.QAction(MainWindow)
+        icon13 = QtGui.QIcon()
+        icon13.addPixmap(QtGui.QPixmap(":/icons/search.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionSearch.setIcon(icon13)
+        self.actionSearch.setObjectName("actionSearch")
+        self.actionPendencies = QtGui.QAction(MainWindow)
+        icon14 = QtGui.QIcon()
+        icon14.addPixmap(QtGui.QPixmap(":/icons/pending.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionPendencies.setIcon(icon14)
+        self.actionPendencies.setObjectName("actionPendencies")
         self.menuFile.addAction(self.actionExit)
         self.menuRegisters.addAction(self.actionRegAssociate)
         self.menuRegisters.addAction(self.actionRegBook)
@@ -168,19 +178,21 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.actionSellProduct)
         self.toolBar.addAction(self.actionSellEvents)
         self.toolBar.addSeparator()
+        self.toolBar.addAction(self.actionSearch)
+        self.toolBar.addAction(self.actionPendencies)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Seareiros", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "Arquivo", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuRegisters.setTitle(QtGui.QApplication.translate("MainWindow", "Cadastros", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuSales.setTitle(QtGui.QApplication.translate("MainWindow", "Vendas", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuReports.setTitle(QtGui.QApplication.translate("MainWindow", "Relatórios", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "&Arquivo", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuRegisters.setTitle(QtGui.QApplication.translate("MainWindow", "&Cadastros", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuSales.setTitle(QtGui.QApplication.translate("MainWindow", "&Vendas", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuReports.setTitle(QtGui.QApplication.translate("MainWindow", "&Relatórios", None, QtGui.QApplication.UnicodeUTF8))
         self.menuHelp.setTitle(QtGui.QApplication.translate("MainWindow", "Ajuda", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuLibrary.setTitle(QtGui.QApplication.translate("MainWindow", "Biblioteca", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuEdit.setTitle(QtGui.QApplication.translate("MainWindow", "Editar", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuLibrary.setTitle(QtGui.QApplication.translate("MainWindow", "&Biblioteca", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuEdit.setTitle(QtGui.QApplication.translate("MainWindow", "&Editar", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setText(QtGui.QApplication.translate("MainWindow", "Sair", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAbout.setText(QtGui.QApplication.translate("MainWindow", "Sobre", None, QtGui.QApplication.UnicodeUTF8))
@@ -199,5 +211,9 @@ class Ui_MainWindow(object):
         self.actionRepLibrary.setText(QtGui.QApplication.translate("MainWindow", "Biblioteca", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRepBazar.setText(QtGui.QApplication.translate("MainWindow", "Bazar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionLivros.setText(QtGui.QApplication.translate("MainWindow", "Livros", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSearch.setText(QtGui.QApplication.translate("MainWindow", "Pesquisar", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSearch.setToolTip(QtGui.QApplication.translate("MainWindow", "Pesquisar", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionPendencies.setText(QtGui.QApplication.translate("MainWindow", "Pendências", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionPendencies.setToolTip(QtGui.QApplication.translate("MainWindow", "Pendências", None, QtGui.QApplication.UnicodeUTF8))
 
 import icons_rc

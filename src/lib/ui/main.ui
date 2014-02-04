@@ -48,13 +48,13 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>Arquivo</string>
+     <string>&amp;Arquivo</string>
     </property>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuRegisters">
     <property name="title">
-     <string>Cadastros</string>
+     <string>&amp;Cadastros</string>
     </property>
     <addaction name="actionRegAssociate"/>
     <addaction name="actionRegBook"/>
@@ -62,7 +62,7 @@
    </widget>
    <widget class="QMenu" name="menuSales">
     <property name="title">
-     <string>Vendas</string>
+     <string>&amp;Vendas</string>
     </property>
     <addaction name="actionSellBooks"/>
     <addaction name="actionSellProduct"/>
@@ -70,7 +70,7 @@
    </widget>
    <widget class="QMenu" name="menuReports">
     <property name="title">
-     <string>Relatórios</string>
+     <string>&amp;Relatórios</string>
     </property>
     <addaction name="actionRepSales"/>
     <addaction name="actionLivros"/>
@@ -85,14 +85,14 @@
    </widget>
    <widget class="QMenu" name="menuLibrary">
     <property name="title">
-     <string>Biblioteca</string>
+     <string>&amp;Biblioteca</string>
     </property>
     <addaction name="actionLibLend"/>
     <addaction name="actionLibReturn"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
-     <string>Editar</string>
+     <string>&amp;Editar</string>
     </property>
     <addaction name="actionCopy"/>
     <addaction name="separator"/>
@@ -142,6 +142,8 @@
    <addaction name="actionSellProduct"/>
    <addaction name="actionSellEvents"/>
    <addaction name="separator"/>
+   <addaction name="actionSearch"/>
+   <addaction name="actionPendencies"/>
   </widget>
   <action name="actionExit">
    <property name="icon">
@@ -311,6 +313,30 @@
   <action name="actionLivros">
    <property name="text">
     <string>Livros</string>
+   </property>
+  </action>
+  <action name="actionSearch">
+   <property name="icon">
+    <iconset resource="../../../res/icons.qrc">
+     <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pesquisar</string>
+   </property>
+   <property name="toolTip">
+    <string>Pesquisar</string>
+   </property>
+  </action>
+  <action name="actionPendencies">
+   <property name="icon">
+    <iconset resource="../../../res/icons.qrc">
+     <normaloff>:/icons/pending.png</normaloff>:/icons/pending.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pendências</string>
+   </property>
+   <property name="toolTip">
+    <string>Pendências</string>
    </property>
   </action>
  </widget>

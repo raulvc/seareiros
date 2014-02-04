@@ -4,15 +4,13 @@ from PySide.QtGui import QApplication, QDialog
 
 import sys
 import logging
-
-# Logging configuration for this file
 from src.login import Login
 from src.main import MainWindow
 
-logging.basicConfig(filename="seareiros.log", format="""%(asctime)-15s:
-                    %(name)-18s - %(levelname)-8s - %(module)-15s - 
-                    %(funcname)-20s - %(lineno)-6d - %(message)s""")
-logger = logging.getLogger(name="main")
+# Logging configuration for this file
+logging.basicConfig(filename="seareiros.log",
+                    format="""%(asctime)-s: %(name)-s - %(levelname)-s - %(module)-s - Line %(lineno)-6d \n %(message)s""")
+logger = logging.getLogger(__name__)
     
 def main():
     # application specifics
