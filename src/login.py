@@ -16,8 +16,9 @@ class Login(QDialog, Ui_Dialog):
         self.load_icon = QMovie(":icons/loading.gif")
         sql_statement = """SELECT username, password FROM users WHERE
                       users.username=:username AND users.password=:password"""
-        self.validate_job = Db_Thread(name="validation", query=sql_statement)
-        self.validate_job.query_finished.connect(self.validate_login)
+        self._validate_job = Db_Thread(name="validation", query=sql_statement)
+        self._validate_job.query_finished.connect(self.validate_login)
+        self._user_logged = False
 
     def set_loading_icon(self, frame=None):
         self.btnBoxLogin.button(QDialogButtonBox.Ok).setIcon(QIcon(self.load_icon.currentPixmap()))
@@ -31,13 +32,14 @@ class Login(QDialog, Ui_Dialog):
         username = self.editUsername.text()
         password = self.editPassword.text()
         parameters = [["str", "username", username],["str","password",password]]
-        self.validate_job.set_params(parameters)
-        self.validate_job.start()
+        self._validate_job.set_params(parameters)
+        self._validate_job.start()
 
     def validate_login(self, db_result, error=None):
-        self.validate_job.exit()
+        self._validate_job.exit()
         if db_result:
             # correct username and password
+            self._user_logged = True
             self.accept()
         else:
             if error == 'connError':
@@ -52,3 +54,9 @@ class Login(QDialog, Ui_Dialog):
             self.btnBoxLogin.button(QDialogButtonBox.Ok).setEnabled(True)
             self.editUsername.setFocus()
             self.editUsername.selectAll()
+
+    def get_username(self):
+        if self._user_logged:
+            return self.editUsername.text()
+        else:
+            return None

@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+from PySide import QtCore
 
 from PySide.QtGui import QApplication, QDialog
 
@@ -17,10 +18,14 @@ def main():
     app = QApplication(sys.argv)
 
     # login dialog
-    if Login().exec_() == QDialog.Accepted:
+    login_dialog = Login()
+    if login_dialog.exec_() == QDialog.Accepted:
         # validation complete, open main interface
-        window = MainWindow()
+        window = MainWindow(login_dialog.get_username())
         window.showMaximized()
+        # solves mainwindow focusing on windows/xfce
+        app.setActiveWindow(window)
+        # start main loop
         sys.exit(app.exec_())
 
 if __name__ == "__main__":
