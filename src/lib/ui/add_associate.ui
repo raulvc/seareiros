@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../../res/icons.qrc">
-    <normaloff>:/icons/book_add.png</normaloff>:/icons/book_add.png</iconset>
+    <normaloff>:/icons/associate_add.png</normaloff>:/icons/associate_add.png</iconset>
   </property>
   <property name="toolTip">
    <string>Cadastro de Livros</string>
@@ -46,7 +46,7 @@
    <set>Qt::TopDockWidgetArea</set>
   </property>
   <property name="windowTitle">
-   <string>Cadastro de Livros</string>
+   <string>Cadastro de Associados</string>
   </property>
   <widget class="QWidget" name="Contents">
    <layout class="QVBoxLayout" name="verticalLayout_2">

@@ -1,8 +1,10 @@
 # -*- coding: UTF-8 -*-
 from PySide import QtCore
 from PySide.QtCore import Signal
-from PySide.QtGui import QMainWindow
+from PySide.QtGui import QMainWindow, QStackedWidget, QLabel
+from src.forms.add_associate import AddAssociateDock
 from src.forms.add_book import AddBookDock
+from src.forms.overview import OverviewDock
 from src.lib.ui.ui_main import Ui_MainWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -14,8 +16,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, username, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        self.statusbar.showMessage(unicode("Usuário: ".decode('utf-8')) + username)
+        message = QLabel(unicode("Usuário: ".decode('utf-8')) + username)
+        self.statusbar.addWidget(message)
         self._docks = []
+        self._stackedWidget = QStackedWidget()
+        self.setCentralWidget(self._stackedWidget)
+        self._overview = OverviewDock()
+        self._stackedWidget.addWidget(self._overview)
+
 
     @QtCore.Slot()
     def on_actionExit_activated(self):
@@ -23,16 +31,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @QtCore.Slot()
     def on_actionAddBook_activated(self):
-        print self._docks
-        addBook = self.get_instance(AddBookDock)
-        if addBook is None:
-            addBook = AddBookDock()
-            self._docks.append(addBook)
+        self.show_on_top(AddBookDock, self.actionAddBook)
+
+    @QtCore.Slot()
+    def on_actionAddAssociate_activated(self):
+        self.show_on_top(AddAssociateDock, self.actionAddAssociate)
+
+    def show_on_top(self, widget_type, related_action):
+        related_action.setDisabled(True)
+        widget = self.get_instance(widget_type)
+        if widget is None:
+            widget = widget_type()
+            self._docks.append(widget)
+            self._stackedWidget.addWidget(widget)
         else:
-            addBook.clear()
-        self.actionAddBook.setDisabled(True)
-        self.setCentralWidget(addBook)
-        addBook.show()
+            widget.clear()
+        self._stackedWidget.setCurrentWidget(widget)
 
     def get_instance(self, type):
         for inst in self._docks:
@@ -42,6 +56,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def remove_instance(self, inst):
         self._docks.remove(inst)
+        self._stackedWidget.removeWidget(inst)
+        self._stackedWidget.setCurrentWidget(self._overview)
 
 
 

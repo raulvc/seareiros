@@ -1,13 +1,13 @@
 # -*- coding: UTF-8 -*-
 from PySide.QtGui import QDockWidget
-from src.lib.ui.ui_add_book import Ui_Dock
+from src.lib.ui.ui_add_associate import Ui_Dock
 
 
-class AddBookDock(QDockWidget, Ui_Dock):
+class AddAssociateDock(QDockWidget, Ui_Dock):
     """ Interface for book input """
 
     def __init__(self, parent=None):
-        super(AddBookDock, self).__init__(parent)
+        super(AddAssociateDock, self).__init__(parent)
         self.setupUi(self)
         self.visibilityChanged.connect(self.toggle_visibility)
 
@@ -15,11 +15,11 @@ class AddBookDock(QDockWidget, Ui_Dock):
         pass
 
     def toggle_visibility(self, visible):
-        actionAddBook = self.parent().parent().actionAddBook
+        actionAddAssociate = self.parent().parent().actionAddAssociate
         if visible:
-            actionAddBook.setEnabled(False)
+            actionAddAssociate.setEnabled(False)
         else:
-            actionAddBook.setEnabled(True)
+            actionAddAssociate.setEnabled(True)
 
     def closeEvent(self, sender):
         self.toggle_visibility(False)

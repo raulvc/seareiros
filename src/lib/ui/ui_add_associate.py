@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'src/lib/ui/add_book.ui'
+# Form implementation generated from reading ui file 'src/lib/ui/add_associate.ui'
 #
 # Created: Tue Feb  4 21:50:33 2014
 #      by: pyside-uic 0.2.14 running on PySide 1.2.1
@@ -20,7 +20,7 @@ class Ui_Dock(object):
         sizePolicy.setHeightForWidth(Dock.sizePolicy().hasHeightForWidth())
         Dock.setSizePolicy(sizePolicy)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/book_add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/associate_add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dock.setWindowIcon(icon)
         Dock.setStyleSheet("QDockWidget::title\n"
 "{\n"
@@ -53,7 +53,7 @@ class Ui_Dock(object):
 
     def retranslateUi(self, Dock):
         Dock.setToolTip(QtGui.QApplication.translate("Dock", "Cadastro de Livros", None, QtGui.QApplication.UnicodeUTF8))
-        Dock.setWindowTitle(QtGui.QApplication.translate("Dock", "Cadastro de Livros", None, QtGui.QApplication.UnicodeUTF8))
+        Dock.setWindowTitle(QtGui.QApplication.translate("Dock", "Cadastro de Associados", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("Dock", "Tab 1", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("Dock", "Tab 2", None, QtGui.QApplication.UnicodeUTF8))
 
