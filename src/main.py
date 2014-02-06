@@ -4,6 +4,7 @@ from PySide.QtCore import Signal
 from PySide.QtGui import QMainWindow, QStackedWidget, QLabel
 from src.forms.add_associate import AddAssociateDock
 from src.forms.add_book import AddBookDock
+from src.forms.add_product import AddProductDock
 from src.forms.overview import OverviewDock
 from src.lib.ui.ui_main import Ui_MainWindow
 
@@ -37,7 +38,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionAddAssociate_activated(self):
         self.show_on_top(AddAssociateDock, self.actionAddAssociate)
 
+    @QtCore.Slot()
+    def on_actionAddProduct_activated(self):
+        self.show_on_top(AddProductDock, self.actionAddProduct)
+
     def show_on_top(self, widget_type, related_action):
+        """ makes the dock related to 'widget_type' the central widget of the mainwindow
+            (by stacking it on front of other widgets), grays out respective action while visible """
         related_action.setDisabled(True)
         widget = self.get_instance(widget_type)
         if widget is None:

@@ -37,7 +37,7 @@ class Db_Thread(QThread):
 
     def run(self):
         self.ready.emit(False)
-        self.progress.emit("Fetching database...")
+        self.progress.emit("Conectando ao banco de dados...")
         worker = Worker(self.name)
         if worker.connError:
             self.query_finished.emit([], 'connError')
@@ -45,7 +45,7 @@ class Db_Thread(QThread):
             self.query_queue.connect(worker.slot_exec)
             worker.result.connect(self.query_finished)
             worker.cleanup.connect(self.cleanup)
-            self.progress.emit("Ready to run a query.")
+            self.progress.emit("Conectado ao banco, executando transação...")
             self.ready.emit(True)
             self.query_queue.emit(self.query, self.params)
         # start event loop
