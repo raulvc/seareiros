@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/loading.ui'
 #
-# Created: Thu Feb  6 14:15:01 2014
+# Created: Mon Feb 10 14:33:30 2014
 #      by: pyside-uic 0.2.14 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.setWindowModality(QtCore.Qt.WindowModal)
+        Dialog.setWindowModality(QtCore.Qt.ApplicationModal)
         Dialog.resize(400, 88)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -25,11 +25,11 @@ class Ui_Dialog(object):
         icon.addPixmap(QtGui.QPixmap(":/icons/logo_big.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setModal(True)
-        self.verticalLayout_2 = QtGui.QVBoxLayout(Dialog)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.gridLayout = QtGui.QGridLayout()
-        self.gridLayout.setSizeConstraint(QtGui.QLayout.SetFixedSize)
-        self.gridLayout.setObjectName("gridLayout")
+        self.verticalLayout = QtGui.QVBoxLayout(Dialog)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.horizontalLayout = QtGui.QHBoxLayout()
+        self.horizontalLayout.setSpacing(1)
+        self.horizontalLayout.setObjectName("horizontalLayout")
         self.label = QtGui.QLabel(Dialog)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -40,19 +40,27 @@ class Ui_Dialog(object):
         self.label.setMaximumSize(QtCore.QSize(16777215, 33))
         self.label.setText("")
         self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setWordWrap(True)
         self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 0, 1, 1, 1)
+        self.horizontalLayout.addWidget(self.label)
         self.loadingButton = QtGui.QPushButton(Dialog)
         self.loadingButton.setEnabled(False)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.loadingButton.sizePolicy().hasHeightForWidth())
+        self.loadingButton.setSizePolicy(sizePolicy)
+        self.loadingButton.setMinimumSize(QtCore.QSize(33, 33))
+        self.loadingButton.setMaximumSize(QtCore.QSize(33, 33))
         self.loadingButton.setText("")
         self.loadingButton.setFlat(True)
         self.loadingButton.setObjectName("loadingButton")
-        self.gridLayout.addWidget(self.loadingButton, 0, 0, 1, 1)
+        self.horizontalLayout.addWidget(self.loadingButton)
+        self.verticalLayout.addLayout(self.horizontalLayout)
         self.progressBar = QtGui.QProgressBar(Dialog)
         self.progressBar.setProperty("value", 24)
         self.progressBar.setObjectName("progressBar")
-        self.gridLayout.addWidget(self.progressBar, 1, 0, 1, 2)
-        self.verticalLayout_2.addLayout(self.gridLayout)
+        self.verticalLayout.addWidget(self.progressBar)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)

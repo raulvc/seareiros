@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from time import sleep
+#from time import sleep
 from PySide.QtCore import QThread, Signal, QObject
 from PySide.QtSql import QSqlDatabase, QSqlQuery
 import logging
@@ -19,6 +19,8 @@ class Db_Thread(QThread):
     ready = Signal(bool)
     progress = Signal(str)
     query_queue = Signal(str, list)
+    query_row_num = Signal(int)
+    query_row_read = Signal()
 
     def __init__(self, name=None, query=None, params=None, parent=None):
         super(Db_Thread, self).__init__(parent)
@@ -43,9 +45,12 @@ class Db_Thread(QThread):
             self.query_finished.emit([], 'connError')
         else:
             self.query_queue.connect(worker.slot_exec)
+            # connecting worker signals to thread slots
             worker.result.connect(self.query_finished)
             worker.cleanup.connect(self.cleanup)
-            self.progress.emit("Conectado ao banco, executando transação...")
+            worker.numRows.connect(self.query_row_num)
+            worker.readRow.connect(self.query_row_read)
+            self.progress.emit(unicode("Executando transação...".decode('utf-8')))
             self.ready.emit(True)
             self.query_queue.emit(self.query, self.params)
         # start event loop
@@ -65,6 +70,8 @@ class Worker(QObject):
     # Custom Signals
     result = Signal(list, str)
     cleanup = Signal(str)
+    numRows = Signal(int)
+    readRow = Signal()
 
     def __init__(self, name, parent=None):
         self.log = logging.getLogger('Worker')
@@ -97,8 +104,15 @@ class Worker(QObject):
             for p in params:
                 self.set_value(sql, p)
         sql.exec_()
+
+        # number of rows returned from query execution
+        self.numRows.emit(sql.size())
+
         while sql.next():
             records.append(sql.record())
+            #sleep(1)
+            # row read
+            self.readRow.emit()
         self.result.emit(records, '')
         self.cleanup.emit(self.db.connectionName())
 
@@ -110,6 +124,8 @@ class Worker(QObject):
         if type in "str":
             sqlquery.bindValue(name, unicode(value.decode('utf-8')))
         elif type in "int":
+            sqlquery.bindValue(name, value)
+        elif type in "date":
             sqlquery.bindValue(name, value)
 
 

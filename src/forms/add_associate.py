@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from PySide.QtGui import QDockWidget
 from src.lib.ui.ui_add_associate import Ui_Dock
+from src.lib.validators import UppercaseValidator
 
 
 class AddAssociateDock(QDockWidget, Ui_Dock):
@@ -10,6 +11,8 @@ class AddAssociateDock(QDockWidget, Ui_Dock):
         super(AddAssociateDock, self).__init__(parent)
         self.setupUi(self)
         self.visibilityChanged.connect(self.toggle_visibility)
+        self.edFullName.setValidator(UppercaseValidator())
+        self.edNickname.setValidator(UppercaseValidator())
 
     def clear(self):
         pass

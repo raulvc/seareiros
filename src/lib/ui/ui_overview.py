@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/overview.ui'
 #
-# Created: Thu Feb  6 14:15:01 2014
+# Created: Mon Feb 10 14:33:29 2014
 #      by: pyside-uic 0.2.14 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -60,11 +60,16 @@ class Ui_Dock(object):
         self.dateEdit.setSizePolicy(sizePolicy)
         self.dateEdit.setMinimumSize(QtCore.QSize(200, 0))
         self.dateEdit.setMaximumSize(QtCore.QSize(200, 16777215))
+        self.dateEdit.setCurrentSection(QtGui.QDateTimeEdit.DaySection)
         self.dateEdit.setCalendarPopup(True)
+        self.dateEdit.setTimeSpec(QtCore.Qt.LocalTime)
         self.dateEdit.setObjectName("dateEdit")
         self.horizontalLayout.addWidget(self.dateEdit)
         self.verticalLayout.addWidget(self.widgetLayout)
         self.tableView = QtGui.QTableView(self.dockWidgetContents)
+        self.tableView.setAlternatingRowColors(True)
+        self.tableView.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.tableView.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.tableView.setObjectName("tableView")
         self.verticalLayout.addWidget(self.tableView)
         self.verticalLayout_2.addLayout(self.verticalLayout)
@@ -77,5 +82,6 @@ class Ui_Dock(object):
         Dock.setToolTip(QtGui.QApplication.translate("Dock", "Últimas Ações", None, QtGui.QApplication.UnicodeUTF8))
         Dock.setWindowTitle(QtGui.QApplication.translate("Dock", "Últimas Ações", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("Dock", "Dia:", None, QtGui.QApplication.UnicodeUTF8))
+        self.dateEdit.setDisplayFormat(QtGui.QApplication.translate("Dock", "ddd dd/MMM/yyyy", None, QtGui.QApplication.UnicodeUTF8))
 
 import icons_rc
