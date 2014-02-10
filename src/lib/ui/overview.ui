@@ -45,7 +45,7 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item alignment="Qt::AlignLeft">
        <widget class="QWidget" name="widgetLayout" native="true">
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0">
          <property name="spacing">
           <number>0</number>
          </property>
@@ -117,6 +117,30 @@
            </property>
            <property name="timeSpec">
             <enum>Qt::LocalTime</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnRefresh">
+           <property name="text">
+            <string>Atualizar</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../res/icons.qrc">
+             <normaloff>:/icons/loading.gif</normaloff>:/icons/loading.gif</iconset>
            </property>
           </widget>
          </item>

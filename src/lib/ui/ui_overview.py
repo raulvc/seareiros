@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/overview.ui'
 #
-# Created: Mon Feb 10 14:33:29 2014
+# Created: Mon Feb 10 18:26:45 2014
 #      by: pyside-uic 0.2.14 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -65,6 +65,14 @@ class Ui_Dock(object):
         self.dateEdit.setTimeSpec(QtCore.Qt.LocalTime)
         self.dateEdit.setObjectName("dateEdit")
         self.horizontalLayout.addWidget(self.dateEdit)
+        spacerItem = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
+        self.btnRefresh = QtGui.QPushButton(self.widgetLayout)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(":/icons/loading.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btnRefresh.setIcon(icon1)
+        self.btnRefresh.setObjectName("btnRefresh")
+        self.horizontalLayout.addWidget(self.btnRefresh)
         self.verticalLayout.addWidget(self.widgetLayout)
         self.tableView = QtGui.QTableView(self.dockWidgetContents)
         self.tableView.setAlternatingRowColors(True)
@@ -83,5 +91,6 @@ class Ui_Dock(object):
         Dock.setWindowTitle(QtGui.QApplication.translate("Dock", "Últimas Ações", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("Dock", "Dia:", None, QtGui.QApplication.UnicodeUTF8))
         self.dateEdit.setDisplayFormat(QtGui.QApplication.translate("Dock", "ddd dd/MMM/yyyy", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnRefresh.setText(QtGui.QApplication.translate("Dock", "Atualizar", None, QtGui.QApplication.UnicodeUTF8))
 
 import icons_rc

@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
+
 from PySide import QtCore
-from PySide.QtGui import QDockWidget
+from PySide.QtGui import QDockWidget, QSortFilterProxyModel
 from src.lib.ui.ui_overview import Ui_Dock
 from src.models.model_overview import OverviewTableModel
 
@@ -11,8 +12,12 @@ class OverviewDock(QDockWidget, Ui_Dock):
     def __init__(self, parent=None):
         super(OverviewDock, self).__init__(parent)
         self.setupUi(self)
+        self.tableView.setSortingEnabled(True)
         self._model = OverviewTableModel()
-        self.tableView.setModel(self._model)
+        self._proxy = QSortFilterProxyModel()
+        self._proxy.setSourceModel(self._model)
+        # self.tableView.setModel(self._model)
+        self.tableView.setModel(self._proxy)
         self.initialLoad()
 
     def initialLoad(self):
@@ -31,6 +36,10 @@ class OverviewDock(QDockWidget, Ui_Dock):
     @QtCore.Slot(QtCore.QDate)
     def on_dateEdit_dateChanged(self, date):
         self._model.load(date)
+
+    @QtCore.Slot()
+    def on_btnRefresh_clicked(self):
+        self._model.load(self.dateEdit.date())
 
     @QtCore.Slot(QtCore.QModelIndex)
     def on_tableView_doubleClicked(self, index):

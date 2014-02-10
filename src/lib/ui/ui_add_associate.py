@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/add_associate.ui'
 #
-# Created: Mon Feb 10 14:33:29 2014
+# Created: Mon Feb 10 18:26:45 2014
 #      by: pyside-uic 0.2.14 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!

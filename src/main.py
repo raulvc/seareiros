@@ -51,8 +51,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             widget = widget_type()
             self._docks.append(widget)
             self._stackedWidget.addWidget(widget)
-        else:
-            widget.clear()
+        # else:
+        #     widget.clear()
         self._stackedWidget.setCurrentWidget(widget)
 
     def get_instance(self, type):

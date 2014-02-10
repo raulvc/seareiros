@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+
 from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex
 from PySide.QtGui import QColor, QMessageBox
 from src.lib.db_util import Db_Thread
@@ -43,6 +44,15 @@ class OverviewTableModel(QAbstractTableModel):
                 QMessageBox.critical(self, "Seareiros - Login", message)
         self.reset()
 
+    def sort(self, col, order):
+        """ sorts table by given column number (col) """
+        # self.layoutAboutToBeChanged.emit()
+        self._data = sorted(self._data, key=lambda record: record.value(col))
+        if order == Qt.DescendingOrder:
+            self._data.reverse()
+        self.reset()
+        # self.layoutChanged.emit()
+
     def get_record(self, row):
         return self._data[row]
 
@@ -61,7 +71,7 @@ class OverviewTableModel(QAbstractTableModel):
             elif column == self.DESCRIPTION:
                 return record.value("description")
             elif column == self.DATE:
-                return record.value("date").toString("dd/MMM")
+                return record.value("date").toString("dd/MMM - HH:mm")
             elif column == self.USERNAME:
                 return record.value("username")
 
@@ -91,7 +101,7 @@ class OverviewTableModel(QAbstractTableModel):
             elif section == self.DESCRIPTION:
                 return unicode("Descrição".decode('utf-8'))
             elif section == self.DATE:
-                return "Data"
+                return "Data e Hora"
             elif section == self.USERNAME:
                 return unicode("Usuário".decode('utf-8'))
         return section + 1

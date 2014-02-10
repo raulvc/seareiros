@@ -1,7 +1,8 @@
 # -*- coding: UTF-8 -*-
-from PySide.QtGui import QDockWidget
+
+from PySide.QtGui import QDockWidget, QDialogButtonBox
 from src.lib.ui.ui_add_associate import Ui_Dock
-from src.lib.validators import UppercaseValidator
+from src.lib.validators import UppercaseValidator, EmailValidator, AlphaNumericValidator
 
 
 class AddAssociateDock(QDockWidget, Ui_Dock):
@@ -13,6 +14,9 @@ class AddAssociateDock(QDockWidget, Ui_Dock):
         self.visibilityChanged.connect(self.toggle_visibility)
         self.edFullName.setValidator(UppercaseValidator())
         self.edNickname.setValidator(UppercaseValidator())
+        self.edEmail.setValidator(EmailValidator())
+        self.edRG.setValidator(AlphaNumericValidator())
+        self.buttonBox.button(QDialogButtonBox.Save).clicked.connect(self.save_clicked)
 
     def clear(self):
         pass
@@ -21,6 +25,7 @@ class AddAssociateDock(QDockWidget, Ui_Dock):
         actionAddAssociate = self.parent().parent().actionAddAssociate
         if visible:
             actionAddAssociate.setEnabled(False)
+            self.edFullName.setFocus()
         else:
             actionAddAssociate.setEnabled(True)
 
@@ -28,3 +33,6 @@ class AddAssociateDock(QDockWidget, Ui_Dock):
         self.toggle_visibility(False)
         grandparent = self.parent().parent()
         grandparent.remove_instance(self)
+
+    def save_clicked(self):
+        pass
