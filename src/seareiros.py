@@ -8,12 +8,14 @@ import logging
 from src.login import Login
 from src.main import MainWindow
 
+
 # Logging configuration for this file
 logging.basicConfig(filename="seareiros.log",
                     format="""%(asctime)-s: %(name)-s - %(levelname)-s - %(module)-s - Line %(lineno)-6d \n %(message)s""")
 logger = logging.getLogger(__name__)
     
 def main():
+
     # application specifics
     app = QApplication(sys.argv)
 

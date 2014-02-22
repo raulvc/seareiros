@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/add_associate.ui'
 #
-# Created: Mon Feb 10 18:26:45 2014
+# Created: Sat Feb 22 18:08:45 2014
 #      by: pyside-uic 0.2.14 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -145,13 +145,6 @@ class Ui_Dock(object):
         self.label_2 = QtGui.QLabel(self.groupBox)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 1, 0, 1, 1)
-        self.label_6 = QtGui.QLabel(self.groupBox)
-        self.label_6.setObjectName("label_6")
-        self.gridLayout.addWidget(self.label_6, 3, 3, 1, 1)
-        self.edProfession = QtGui.QLineEdit(self.groupBox)
-        self.edProfession.setInputMethodHints(QtCore.Qt.ImhNone)
-        self.edProfession.setObjectName("edProfession")
-        self.gridLayout.addWidget(self.edProfession, 3, 4, 1, 1)
         self.verticalLayout.addWidget(self.groupBox)
         self.groupBox_2 = QtGui.QGroupBox(self.page)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
@@ -323,8 +316,7 @@ class Ui_Dock(object):
         Dock.setTabOrder(self.edNickname, self.edRG)
         Dock.setTabOrder(self.edRG, self.edCPF)
         Dock.setTabOrder(self.edCPF, self.comboBox)
-        Dock.setTabOrder(self.comboBox, self.edProfession)
-        Dock.setTabOrder(self.edProfession, self.edEmail)
+        Dock.setTabOrder(self.comboBox, self.edEmail)
         Dock.setTabOrder(self.edEmail, self.edStreet)
         Dock.setTabOrder(self.edStreet, self.edComplement)
         Dock.setTabOrder(self.edComplement, self.edDistrict)
@@ -354,7 +346,6 @@ class Ui_Dock(object):
         self.label_13.setText(QtGui.QApplication.translate("Dock", "E-Mail:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("Dock", "RG:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("Dock", "Apelido:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_6.setText(QtGui.QApplication.translate("Dock", "Profissão:", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setToolTip(QtGui.QApplication.translate("Dock", "Endereço", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setTitle(QtGui.QApplication.translate("Dock", "Endereço", None, QtGui.QApplication.UnicodeUTF8))
         self.label_7.setText(QtGui.QApplication.translate("Dock", "Logradouro:", None, QtGui.QApplication.UnicodeUTF8))

@@ -25,7 +25,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._overview = OverviewDock()
         self._stackedWidget.addWidget(self._overview)
 
-
     @QtCore.Slot()
     def on_actionExit_activated(self):
         self.close()

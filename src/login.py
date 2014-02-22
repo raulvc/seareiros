@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 from PySide.QtGui import QDialog, QDialogButtonBox, QMovie, QIcon, QMessageBox
-from src.lib.db_util import Db_Thread
+from src.lib.db_util import Db_Query_Thread
 from src.lib.ui.ui_login import Ui_Dialog
 
 class Login(QDialog, Ui_Dialog):
@@ -16,7 +16,7 @@ class Login(QDialog, Ui_Dialog):
         self.load_icon = QMovie(":icons/loading.gif")
         sql_statement = """SELECT username, password FROM users WHERE
                       users.username=:username AND users.password=:password"""
-        self._validate_job = Db_Thread(name="validation", query=sql_statement)
+        self._validate_job = Db_Query_Thread(name="validation", query=sql_statement)
         self._validate_job.query_finished.connect(self.validate_login)
         self._user_logged = False
 

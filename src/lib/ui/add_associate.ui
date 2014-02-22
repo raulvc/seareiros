@@ -262,20 +262,6 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="3">
-                  <widget class="QLabel" name="label_6">
-                   <property name="text">
-                    <string>Profissão:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="4">
-                  <widget class="QLineEdit" name="edProfession">
-                   <property name="inputMethodHints">
-                    <set>Qt::ImhNone</set>
-                   </property>
-                  </widget>
-                 </item>
                 </layout>
                </widget>
               </item>
@@ -703,7 +689,6 @@
   <tabstop>edRG</tabstop>
   <tabstop>edCPF</tabstop>
   <tabstop>comboBox</tabstop>
-  <tabstop>edProfession</tabstop>
   <tabstop>edEmail</tabstop>
   <tabstop>edStreet</tabstop>
   <tabstop>edComplement</tabstop>

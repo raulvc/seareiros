@@ -2,7 +2,7 @@
 
 from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex
 from PySide.QtGui import QColor, QMessageBox
-from src.lib.db_util import Db_Thread
+from src.lib.db_util import Db_Query_Thread
 from src.lib.dialog_util import Loading
 
 
@@ -15,7 +15,7 @@ class OverviewTableModel(QAbstractTableModel):
         super(OverviewTableModel, self).__init__(parent)
         # for some wicked reason it won't work when I repeat the same parameter twice in the query
         sql_statement = "SELECT * FROM history WHERE DATE(history.date) >= :date AND DATE(history.date) <= :date_again"
-        self._populate_job = Db_Thread(name="populate_overview", query=sql_statement)
+        self._populate_job = Db_Query_Thread(name="populate_overview", query=sql_statement)
         self._loading_dialog = Loading()
         self._data = []
 
@@ -44,14 +44,14 @@ class OverviewTableModel(QAbstractTableModel):
                 QMessageBox.critical(self, "Seareiros - Login", message)
         self.reset()
 
-    def sort(self, col, order):
-        """ sorts table by given column number (col) """
-        # self.layoutAboutToBeChanged.emit()
-        self._data = sorted(self._data, key=lambda record: record.value(col))
-        if order == Qt.DescendingOrder:
-            self._data.reverse()
-        self.reset()
-        # self.layoutChanged.emit()
+    # def sort(self, col, order):
+    #     """ sorts table by given column number (col) """
+    #     # self.layoutAboutToBeChanged.emit()
+    #     self._data = sorted(self._data, key=lambda record: record.value(col))
+    #     if order == Qt.DescendingOrder:
+    #         self._data.reverse()
+    #     self.reset()
+    #     # self.layoutChanged.emit()
 
     def get_record(self, row):
         return self._data[row]

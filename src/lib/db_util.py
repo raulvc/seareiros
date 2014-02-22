@@ -3,13 +3,14 @@
 from PySide.QtCore import QThread, Signal, QObject
 from PySide.QtSql import QSqlDatabase, QSqlQuery
 import logging
+from src.lib.settings import SettingsParser
 
 # logging.basicConfig(filename="seareiros.log", format="""%(asctime)-15s:
 #                     %(name)-18s - %(levelname)-8s - %(module)-15s -
 #                     %(funcname)-20s - %(lineno)-6d - %(message)s""")
 logger = logging.getLogger('db_util')
 
-class Db_Thread(QThread):
+class Db_Query_Thread(QThread):
     """
         async access to database
         I got the idea from here: http://www.linuxjournal.com/article/9602
@@ -23,7 +24,7 @@ class Db_Thread(QThread):
     query_row_read = Signal()
 
     def __init__(self, name=None, query=None, params=None, parent=None):
-        super(Db_Thread, self).__init__(parent)
+        super(Db_Query_Thread, self).__init__(parent)
         self.name = name
         self.query = query
         self.params = params
@@ -41,7 +42,7 @@ class Db_Thread(QThread):
         self.ready.emit(False)
         self.progress.emit("Conectando ao banco de dados...")
         worker = Worker(self.name)
-        if worker.connError:
+        if worker._connError:
             self.query_finished.emit([], 'connError')
         else:
             self.query_queue.connect(worker.slot_exec)
@@ -75,7 +76,7 @@ class Worker(QObject):
 
     def __init__(self, name, parent=None):
         self.log = logging.getLogger('Worker')
-        self.connError = False
+        self._connError = False
         super(Worker, self).__init__(parent)
         # avoid overwriting connections that ain't finished yet
         while name in QSqlDatabase.connectionNames():
@@ -83,18 +84,15 @@ class Worker(QObject):
                 name = name[0:-1] + str( int(name[-1]) + 1 )
             else:
                 name = name + str(2)
-        self.db = QSqlDatabase.addDatabase("QPSQL", name)
-        self.db.setHostName("localhost")
-        self.db.setDatabaseName("seareiros_bd")
-        self.db.setUserName("seareiros")
-        self.db.setPassword("localadm")
+
+        self.db = Db_Instance(name).get_instance()
 
         if not self.db.open():
             self.log.error(self.db.lastError())
-            self.connError = True
+            self._connError = True
 
     def connError(self):
-        return self.connError
+        return self._connError
 
     def slot_exec(self, query, params):
         records = []
@@ -127,5 +125,19 @@ class Worker(QObject):
             sqlquery.bindValue(name, value)
         elif type in "date":
             sqlquery.bindValue(name, value)
+
+class Db_Instance():
+    """
+        really, this is just so that I don't repeat myself too much
+    """
+    def __init__(self, name, parent=None):
+        settings = SettingsParser()
+        self._db = QSqlDatabase.addDatabase("QPSQL", name)
+        self._db.setHostName(settings.get_value("Database", "hostname"))
+        self._db.setDatabaseName("seareiros_bd")
+        self._db.setUserName("seareiros")
+        self._db.setPassword("localadm")
+    def get_instance(self):
+        return self._db
 
 
