@@ -67,7 +67,7 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="tabRegister">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -84,8 +84,11 @@
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_4">
-          <item>
+          <item alignment="Qt::AlignTop">
            <widget class="QScrollArea" name="scrollArea">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <property name="widgetResizable">
              <bool>true</bool>
             </property>
@@ -97,8 +100,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>726</width>
-               <height>734</height>
+               <width>721</width>
+               <height>663</height>
               </rect>
              </property>
              <property name="sizePolicy">
@@ -108,7 +111,7 @@
               </sizepolicy>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout">
-              <item>
+              <item alignment="Qt::AlignTop">
                <widget class="QGroupBox" name="groupBox">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -159,7 +162,10 @@
                 </property>
                 <layout class="QGridLayout" name="gridLayout">
                  <item row="3" column="2">
-                  <widget class="QComboBox" name="comboBox">
+                  <widget class="QComboBox" name="comboMaritalStatus">
+                   <property name="editable">
+                    <bool>false</bool>
+                   </property>
                    <item>
                     <property name="text">
                      <string>Solteiro(a)</string>
@@ -190,6 +196,9 @@
                    <property name="inputMask">
                     <string/>
                    </property>
+                   <property name="placeholderText">
+                    <string/>
+                   </property>
                   </widget>
                  </item>
                  <item row="2" column="3">
@@ -204,6 +213,9 @@
                    <property name="inputMask">
                     <string>999.999.999-99;_</string>
                    </property>
+                   <property name="placeholderText">
+                    <string/>
+                   </property>
                   </widget>
                  </item>
                  <item row="3" column="0" colspan="2">
@@ -217,6 +229,9 @@
                   <widget class="QLineEdit" name="edFullName">
                    <property name="inputMethodHints">
                     <set>Qt::ImhUppercaseOnly</set>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Nome completo</string>
                    </property>
                   </widget>
                  </item>
@@ -323,7 +338,11 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QLineEdit" name="edStreet"/>
+                  <widget class="QLineEdit" name="edStreet">
+                   <property name="placeholderText">
+                    <string>Rua e numeração</string>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_8">
@@ -354,6 +373,9 @@
                  </item>
                  <item row="2" column="3">
                   <widget class="QComboBox" name="comboProvince">
+                   <property name="editable">
+                    <bool>false</bool>
+                   </property>
                    <property name="currentIndex">
                     <number>24</number>
                    </property>
@@ -661,7 +683,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="tabSearch">
        <attribute name="icon">
         <iconset resource="../../../res/icons.qrc">
          <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
@@ -688,7 +710,7 @@
   <tabstop>edNickname</tabstop>
   <tabstop>edRG</tabstop>
   <tabstop>edCPF</tabstop>
-  <tabstop>comboBox</tabstop>
+  <tabstop>comboMaritalStatus</tabstop>
   <tabstop>edEmail</tabstop>
   <tabstop>edStreet</tabstop>
   <tabstop>edComplement</tabstop>

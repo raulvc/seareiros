@@ -1,7 +1,8 @@
 # -*- coding: UTF-8 -*-
 from PySide import QtCore
 from PySide.QtCore import Signal
-from PySide.QtGui import QMainWindow, QStackedWidget, QLabel
+from PySide.QtGui import QMainWindow, QStackedWidget, QLabel, QMessageBox
+from src.forms.add_activity import AddActivityDock
 from src.forms.add_associate import AddAssociateDock
 from src.forms.add_book import AddBookDock
 from src.forms.add_product import AddProductDock
@@ -38,6 +39,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.show_on_top(AddAssociateDock, self.actionAddAssociate)
 
     @QtCore.Slot()
+    def on_actionAddActivity_activated(self):
+        self.show_on_top(AddActivityDock, self.actionAddActivity)
+
+    @QtCore.Slot()
     def on_actionAddProduct_activated(self):
         self.show_on_top(AddProductDock, self.actionAddProduct)
 
@@ -52,6 +57,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self._stackedWidget.addWidget(widget)
         # else:
         #     widget.clear()
+
+        # connects a connection cleanup method when needed
+        if hasattr(widget, 'cleanup_conn'):
+            widget.cleanup_conn.connect(self.clean_connection)
         self._stackedWidget.setCurrentWidget(widget)
 
     def get_instance(self, type):
@@ -65,6 +74,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._stackedWidget.removeWidget(inst)
         self._stackedWidget.setCurrentWidget(self._overview)
 
+    def closeEvent(self, event):
+        message = unicode("Deseja mesmo sair?".decode('utf-8'))
+        reply = QMessageBox.question(self, 'Seareiros', message, QMessageBox.Yes, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
 
 

@@ -78,12 +78,6 @@ class Worker(QObject):
         self.log = logging.getLogger('Worker')
         self._connError = False
         super(Worker, self).__init__(parent)
-        # avoid overwriting connections that ain't finished yet
-        while name in QSqlDatabase.connectionNames():
-            if name[-1].isdigit():
-                name = name[0:-1] + str( int(name[-1]) + 1 )
-            else:
-                name = name + str(2)
 
         self.db = Db_Instance(name).get_instance()
 
@@ -132,6 +126,12 @@ class Db_Instance():
     """
     def __init__(self, name, parent=None):
         settings = SettingsParser()
+        # avoid overwriting connections that ain't finished yet
+        while QSqlDatabase.contains(name):
+            if name[-1].isdigit():
+                name = name[0:-1] + str( int(name[-1]) + 1 )
+            else:
+                name = name + str(2)
         self._db = QSqlDatabase.addDatabase("QPSQL", name)
         self._db.setHostName(settings.get_value("Database", "hostname"))
         self._db.setDatabaseName("seareiros_bd")

@@ -1,19 +1,20 @@
 # -*- coding: UTF-8 -*-
 import logging
 from PySide.QtCore import Qt
-from PySide.QtGui import QDockWidget, QDialogButtonBox, QMessageBox, QLineEdit, QComboBox
+from PySide.QtGui import QDockWidget, QDialogButtonBox, QMessageBox, QComboBox
 from PySide.QtSql import QSqlRelationalTableModel
-from src.lib.ui.ui_add_associate import Ui_Dock
-from src.lib.validators import UppercaseValidator, EmailValidator, AlphaNumericValidator
+from src.lib.ui.ui_add_activity import Ui_Dock
 from src.lib.db_util import Db_Instance
 
-logger = logging.getLogger('add_associate')
+logger = logging.getLogger('add_activity')
 
-class AddAssociateDock(QDockWidget, Ui_Dock):
+class AddActivityDock(QDockWidget, Ui_Dock):
     """ Interface for book input """
 
+    ID, DESCRIPTION, ROOM, WEEKDAY, WEEKTIME = range(5)
+
     def __init__(self, parent=None):
-        super(AddAssociateDock, self).__init__(parent)
+        super(AddActivityDock, self).__init__(parent)
         self.setupUi(self)
 
         self.buttonBox.button(QDialogButtonBox.Cancel).setText("Cancelar")
@@ -24,12 +25,10 @@ class AddAssociateDock(QDockWidget, Ui_Dock):
         self.buttonBox.button(QDialogButtonBox.Reset).clicked.connect(self.clear)
         # had to hardcode these, wouldn't work otherwise:
         self.verticalLayout.setAlignment(self.groupBox, Qt.AlignTop)
-        self.verticalLayout.setAlignment(self.groupBox_2, Qt.AlignTop)
-        self.verticalLayout.setAlignment(self.groupBox_3, Qt.AlignTop)
 
         self.setup_editing()
 
-        self.log = logging.getLogger('AddAssociateDock')
+        self.log = logging.getLogger('AddActivityDock')
         self.visibilityChanged.connect(self.toggle_visibility)
 
         self.setup_model()
@@ -37,36 +36,36 @@ class AddAssociateDock(QDockWidget, Ui_Dock):
         self._dirty = False
 
     def setup_editing(self):
-        self.edFullName.setValidator(UppercaseValidator())
-        self.edNickname.setValidator(UppercaseValidator())
-        self.edEmail.setValidator(EmailValidator())
-        self.edRG.setValidator(AlphaNumericValidator())
-        lineEditList = self.tabRegister.findChildren(QLineEdit)
         comboBoxList = self.tabRegister.findChildren(QComboBox)
-        for lineEdit in lineEditList:
-            lineEdit.returnPressed.connect(lineEdit.focusNextChild)
         for comboBox in comboBoxList:
             comboBox.activated.connect(comboBox.focusNextChild)
 
     def setup_model(self):
-        db = Db_Instance("add_associate").get_instance()
+        db = Db_Instance("add_activity").get_instance()
         if not db.open():
             self.log.error(db.lastError().text())
             message = unicode("Erro de conexão\n\n""Banco de dados indisponível".decode('utf-8'))
-            QMessageBox.critical(self, "Seareiros - Cadastro de Associado", message)
+            QMessageBox.critical(self, "Seareiros - Cadastro de Atividade", message)
         else:
             self._model = QSqlRelationalTableModel(self, db=db)
-            self._model.setTable("users")
+            self._model.setTable("activity")
 
     def on_save_clicked(self):
         self._model.insertRow(0)
+
+        self._model.setData(self._model.index(0, self.DESCRIPTION), self.comboDescription.currentText())
+        self._model.setData(self._model.index(0, self.ROOM), self.comboRoom.currentIndex())
+        self._model.setData(self._model.index(0, self.WEEKDAY), self.comboWeekday.currentIndex())
+        self._model.setData(self._model.index(0, self.WEEKTIME), self.editTime.time())
 
         # try to commit a record
         if not self._model.submitAll():
             self.log.error(self._model.lastError().text())
             message = unicode("Erro de transação\n\n""Não foi possível salvar no banco de dados".decode('utf-8'))
-            QMessageBox.critical(self, "Seareiros - Cadastro de Associado", message)
+            QMessageBox.critical(self, "Seareiros - Cadastro de Atividade", message)
         else:
+            message = unicode("Sucesso!\n\n""A atividade foi salva com êxito no banco de dados".decode('utf-8'))
+            QMessageBox.information(self, "Seareiros - Cadastro de Atividade", message)
             self.clear()
 
     def on_cancel_clicked(self):
@@ -77,21 +76,19 @@ class AddAssociateDock(QDockWidget, Ui_Dock):
 
     def clear(self):
         self._dirty = False
-        lineEditList = self.tabRegister.findChildren(QLineEdit)
-        for lineEdit in lineEditList:
-            lineEdit.clear()
-        self.comboMaritalStatus.setCurrentIndex(0)
-        self.comboProvince.setCurrentIndex(24)
-        self.edFullName.setFocus()
+        self.comboDescription.setCurrentIndex(0)
+        self.comboRoom.setCurrentIndex(0)
+        self.comboWeekday.setCurrentIndex(0)
+        self.comboDescription.setFocus()
 
 
     def toggle_visibility(self, visible):
-        actionAddAssociate = self.parent().parent().actionAddAssociate
+        actionAddActivity = self.parent().parent().actionAddActivity
         if visible:
-            actionAddAssociate.setEnabled(False)
-            self.edFullName.setFocus()
+            actionAddActivity.setEnabled(False)
+            self.comboDescription.setFocus()
         else:
-            actionAddAssociate.setEnabled(True)
+            actionAddActivity.setEnabled(True)
 
     def closeEvent(self, event):
         self.toggle_visibility(False)

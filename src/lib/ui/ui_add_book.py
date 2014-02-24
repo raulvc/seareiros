@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/add_book.ui'
 #
-# Created: Sat Feb 22 18:08:45 2014
+# Created: Mon Feb 24 13:30:09 2014
 #      by: pyside-uic 0.2.14 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!

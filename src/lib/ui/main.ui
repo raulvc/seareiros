@@ -49,6 +49,7 @@
      <string>&amp;Cadastros</string>
     </property>
     <addaction name="actionAddAssociate"/>
+    <addaction name="actionAddActivity"/>
     <addaction name="actionAddBook"/>
     <addaction name="actionAddProduct"/>
    </widget>
@@ -329,6 +330,18 @@
    </property>
    <property name="toolTip">
     <string>Pendências</string>
+   </property>
+  </action>
+  <action name="actionAddActivity">
+   <property name="icon">
+    <iconset resource="../../../res/icons.qrc">
+     <normaloff>:/icons/activity_add.png</normaloff>:/icons/activity_add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Atividade</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
  </widget>

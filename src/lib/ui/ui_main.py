@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/main.ui'
 #
-# Created: Sat Feb 22 18:08:45 2014
+# Created: Mon Feb 24 13:30:09 2014
 #      by: pyside-uic 0.2.14 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -144,8 +144,15 @@ class Ui_MainWindow(object):
         icon14.addPixmap(QtGui.QPixmap(":/icons/pending.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionPendencies.setIcon(icon14)
         self.actionPendencies.setObjectName("actionPendencies")
+        self.actionAddActivity = QtGui.QAction(MainWindow)
+        icon15 = QtGui.QIcon()
+        icon15.addPixmap(QtGui.QPixmap(":/icons/activity_add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionAddActivity.setIcon(icon15)
+        self.actionAddActivity.setIconVisibleInMenu(True)
+        self.actionAddActivity.setObjectName("actionAddActivity")
         self.menuFile.addAction(self.actionExit)
         self.menuRegisters.addAction(self.actionAddAssociate)
+        self.menuRegisters.addAction(self.actionAddActivity)
         self.menuRegisters.addAction(self.actionAddBook)
         self.menuRegisters.addAction(self.actionAddProduct)
         self.menuSales.addAction(self.actionSellBook)
@@ -209,5 +216,6 @@ class Ui_MainWindow(object):
         self.actionSearch.setToolTip(QtGui.QApplication.translate("MainWindow", "Pesquisar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionPendencies.setText(QtGui.QApplication.translate("MainWindow", "Pendências", None, QtGui.QApplication.UnicodeUTF8))
         self.actionPendencies.setToolTip(QtGui.QApplication.translate("MainWindow", "Pendências", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAddActivity.setText(QtGui.QApplication.translate("MainWindow", "Atividade", None, QtGui.QApplication.UnicodeUTF8))
 
 import icons_rc
