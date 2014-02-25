@@ -6,6 +6,7 @@ from PySide.QtSql import QSqlRelationalTableModel
 from src.lib.ui.ui_add_associate import Ui_Dock
 from src.lib.validators import UppercaseValidator, EmailValidator, AlphaNumericValidator
 from src.lib.db_util import Db_Instance
+from src.forms.generic_search import GenericSearchForm
 
 logger = logging.getLogger('add_associate')
 
@@ -17,7 +18,7 @@ class AddAssociateDock(QDockWidget, Ui_Dock):
         self.setupUi(self)
 
         self.buttonBox.button(QDialogButtonBox.Cancel).setText("Cancelar")
-        self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.on_cancel_clicked)
+        self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.close)
         self.buttonBox.button(QDialogButtonBox.Save).setText("Salvar")
         self.buttonBox.button(QDialogButtonBox.Save).clicked.connect(self.on_save_clicked)
         self.buttonBox.button(QDialogButtonBox.Reset).setText("Limpar")
@@ -28,6 +29,7 @@ class AddAssociateDock(QDockWidget, Ui_Dock):
         self.verticalLayout.setAlignment(self.groupBox_3, Qt.AlignTop)
 
         self.setup_editing()
+        self.setup_search()
 
         self.log = logging.getLogger('AddAssociateDock')
         self.visibilityChanged.connect(self.toggle_visibility)
@@ -45,8 +47,16 @@ class AddAssociateDock(QDockWidget, Ui_Dock):
         comboBoxList = self.tabRegister.findChildren(QComboBox)
         for lineEdit in lineEditList:
             lineEdit.returnPressed.connect(lineEdit.focusNextChild)
+            lineEdit.textChanged.connect(self.check_changes)
         for comboBox in comboBoxList:
             comboBox.activated.connect(comboBox.focusNextChild)
+
+    def setup_search(self):
+        pass
+
+    def check_changes(self, txt):
+        if txt != '':
+            self._dirty = True
 
     def setup_model(self):
         db = Db_Instance("add_associate").get_instance()
@@ -69,12 +79,6 @@ class AddAssociateDock(QDockWidget, Ui_Dock):
         else:
             self.clear()
 
-    def on_cancel_clicked(self):
-        if not self._dirty:
-            self.close()
-        else:
-            pass
-
     def clear(self):
         self._dirty = False
         lineEditList = self.tabRegister.findChildren(QLineEdit)
@@ -94,6 +98,14 @@ class AddAssociateDock(QDockWidget, Ui_Dock):
             actionAddAssociate.setEnabled(True)
 
     def closeEvent(self, event):
+        if self._dirty:
+            message = unicode("Deseja mesmo sair?\n\nDados não salvos serão perdidos".decode('utf-8'))
+            reply = QMessageBox.question(self, 'Seareiros', message, QMessageBox.Yes, QMessageBox.No)
+            if reply != QMessageBox.Yes:
+                event.ignore()
+                # return
         self.toggle_visibility(False)
         grandparent = self.parent().parent()
         grandparent.remove_instance(self)
+        event.accept()
+

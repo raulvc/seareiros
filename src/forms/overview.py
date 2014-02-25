@@ -16,7 +16,6 @@ class OverviewDock(QDockWidget, Ui_Dock):
         self._model = OverviewTableModel()
         self._proxy = QSortFilterProxyModel()
         self._proxy.setSourceModel(self._model)
-        # self.tableView.setModel(self._model)
         self.tableView.setModel(self._proxy)
         self.initialLoad()
 

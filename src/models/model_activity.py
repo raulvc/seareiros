@@ -1,27 +1,25 @@
 # -*- coding: UTF-8 -*-
 
 from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex
-from PySide.QtGui import QColor, QMessageBox
+from PySide.QtGui import QMessageBox
 from src.lib.db_util import Db_Query_Thread
 from src.lib.dialog_util import Loading
 
 
-class OverviewTableModel(QAbstractTableModel):
-    """ Model for overview objects """
+class ActivityTableModel(QAbstractTableModel):
+    """ Model for activity objects """
 
-    ID, TYPE, DESCRIPTION, DATE, USERNAME = range(5)
+    ID, DESCRIPTION, ROOM, WEEKDAY, WEEKTIME = range(5)
 
     def __init__(self, parent=None):
-        super(OverviewTableModel, self).__init__(parent)
-        # for some wicked reason it won't work when I repeat the same parameter twice in the query
-        sql_statement = "SELECT * FROM history WHERE DATE(history.date) >= :date AND DATE(history.date) <= :date_again"
-        self._populate_job = Db_Query_Thread(name="populate_overview", query=sql_statement)
+        super(ActivityTableModel, self).__init__(parent)
+        sql_statement = "SELECT * FROM activity"
+        self._populate_job = Db_Query_Thread(name="populate_activity", query=sql_statement)
         self._loading_dialog = Loading()
         self._data = []
 
-    def load(self, date):
+    def load(self):
         #TODO I will probably repeat those steps a lot, should consider passing methods as parameters for Loading dialogs
-        self._populate_job.set_params([["date", "date", date],["date", "date_again", date]])
         self._populate_job.progress.connect(self._loading_dialog.setMessage)
         self._populate_job.query_row_num.connect(self._loading_dialog.setMaxRows)
         self._populate_job.query_row_read.connect(self._loading_dialog.incrementReadRows)
@@ -34,24 +32,13 @@ class OverviewTableModel(QAbstractTableModel):
         self._loading_dialog.accept()
         self._loading_dialog.clear()
         if record_list:
-            # self.beginInsertRows(QModelIndex(), 0, self.rowCount() - 1)
             self._data = record_list
-            # self.endInsertRows()
         else:
             self._data = []
             if error == 'conError':
                 message = unicode("Erro de autenticação\n\n""Banco de dados indisponível".decode('utf-8'))
-                QMessageBox.critical(self, "Seareiros", message)
+                QMessageBox.critical(self, "Seareiros - Atividades", message)
         self.reset()
-
-    # def sort(self, col, order):
-    #     """ sorts table by given column number (col) """
-    #     # self.layoutAboutToBeChanged.emit()
-    #     self._data = sorted(self._data, key=lambda record: record.value(col))
-    #     if order == Qt.DescendingOrder:
-    #         self._data.reverse()
-    #     self.reset()
-    #     # self.layoutChanged.emit()
 
     def get_record(self, row):
         return self._data[row]
@@ -66,24 +53,19 @@ class OverviewTableModel(QAbstractTableModel):
         if role == Qt.DisplayRole:
             if column == self.ID:
                 return record.value("id")
-            if column == self.TYPE:
-                return record.value("type")
-            elif column == self.DESCRIPTION:
+            if column == self.DESCRIPTION:
                 return record.value("description")
-            elif column == self.DATE:
-                return record.value("date").toString("dd/MMM - HH:mm")
-            elif column == self.USERNAME:
-                return record.value("username")
+            elif column == self.ROOM:
+                room = record.value("room")
+                if room != 0:
+                    return room
+                else:
+                    return "Nenhuma"
+            elif column == self.WEEKDAY:
+                return self.extend_weekday(record.value("weekday"))
+            elif column == self.WEEKTIME:
+                return record.value("weektime").toString("HH:mm")
 
-        elif role == Qt.BackgroundRole:
-            type = record.value('type')
-            if type == 'venda':
-                return QColor("yellow")
-            else:
-                return QColor("white")
-
-            # elif role == Qt.ForegroundRole:
-            #     return QColor("white")
         return None
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):
@@ -96,14 +78,14 @@ class OverviewTableModel(QAbstractTableModel):
             return None
 
         if orientation == Qt.Horizontal:
-            if section == self.TYPE:
-                return "Tipo"
-            elif section == self.DESCRIPTION:
+            if section == self.DESCRIPTION:
                 return unicode("Descrição".decode('utf-8'))
-            elif section == self.DATE:
-                return "Data e Hora"
-            elif section == self.USERNAME:
-                return unicode("Usuário".decode('utf-8'))
+            elif section == self.ROOM:
+                return "Sala"
+            elif section == self.WEEKDAY:
+                return "Dia"
+            elif section == self.WEEKTIME:
+                return unicode("Horário".decode('utf-8'))
         return section + 1
 
 
@@ -115,3 +97,8 @@ class OverviewTableModel(QAbstractTableModel):
             return 5
         else:
             return 0
+
+    def extend_weekday(self, weekday):
+        # boy this feels so wrong
+        days_of_the_week = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom']
+        return days_of_the_week[weekday]

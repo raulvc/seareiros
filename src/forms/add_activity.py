@@ -1,8 +1,9 @@
 # -*- coding: UTF-8 -*-
+from PySide import QtCore
 import logging
-from PySide.QtCore import Qt
 from PySide.QtGui import QDockWidget, QDialogButtonBox, QMessageBox, QComboBox
 from PySide.QtSql import QSqlRelationalTableModel
+from src.forms.search_activity import ActivitySearchForm
 from src.lib.ui.ui_add_activity import Ui_Dock
 from src.lib.db_util import Db_Instance
 
@@ -12,6 +13,7 @@ class AddActivityDock(QDockWidget, Ui_Dock):
     """ Interface for book input """
 
     ID, DESCRIPTION, ROOM, WEEKDAY, WEEKTIME = range(5)
+    ADD, SEARCH = range(2)
 
     def __init__(self, parent=None):
         super(AddActivityDock, self).__init__(parent)
@@ -24,9 +26,10 @@ class AddActivityDock(QDockWidget, Ui_Dock):
         self.buttonBox.button(QDialogButtonBox.Reset).setText("Limpar")
         self.buttonBox.button(QDialogButtonBox.Reset).clicked.connect(self.clear)
         # had to hardcode these, wouldn't work otherwise:
-        self.verticalLayout.setAlignment(self.groupBox, Qt.AlignTop)
+        self.verticalLayout.setAlignment(self.groupBox, QtCore.Qt.AlignTop)
 
         self.setup_editing()
+        self.setup_search()
 
         self.log = logging.getLogger('AddActivityDock')
         self.visibilityChanged.connect(self.toggle_visibility)
@@ -39,6 +42,11 @@ class AddActivityDock(QDockWidget, Ui_Dock):
         comboBoxList = self.tabRegister.findChildren(QComboBox)
         for comboBox in comboBoxList:
             comboBox.activated.connect(comboBox.focusNextChild)
+
+    def setup_search(self):
+        self._searchForm = ActivitySearchForm()
+        self._searchForm.show()
+        self.tabSearch.layout().addWidget(self._searchForm)
 
     def setup_model(self):
         db = Db_Instance("add_activity").get_instance()
@@ -94,3 +102,8 @@ class AddActivityDock(QDockWidget, Ui_Dock):
         self.toggle_visibility(False)
         grandparent = self.parent().parent()
         grandparent.remove_instance(self)
+
+    @QtCore.Slot(int)
+    def on_tabWidget_currentChanged(self, index):
+        if index == self.SEARCH:
+            self._searchForm.refresh()
