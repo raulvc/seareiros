@@ -2,12 +2,12 @@
 from PySide import QtCore
 from PySide.QtCore import Signal
 from PySide.QtGui import QMainWindow, QStackedWidget, QLabel, QMessageBox
-from src.forms.add_activity import AddActivityDock
-from src.forms.add_associate import AddAssociateDock
-from src.forms.add_book import AddBookDock
-from src.forms.add_product import AddProductDock
-from src.forms.overview import OverviewDock
+
+from src.docks.dock_add_activity import AddActivityDock
+from src.docks.dock_add_associate import AddAssociateDock
+from src.docks.overview import OverviewDock
 from src.lib.ui.ui_main import Ui_MainWindow
+
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     """Main interface"""
@@ -30,9 +30,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionExit_activated(self):
         self.close()
 
-    @QtCore.Slot()
-    def on_actionAddBook_activated(self):
-        self.show_on_top(AddBookDock, self.actionAddBook)
+    # @QtCore.Slot()
+    # def on_actionAddBook_activated(self):
+    #     self.show_on_top(AddBookDock, self.actionAddBook)
 
     @QtCore.Slot()
     def on_actionAddAssociate_activated(self):
@@ -42,9 +42,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionAddActivity_activated(self):
         self.show_on_top(AddActivityDock, self.actionAddActivity)
 
-    @QtCore.Slot()
-    def on_actionAddProduct_activated(self):
-        self.show_on_top(AddProductDock, self.actionAddProduct)
+    # @QtCore.Slot()
+    # def on_actionAddProduct_activated(self):
+    #     self.show_on_top(AddProductDock, self.actionAddProduct)
 
     def show_on_top(self, widget_type, related_action):
         """ makes the dock related to 'widget_type' the central widget of the mainwindow

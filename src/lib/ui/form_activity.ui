@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ActivityForm</class>
+ <widget class="QScrollArea" name="ActivityForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>745</width>
+    <height>274</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ScrollArea</string>
+  </property>
+  <property name="widgetResizable">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="scrollAreaWidgetContents">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>743</width>
+     <height>272</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>703</width>
+        <height>247</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>703</width>
+        <height>231</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Dados Pessoais</string>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> QGroupBox {
+	 font-weight: bold;
+     border: 2px solid gray;
+     border-radius: 5px;
+     margin-top: 25px;
+ }
+
+ QGroupBox::title {
+	 background-color: transparent;
+     subcontrol-origin: margin;
+	 subcontrol-position: top left;
+ }</string>
+      </property>
+      <property name="title">
+       <string>Atividade</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="2" column="1">
+        <widget class="QTimeEdit" name="editTime">
+         <property name="time">
+          <time>
+           <hour>19</hour>
+           <minute>0</minute>
+           <second>0</second>
+          </time>
+         </property>
+         <property name="displayFormat">
+          <string>HH:mm</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3" colspan="2">
+        <widget class="QComboBox" name="comboWeekday">
+         <item>
+          <property name="text">
+           <string>Segunda-Feira</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Terça-Feira</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Quarta-Feira</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Quinta-Feira</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sexta-Feira</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sábado</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Domingo</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Descrição:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Horário:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Sala:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="4">
+        <widget class="QComboBox" name="comboDescription">
+         <property name="editable">
+          <bool>false</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>Atendimento Fraterno</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Reunião Pública</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Reunião de Estudos</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Reunião Mediúnica</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Desobsessão</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Voluntariado</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Dia da Semana:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="comboRoom">
+         <item>
+          <property name="text">
+           <string>Nenhuma</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>4</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>5</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>6</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>7</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>8</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>9</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>10</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>11</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>12</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>comboDescription</tabstop>
+  <tabstop>comboRoom</tabstop>
+  <tabstop>comboWeekday</tabstop>
+  <tabstop>editTime</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

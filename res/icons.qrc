@@ -12,6 +12,7 @@
      <file>icons/book_add.png</file>
      <file>icons/book_lend.png</file>
      <file>icons/book_return.png</file>
+     <file>icons/clean.png</file>
      <file>icons/product.png</file>
      <file>icons/product_add.png</file>
      <file>icons/preferences.png</file>
@@ -22,5 +23,6 @@
      <file>icons/search.png</file>
      <file>icons/pending.png</file>
      <file>icons/loading.gif</file>
+     <file>icons/save.png</file>
  </qresource>
  </RCC>

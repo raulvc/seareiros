@@ -22,7 +22,6 @@ class GenericSearchForm(QWidget, Ui_SearchForm):
         self._model.modelReset.connect(self.setup_view)
 
     def setup_view(self):
-        self.viewSearch.setColumnHidden(self._model.ID, True)
         self.resize_columns()
         self.viewSearch.selectRow(0)
 

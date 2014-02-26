@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AssociateForm</class>
+ <widget class="QScrollArea" name="AssociateForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>766</width>
+    <height>617</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ScrollArea</string>
+  </property>
+  <property name="widgetResizable">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="scrollAreaWidgetContents">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>-216</y>
+     <width>751</width>
+     <height>831</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>703</width>
+        <height>247</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>703</width>
+        <height>231</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Dados Pessoais</string>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> QGroupBox {
+	 font-weight: bold;
+     border: 2px solid gray;
+     border-radius: 5px;
+     margin-top: 25px;
+ }
+
+ QGroupBox::title {
+	 background-color: transparent;
+     subcontrol-origin: margin;
+	 subcontrol-position: top left;
+ }</string>
+      </property>
+      <property name="title">
+       <string>Dados Pessoais</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="3" column="2">
+        <widget class="QComboBox" name="comboMaritalStatus">
+         <property name="editable">
+          <bool>false</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>Solteiro(a)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Casado(a)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Divorciado(a)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Viúvo(a)</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="1" column="1" colspan="4">
+        <widget class="QLineEdit" name="edNickname">
+         <property name="inputMethodHints">
+          <set>Qt::ImhUppercaseOnly</set>
+         </property>
+         <property name="inputMask">
+          <string/>
+         </property>
+         <property name="placeholderText">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>CPF:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QLineEdit" name="edCPF">
+         <property name="inputMask">
+          <string>999.999.999-99;_</string>
+         </property>
+         <property name="placeholderText">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Estado Civil:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="4">
+        <widget class="QLineEdit" name="edFullName">
+         <property name="inputMethodHints">
+          <set>Qt::ImhUppercaseOnly</set>
+         </property>
+         <property name="placeholderText">
+          <string>Nome completo</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Nome:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="QLineEdit" name="edEmail">
+         <property name="inputMethodHints">
+          <set>Qt::ImhEmailCharactersOnly</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>E-Mail:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>RG:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" colspan="2">
+        <widget class="QLineEdit" name="edRG">
+         <property name="inputMask">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Apelido:</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>681</width>
+        <height>235</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>681</width>
+        <height>231</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Endereço</string>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> QGroupBox {
+	 font-weight: bold;
+     border: 2px solid gray;
+     border-radius: 5px;
+     margin-top: 25px;
+ }
+
+ QGroupBox::title {
+	 background-color: transparent;
+     subcontrol-origin: margin;
+	 subcontrol-position: top left;
+ }</string>
+      </property>
+      <property name="title">
+       <string>Endereço</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Logradouro:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="edStreet">
+         <property name="placeholderText">
+          <string>Rua e numeração</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Complemento:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="edComplement"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Bairro:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="edDistrict"/>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Estado:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QComboBox" name="comboProvince">
+         <property name="editable">
+          <bool>false</bool>
+         </property>
+         <property name="currentIndex">
+          <number>24</number>
+         </property>
+         <item>
+          <property name="text">
+           <string>AC</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>AL</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>AP</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>AM</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>BA</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>CE</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>DF</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>ES</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>GO</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>MA</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>MT</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>MS</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>MG</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>PA</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>PB</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>PR</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>PE</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>PI</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RJ</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RN</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RS</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RO</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RR</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SC</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SP</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SE</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>TO</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Cidade:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="edCity"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>CEP:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="edCEP">
+         <property name="inputMask">
+          <string>99.999-999;_</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>331</width>
+        <height>151</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>331</width>
+        <height>151</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Telefones</string>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> QGroupBox {
+	 font-weight: bold;
+     border: 2px solid gray;
+     border-radius: 5px;
+     margin-top: 25px;
+ }
+
+ QGroupBox::title {
+	 background-color: transparent;
+     subcontrol-origin: margin;
+	 subcontrol-position: top left;
+ }</string>
+      </property>
+      <property name="title">
+       <string>Telefones</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>Residencial:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="edPhoneRes">
+         <property name="toolTip">
+          <string>DDD + Número</string>
+         </property>
+         <property name="inputMethodHints">
+          <set>Qt::ImhDigitsOnly</set>
+         </property>
+         <property name="inputMask">
+          <string>(DD)9999-9999;_</string>
+         </property>
+         <property name="placeholderText">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>Comercial:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="edPhoneCom">
+         <property name="toolTip">
+          <string>DDD + Número</string>
+         </property>
+         <property name="inputMethodHints">
+          <set>Qt::ImhDigitsOnly</set>
+         </property>
+         <property name="inputMask">
+          <string>(DD)9999-9999;_</string>
+         </property>
+         <property name="placeholderText">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>Celular:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="edPhoneCell">
+         <property name="toolTip">
+          <string>DDD + Número</string>
+         </property>
+         <property name="inputMethodHints">
+          <set>Qt::ImhDigitsOnly</set>
+         </property>
+         <property name="inputMask">
+          <string>(DD)99999-9999;_</string>
+         </property>
+         <property name="placeholderText">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="styleSheet">
+       <string notr="true"> QGroupBox {
+	 font-weight: bold;
+     border: 2px solid gray;
+     border-radius: 5px;
+     margin-top: 25px;
+ }
+
+ QGroupBox::title {
+	 background-color: transparent;
+     subcontrol-origin: margin;
+	 subcontrol-position: top left;
+ }</string>
+      </property>
+      <property name="title">
+       <string>Atividades na casa</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="1">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="btnAddActivity">
+         <property name="text">
+          <string>Adicionar</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../res/icons.qrc">
+           <normaloff>:/icons/activity_add.png</normaloff>:/icons/activity_add.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="btnCleanActivities">
+         <property name="text">
+          <string>Limpar</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../res/icons.qrc">
+           <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="3">
+        <widget class="QTableWidget" name="tableActivities"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>edFullName</tabstop>
+  <tabstop>edNickname</tabstop>
+  <tabstop>edRG</tabstop>
+  <tabstop>edCPF</tabstop>
+  <tabstop>comboMaritalStatus</tabstop>
+  <tabstop>edEmail</tabstop>
+  <tabstop>edStreet</tabstop>
+  <tabstop>edComplement</tabstop>
+  <tabstop>edDistrict</tabstop>
+  <tabstop>comboProvince</tabstop>
+  <tabstop>edCity</tabstop>
+  <tabstop>edCEP</tabstop>
+  <tabstop>edPhoneRes</tabstop>
+  <tabstop>edPhoneCom</tabstop>
+  <tabstop>edPhoneCell</tabstop>
+  <tabstop>btnAddActivity</tabstop>
+  <tabstop>btnCleanActivities</tabstop>
+  <tabstop>tableActivities</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../../../res/icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>

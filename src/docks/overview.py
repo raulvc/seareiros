@@ -1,10 +1,8 @@
 # -*- coding: UTF-8 -*-
-
 from PySide import QtCore
 from PySide.QtGui import QDockWidget, QSortFilterProxyModel
 from src.lib.ui.ui_overview import Ui_Dock
 from src.models.model_overview import OverviewTableModel
-
 
 class OverviewDock(QDockWidget, Ui_Dock):
     """ Interface for book input """
@@ -16,6 +14,7 @@ class OverviewDock(QDockWidget, Ui_Dock):
         self._model = OverviewTableModel()
         self._proxy = QSortFilterProxyModel()
         self._proxy.setSourceModel(self._model)
+
         self.tableView.setModel(self._proxy)
         self.initialLoad()
 
