@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/form_associate.ui'
 #
-# Created: Wed Feb 26 15:10:40 2014
+# Created: Wed Feb 26 19:33:46 2014
 #      by: pyside-uic 0.2.14 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -15,7 +15,7 @@ class Ui_AssociateForm(object):
         AssociateForm.resize(766, 617)
         AssociateForm.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -216, 751, 831))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -271, 751, 886))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -268,6 +268,10 @@ class Ui_AssociateForm(object):
         self.btnCleanActivities.setObjectName("btnCleanActivities")
         self.gridLayout_4.addWidget(self.btnCleanActivities, 0, 2, 1, 1)
         self.tableActivities = QtGui.QTableWidget(self.groupBox_4)
+        self.tableActivities.setMinimumSize(QtCore.QSize(0, 130))
+        self.tableActivities.setAlternatingRowColors(True)
+        self.tableActivities.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.tableActivities.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.tableActivities.setObjectName("tableActivities")
         self.tableActivities.setColumnCount(0)
         self.tableActivities.setRowCount(0)

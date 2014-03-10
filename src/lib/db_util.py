@@ -111,7 +111,7 @@ class Worker(QObject):
     def set_value(self, sqlquery, param):
         """ safe param passing to sql statement """
         type = param[0]
-        name = param[1]
+        name = ":" + param[1]
         value = param[2]
         if type in "str":
             sqlquery.bindValue(name, unicode(value.decode('utf-8')))

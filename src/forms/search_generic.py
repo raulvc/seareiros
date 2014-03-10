@@ -17,6 +17,7 @@ class GenericSearchForm(QWidget, Ui_SearchForm):
         self._proxy.setSourceModel(self._model)
         self.viewSearch.setModel(self._proxy)
         self.initialLoad()
+        self._record = None
 
     def initialLoad(self):
         self._model.modelReset.connect(self.setup_view)
@@ -31,6 +32,13 @@ class GenericSearchForm(QWidget, Ui_SearchForm):
     def refresh(self):
         self._model.load()
 
+    def get_record_at(self, index):
+        source_index = self._proxy.mapToSource(index)
+        return self._model.get_record(source_index.row())
+
+    def get_current_index(self):
+        return self.viewSearch.currentIndex()
+
     @QtCore.Slot()
     def on_btnRefresh_clicked(self):
         self.refresh()
@@ -41,7 +49,7 @@ class GenericSearchForm(QWidget, Ui_SearchForm):
         search = QtCore.QRegExp(text, QtCore.Qt.CaseInsensitive, QtCore.QRegExp.RegExp)
         self._proxy.setFilterRegExp(search)
 
-    # @QtCore.Slot(QtCore.QModelIndex)
-    # def on_tableView_doubleClicked(self, index):
-    #     record = self._model.get_record(index.row())
-    #     record_id = record.value(self._model.ID)
+    @QtCore.Slot(QtCore.QModelIndex)
+    def on_viewSearch_doubleClicked(self, index):
+        record = self._model.get_record(index.row())
+

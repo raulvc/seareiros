@@ -41,9 +41,12 @@ class OverviewDock(QDockWidget, Ui_Dock):
 
     @QtCore.Slot(QtCore.QModelIndex)
     def on_tableView_doubleClicked(self, index):
-        record = self._model.get_record(index.row())
+        source_index = self._proxy.mapToSource(index)
+        record = self._model.get_record(source_index.row())
         record_type = record.value(self._model.TYPE)
         record_id = record.value(self._model.ID)
+        record_time = record.value(self._model.DATE).toString("dd/MMM - HH:mm")
+        record_user = record.value(self._model.USERNAME)
+        record_desc = record.value(self._model.DESCRIPTION)
 
-        print record_type
-        print record_id
+        print ("%s /// %s /// %s /// %s /// %s") % (record_type, record_id, record_time, record_user, record_desc)

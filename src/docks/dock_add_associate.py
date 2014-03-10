@@ -25,8 +25,9 @@ class AddAssociateDock(GenericDock):
 
     @QtCore.Slot()
     def on_btnSave_clicked(self):
-        self._addForm.submit_data()
-        self._addForm.clear()
+        ok = self._addForm.submit_data()
+        if ok:
+            self._addForm.clear()
 
     @QtCore.Slot()
     def on_btnCancel_clicked(self):

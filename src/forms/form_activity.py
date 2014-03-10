@@ -2,7 +2,7 @@
 import logging
 from PySide import QtCore
 from PySide.QtGui import QMessageBox, QComboBox, QScrollArea
-from PySide.QtSql import QSqlRelationalTableModel
+from PySide.QtSql import QSqlRelationalTableModel, QSqlQuery
 from src.lib.ui.ui_form_activity import Ui_ActivityForm
 from src.lib.db_util import Db_Instance
 
@@ -10,8 +10,6 @@ logger = logging.getLogger('add_activity')
 
 class AddActivityForm(QScrollArea, Ui_ActivityForm):
     """ Interface for activity input """
-
-    ID, DESCRIPTION, ROOM, WEEKDAY, WEEKTIME = range(5)
 
     def __init__(self, parent=None):
         super(AddActivityForm, self).__init__(parent)
@@ -42,13 +40,28 @@ class AddActivityForm(QScrollArea, Ui_ActivityForm):
             self._model = QSqlRelationalTableModel(self, db=db)
             self._model.setTable("activity")
 
+    def extract_input(self):
+        data = {}
+        data['description'] = self.comboDescription.currentText()
+        data['room'] = self.comboRoom.currentIndex()
+        data['weekday'] = self.comboWeekday.currentIndex()
+        data['weektime'] = self.editTime.time()
+        return data
+
     def submit_data(self):
         self._model.insertRow(0)
 
-        self._model.setData(self._model.index(0, self.DESCRIPTION), self.comboDescription.currentText())
-        self._model.setData(self._model.index(0, self.ROOM), self.comboRoom.currentIndex())
-        self._model.setData(self._model.index(0, self.WEEKDAY), self.comboWeekday.currentIndex())
-        self._model.setData(self._model.index(0, self.WEEKTIME), self.editTime.time())
+        data = self.extract_input()
+
+        column = {'description':1, 'room':2, 'weekday':3, 'weektime':4}
+
+        for key,val in data.items():
+            self._model.setData(self._model.index(0, column[key]), val)
+
+        # self._model.setData(self._model.index(0, DESCRIPTION), data['description'])
+        # self._model.setData(self._model.index(0, ROOM), data['room'])
+        # self._model.setData(self._model.index(0, WEEKDAY), data['weekday'])
+        # self._model.setData(self._model.index(0, WEEKTIME), data['weektime'])
 
         # try to commit a record
         if not self._model.submitAll():
@@ -60,6 +73,26 @@ class AddActivityForm(QScrollArea, Ui_ActivityForm):
             message = unicode("Sucesso!\n\n""A atividade foi salva com êxito no banco de dados".decode('utf-8'))
             QMessageBox.information(self, "Seareiros - Cadastro de Atividade", message)
             return True
+
+    def get_added_record(self):
+        """ My workaround to get the last inserted id without any postgres specific queries """
+        db = Db_Instance("add_activity_last_id").get_instance()
+        if not db.open():
+            return None
+        else:
+            query = QSqlQuery(db)
+            query.prepare("SELECT * FROM activity WHERE description = :description AND "
+                          "room = :room AND weekday = :weekday AND weektime = :weektime")
+            data = self.extract_input()
+            for key, val in data.items():
+                key = ":" + key
+                query.bindValue(key, val)
+            query.exec_()
+            if query.next():
+                return query.record()
+            else:
+                return None
+
 
     def clear(self):
         self.comboDescription.setCurrentIndex(0)

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/generic_search.ui'
 #
-# Created: Wed Feb 26 15:10:40 2014
+# Created: Wed Feb 26 19:33:46 2014
 #      by: pyside-uic 0.2.14 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -23,6 +23,7 @@ class Ui_SearchForm(object):
         self.gridLayout.addWidget(self.edKeyword, 0, 1, 1, 1)
         self.viewSearch = QtGui.QTableView(SearchForm)
         self.viewSearch.setAlternatingRowColors(True)
+        self.viewSearch.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         self.viewSearch.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.viewSearch.setObjectName("viewSearch")
         self.gridLayout.addWidget(self.viewSearch, 1, 0, 1, 4)

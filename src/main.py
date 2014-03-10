@@ -59,8 +59,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #     widget.clear()
 
         # connects a connection cleanup method when needed
-        if hasattr(widget, 'cleanup_conn'):
-            widget.cleanup_conn.connect(self.clean_connection)
+        # if hasattr(widget, 'cleanup_conn'):
+        #     widget.cleanup_conn.connect(self.clean_connection)
         self._stackedWidget.setCurrentWidget(widget)
 
     def get_instance(self, type):

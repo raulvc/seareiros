@@ -20,9 +20,9 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>-216</y>
+     <y>-271</y>
      <width>751</width>
-     <height>831</height>
+     <height>886</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -639,7 +639,23 @@
         </widget>
        </item>
        <item row="1" column="0" colspan="3">
-        <widget class="QTableWidget" name="tableActivities"/>
+        <widget class="QTableWidget" name="tableActivities">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>130</height>
+          </size>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
