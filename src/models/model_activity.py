@@ -1,47 +1,18 @@
 # -*- coding: UTF-8 -*-
 
-from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex
-from PySide.QtGui import QMessageBox
-from src.lib.db_util import Db_Query_Thread
-from src.lib.dialog_util import Loading
+from PySide.QtCore import Qt
+from src.models.model_base import BaseTableModel
 
 
-class ActivityTableModel(QAbstractTableModel):
+class ActivityTableModel(BaseTableModel):
     """ Model for activity objects """
 
     ID, DESCRIPTION, ROOM, WEEKDAY, WEEKTIME = range(5)
 
     def __init__(self, parent=None):
-        super(ActivityTableModel, self).__init__(parent)
         sql_statement = "SELECT * FROM activity"
-        self._populate_job = Db_Query_Thread(name="populate_activity", query=sql_statement)
-        self._loading_dialog = Loading()
-        self._data = []
-
-    def load(self):
-        #TODO I will probably repeat those steps a lot, should consider passing methods as parameters for Loading dialogs
-        self._populate_job.progress.connect(self._loading_dialog.setMessage)
-        self._populate_job.query_row_num.connect(self._loading_dialog.setMaxRows)
-        self._populate_job.query_row_read.connect(self._loading_dialog.incrementReadRows)
-        self._populate_job.query_finished.connect(self.loadData)
-        self._populate_job.start()
-        self._loading_dialog.show()
-
-    def loadData(self, record_list, error=None):
-        self._populate_job.exit()
-        self._loading_dialog.accept()
-        self._loading_dialog.clear()
-        if record_list:
-            self._data = record_list
-        else:
-            self._data = []
-            if error == 'conError':
-                message = unicode("Erro de autenticação\n\n""Banco de dados indisponível".decode('utf-8'))
-                QMessageBox.critical(self, "Seareiros - Atividades", message)
-        self.reset()
-
-    def get_record(self, row):
-        return self._data[row]
+        name = "populate_activity"
+        super(ActivityTableModel, self).__init__(sql_statement, name, parent)
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid() or not (0<=index.row()<self.rowCount()):
@@ -87,16 +58,6 @@ class ActivityTableModel(QAbstractTableModel):
             elif section == self.WEEKTIME:
                 return unicode("Horário".decode('utf-8'))
         return section + 1
-
-
-    def rowCount(self, index=QModelIndex()):
-        return len(self._data)
-
-    def columnCount(self, index=QModelIndex()):
-        if ( len(self._data) > 0 ):
-            return 5
-        else:
-            return 0
 
     def extend_weekday(self, weekday):
         # boy this feels so wrong

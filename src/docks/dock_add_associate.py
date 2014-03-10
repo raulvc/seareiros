@@ -3,6 +3,8 @@ from PySide import QtCore
 from PySide.QtGui import QIcon, QMessageBox
 from src.docks.dock_generic import GenericDock
 from src.forms.form_associate import AddAssociateForm
+from src.forms.search_associate import AssociateSearchForm
+
 
 class AddAssociateDock(GenericDock):
     """ Interface for book input """
@@ -18,10 +20,9 @@ class AddAssociateDock(GenericDock):
         self.addPlaceholder.addWidget(self._addForm)
 
     def setup_search(self):
-        pass
-        # self._searchForm = AssociateSearchForm()
-        # self._searchForm.show()
-        # self.searchPlaceholder.addWidget(self._searchForm)
+        self._searchForm = AssociateSearchForm()
+        self._searchForm.show()
+        self.searchPlaceholder.addWidget(self._searchForm)
 
     @QtCore.Slot()
     def on_btnSave_clicked(self):

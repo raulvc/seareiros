@@ -33,11 +33,11 @@ class OverviewDock(QDockWidget, Ui_Dock):
 
     @QtCore.Slot(QtCore.QDate)
     def on_dateEdit_dateChanged(self, date):
-        self._model.load(date)
+        self._model.load_date(date)
 
     @QtCore.Slot()
     def on_btnRefresh_clicked(self):
-        self._model.load(self.dateEdit.date())
+        self._model.load_date(self.dateEdit.date())
 
     @QtCore.Slot(QtCore.QModelIndex)
     def on_tableView_doubleClicked(self, index):
