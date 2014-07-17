@@ -8,4 +8,5 @@ pyside-uic src/lib/ui/generic_dock.ui -o src/lib/ui/ui_generic_dock.py
 pyside-uic src/lib/ui/generic_search.ui -o src/lib/ui/ui_generic_search.py
 pyside-uic src/lib/ui/generic_select.ui -o src/lib/ui/ui_generic_select.py
 pyside-uic src/lib/ui/overview.ui -o src/lib/ui/ui_overview.py
+pyside-uic src/lib/ui/pendencies.ui -o src/lib/ui/ui_pendencies.py
 pyside-uic src/lib/ui/loading.ui -o src/lib/ui/ui_loading.py

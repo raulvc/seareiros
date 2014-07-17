@@ -1,9 +1,12 @@
 # -*- coding: UTF-8 -*-
+from functools import partial
 import logging
 from PySide import QtCore
-from PySide.QtGui import QMessageBox, QLineEdit, QComboBox, QScrollArea, QDialog, QTableWidgetItem
+from PySide.QtGui import QMessageBox, QLineEdit, QComboBox, QScrollArea, QDialog, QTableWidgetItem, QPushButton, QIcon
 from PySide.QtSql import QSqlRelationalTableModel, QSqlQuery
 import operator
+from src.lib import constants
+from src.lib.table_util import WeekdayTableWidgetItem
 from src.lib.ui.ui_form_associate import Ui_AssociateForm
 from src.lib.validators import UppercaseValidator, EmailValidator, AlphaNumericValidator
 from src.lib.db_util import Db_Instance
@@ -77,7 +80,7 @@ class AddAssociateForm(QScrollArea, Ui_AssociateForm):
         column = {
             'fullname':1, 'nickname':2, 'rg':3, 'cpf':4, 'maritalstatus':5, 'email':6, 'streetaddress':7,
             'complement':8, 'district':9, 'province':10, 'city':11, 'cep':12,
-            'resphone':13, 'comphone':14, 'privphone':15}
+            'resphone':13, 'comphone':14, 'privphone':15 }
 
         for key,val in data.items():
             self._model.setData(self._model.index(0, column[key]), val)
@@ -132,8 +135,7 @@ class AddAssociateForm(QScrollArea, Ui_AssociateForm):
             room = "Nenhuma"
         else:
             room = str(room)
-        days_of_the_week = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom']
-        weekday = days_of_the_week[record.value("weekday")]
+        weekday = constants.days_of_the_week[record.value("weekday")]
         weektime = record.value("weektime").toString("HH:mm")
         entry = (id, record.value("description"), room,
                  weekday, weektime)
@@ -166,8 +168,8 @@ class AddAssociateForm(QScrollArea, Ui_AssociateForm):
 
     def refresh_tableActivities(self):
         if len(self._activity_list) > 0:
-            self.tableActivities.setColumnCount(len(self._activity_list[0]))
-            col_labels = ["", unicode("Descrição".decode("utf-8")), "Sala", "Dia", unicode("Horário".decode("utf-8"))]
+            self.tableActivities.setColumnCount(len(self._activity_list[0])+1)
+            col_labels = ["", unicode("Descrição".decode("utf-8")), "Sala", "Dia", unicode("Horário".decode("utf-8")),""]
             self.tableActivities.setHorizontalHeaderLabels(col_labels)
             self.tableActivities.setColumnHidden(0, True)
         else:
@@ -175,9 +177,23 @@ class AddAssociateForm(QScrollArea, Ui_AssociateForm):
         self.tableActivities.setRowCount(len(self._activity_list))
         for i, row in enumerate(self._activity_list):
             for j, col in enumerate(row):
-                item = QTableWidgetItem(col)
+                # custom sorting for weekdays
+                if j == 3:
+                    item = WeekdayTableWidgetItem(col)
+                else:
+                    item = QTableWidgetItem(col)
                 self.tableActivities.setItem(i, j, item)
+            # icon to remove rows individually
+            remove_icon = QIcon(":icons/conn_failed.png")
+            remove_btn = QPushButton(remove_icon, "")
+            remove_btn.clicked.connect(partial(self.remove_activity, activity=row))
+            self.tableActivities.setCellWidget(i, len(row), remove_btn)
         self.tableActivities.resizeColumnsToContents()
+
+    def remove_activity(self, activity):
+        # remove a row based on its value
+        self._activity_list.remove(activity)
+        self.refresh_tableActivities()
 
     def extract_input(self):
         data = {}

@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/form_associate.ui'
 #
-# Created: Wed Feb 26 19:33:46 2014
-#      by: pyside-uic 0.2.14 running on PySide 1.2.1
+# Created: Thu Jul 17 10:44:50 2014
+#      by: pyside-uic 0.2.14 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -367,5 +367,6 @@ class Ui_AssociateForm(object):
         self.groupBox_4.setTitle(QtGui.QApplication.translate("AssociateForm", "Atividades na casa", None, QtGui.QApplication.UnicodeUTF8))
         self.btnAddActivity.setText(QtGui.QApplication.translate("AssociateForm", "Adicionar", None, QtGui.QApplication.UnicodeUTF8))
         self.btnCleanActivities.setText(QtGui.QApplication.translate("AssociateForm", "Limpar", None, QtGui.QApplication.UnicodeUTF8))
+        self.tableActivities.setSortingEnabled(True)
 
 import icons_rc

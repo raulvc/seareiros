@@ -9,15 +9,19 @@ from src.lib.dialog_util import Loading
 class BaseTableModel(QAbstractTableModel):
     """ Base Model """
 
-    def __init__(self, sql_statement, name, parent=None):
+    def __init__(self, parent=None):
         super(BaseTableModel, self).__init__(parent)
-        self._populate_job = Db_Query_Thread(name, query=sql_statement)
         self._loading_dialog = Loading()
         self._data = []
+        self._populate_job = Db_Query_Thread()
 
-    def load(self, params=None):
+    def set_query_info(self, name, sql_statement, params=None):
+        self._populate_job.set_name(name)
+        self._populate_job.set_query(sql_statement)
         if params:
             self._populate_job.set_params(params)
+
+    def load(self):
         self._populate_job.progress.connect(self._loading_dialog.setMessage)
         self._populate_job.query_row_num.connect(self._loading_dialog.setMaxRows)
         self._populate_job.query_row_read.connect(self._loading_dialog.incrementReadRows)

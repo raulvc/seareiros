@@ -11,14 +11,16 @@ class OverviewTableModel(BaseTableModel):
     ID, TYPE, DESCRIPTION, DATE, USERNAME = range(5)
 
     def __init__(self, parent=None):
+        super(OverviewTableModel, self).__init__(parent)
         # for some wicked reason it won't work when I repeat the same parameter twice in the query
-        sql_statement = "SELECT * FROM history WHERE DATE(history.date) >= :date AND DATE(history.date) <= :date_again"
-        name = "populate_overview"
-        super(OverviewTableModel, self).__init__(sql_statement, name, parent)
+        self._sql_statement = "SELECT * FROM history WHERE DATE(history.date) >= :date AND DATE(history.date) " \
+                              "<= :date_again"
+        self._name = "populate_overview"
 
     def load_date(self, date):
         params = [["date", "date", date],["date", "date_again", date]]
-        self.load(params)
+        self.set_query_info(self._name, self._sql_statement, params)
+        self.load()
 
     # def sort(self, col, order):
     #     """ sorts table by given column number (col) """

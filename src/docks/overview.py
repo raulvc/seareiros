@@ -5,7 +5,7 @@ from src.lib.ui.ui_overview import Ui_Dock
 from src.models.model_overview import OverviewTableModel
 
 class OverviewDock(QDockWidget, Ui_Dock):
-    """ Interface for book input """
+    """ Main interface with recent actions """
 
     def __init__(self, parent=None):
         super(OverviewDock, self).__init__(parent)

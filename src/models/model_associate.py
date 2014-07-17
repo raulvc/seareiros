@@ -10,10 +10,14 @@ class AssociateTableModel(BaseTableModel):
     ID, FULLNAME, NICKNAME, EMAIL, RESPHONE, COMPHONE, PRIVPHONE, STREETADDRESS = range(8)
 
     def __init__(self, parent=None):
-        sql_statement = "SELECT id, fullname, nickname, email, resphone, comphone, privphone, " \
+        super(AssociateTableModel, self).__init__(parent)
+        self._sql_statement = "SELECT id, fullname, nickname, email, resphone, comphone, privphone, " \
                         "streetaddress FROM associate"
-        name = "populate_associate"
-        super(AssociateTableModel, self).__init__(sql_statement, name, parent)
+        self._name = "populate_associate"
+
+    def load(self):
+        self.set_query_info(self._name, self._sql_statement)
+        super(AssociateTableModel, self).load()
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid() or not (0<=index.row()<self.rowCount()):

@@ -10,9 +10,13 @@ class ActivityTableModel(BaseTableModel):
     ID, DESCRIPTION, ROOM, WEEKDAY, WEEKTIME = range(5)
 
     def __init__(self, parent=None):
-        sql_statement = "SELECT * FROM activity"
-        name = "populate_activity"
-        super(ActivityTableModel, self).__init__(sql_statement, name, parent)
+        super(ActivityTableModel, self).__init__(parent)
+        self._sql_statement = "SELECT * FROM activity"
+        self._name = "populate_activity"
+
+    def load(self):
+        self.set_query_info(self._name, self._sql_statement)
+        super(ActivityTableModel, self).load()
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid() or not (0<=index.row()<self.rowCount()):
