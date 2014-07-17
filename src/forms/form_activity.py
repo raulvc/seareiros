@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 import logging
 from PySide import QtCore
-from PySide.QtGui import QMessageBox, QComboBox, QScrollArea
+from PySide.QtGui import QMessageBox, QComboBox, QScrollArea, QRadioButton
 from PySide.QtSql import QSqlRelationalTableModel, QSqlQuery
 from src.lib.ui.ui_form_activity import Ui_ActivityForm
 from src.lib.db_util import Db_Instance
@@ -44,7 +44,12 @@ class AddActivityForm(QScrollArea, Ui_ActivityForm):
         data = {}
         data['description'] = self.comboDescription.currentText()
         data['room'] = self.comboRoom.currentIndex()
-        data['weekday'] = self.comboWeekday.currentIndex()
+        # finding out which radio button is checked in a group
+        for i in range(0,6):
+            rd_button_name = "rd_weekday" + str(i)
+            rd_button = self.findChild(QRadioButton, rd_button_name)
+            if rd_button.isChecked():
+                data['weekday'] = i
         data['weektime'] = self.editTime.time()
         return data
 
@@ -97,5 +102,5 @@ class AddActivityForm(QScrollArea, Ui_ActivityForm):
     def clear(self):
         self.comboDescription.setCurrentIndex(0)
         self.comboRoom.setCurrentIndex(0)
-        self.comboWeekday.setCurrentIndex(0)
+        self.rd_weekday0.setChecked(True)
         self.comboDescription.setFocus()

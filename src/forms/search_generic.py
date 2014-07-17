@@ -1,7 +1,8 @@
 # -*- coding: UTF-8 -*-
 
 from PySide import QtCore
-from PySide.QtGui import QWidget, QSortFilterProxyModel
+from PySide.QtGui import QWidget
+from src.lib.table_util import CustomSortFilterProxyModel
 from src.lib.ui.ui_generic_search import Ui_SearchForm
 
 class GenericSearchForm(QWidget, Ui_SearchForm):
@@ -13,7 +14,7 @@ class GenericSearchForm(QWidget, Ui_SearchForm):
 
         self.viewSearch.setSortingEnabled(True)
         self._model = model
-        self._proxy = QSortFilterProxyModel()
+        self._proxy = CustomSortFilterProxyModel()
         self._proxy.setSourceModel(self._model)
         self.viewSearch.setModel(self._proxy)
         self.initialLoad()

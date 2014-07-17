@@ -1,6 +1,8 @@
 from PySide.QtCore import Qt
-from PySide.QtGui import QTableWidgetItem
+from PySide.QtGui import QTableWidgetItem, QSortFilterProxyModel
 from src.lib import constants
+from src.lib.constants import days_of_the_week
+
 
 class WeekdayTableWidgetItem(QTableWidgetItem):
     """ Overloading TableWidgetItem for custom sorting weekdays """
@@ -11,3 +13,23 @@ class WeekdayTableWidgetItem(QTableWidgetItem):
 
             return left_value < right_value
         return super(WeekdayTableWidgetItem, self).__lt__(other)
+
+class CustomSortFilterProxyModel(QSortFilterProxyModel):
+    """ I'm overriding the default sorting to make it less stupid on numbers and allow weekday sorting """
+    def lessThan(self, left_index, right_index):
+        left_var = left_index.data(Qt.DisplayRole)
+        right_var = right_index.data(Qt.DisplayRole)
+
+        # numeric values
+        try:
+            return float(left_var) < float(right_var)
+        except (ValueError, TypeError):
+            pass
+
+        # weekdays
+        try:
+            return days_of_the_week.index(left_var) < days_of_the_week.index(right_var)
+        except:
+            pass
+
+        return left_var < right_var

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>745</width>
-    <height>274</height>
+    <height>510</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
      <x>0</x>
      <y>0</y>
      <width>743</width>
-     <height>272</height>
+     <height>508</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -47,7 +47,7 @@
        </size>
       </property>
       <property name="toolTip">
-       <string>Dados Pessoais</string>
+       <string/>
       </property>
       <property name="autoFillBackground">
        <bool>false</bool>
@@ -76,59 +76,6 @@
        <bool>false</bool>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="2" column="1">
-        <widget class="QTimeEdit" name="editTime">
-         <property name="time">
-          <time>
-           <hour>19</hour>
-           <minute>0</minute>
-           <second>0</second>
-          </time>
-         </property>
-         <property name="displayFormat">
-          <string>HH:mm</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3" colspan="2">
-        <widget class="QComboBox" name="comboWeekday">
-         <item>
-          <property name="text">
-           <string>Segunda-Feira</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Terça-Feira</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Quarta-Feira</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Quinta-Feira</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Sexta-Feira</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Sábado</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Domingo</string>
-          </property>
-         </item>
-        </widget>
-       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
@@ -137,64 +84,13 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Horário:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Sala:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1" colspan="4">
-        <widget class="QComboBox" name="comboDescription">
-         <property name="editable">
-          <bool>false</bool>
-         </property>
-         <item>
-          <property name="text">
-           <string>Atendimento Fraterno</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Reunião Pública</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Reunião de Estudos</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Reunião Mediúnica</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Desobsessão</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Voluntariado</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="1" column="2">
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>Dia da Semana:</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="1" column="1" colspan="2">
         <widget class="QComboBox" name="comboRoom">
          <item>
           <property name="text">
@@ -263,6 +159,169 @@
          </item>
         </widget>
        </item>
+       <item row="3" column="1">
+        <widget class="QTimeEdit" name="editTime">
+         <property name="time">
+          <time>
+           <hour>19</hour>
+           <minute>0</minute>
+           <second>0</second>
+          </time>
+         </property>
+         <property name="displayFormat">
+          <string>HH:mm</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="3">
+        <widget class="QComboBox" name="comboDescription">
+         <property name="editable">
+          <bool>false</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>Atendimento Fraterno</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Reunião Pública</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Reunião de Estudos</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Reunião Mediúnica</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Desobsessão</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Voluntariado</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Sala:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Horário:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" colspan="3">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QRadioButton" name="rd_weekday0">
+           <property name="toolTip">
+            <string>Segunda-Feira</string>
+           </property>
+           <property name="text">
+            <string>seg</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">grpWeekday</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="rd_weekday1">
+           <property name="toolTip">
+            <string>Terça-Feira</string>
+           </property>
+           <property name="text">
+            <string>ter</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">grpWeekday</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="rd_weekday2">
+           <property name="toolTip">
+            <string>Quarta-Feira</string>
+           </property>
+           <property name="text">
+            <string>qua</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">grpWeekday</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="rd_weekday3">
+           <property name="toolTip">
+            <string>Quinta-Feira</string>
+           </property>
+           <property name="text">
+            <string>qui</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">grpWeekday</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="rd_weekday4">
+           <property name="toolTip">
+            <string>Sexta-Feira</string>
+           </property>
+           <property name="text">
+            <string>sex</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">grpWeekday</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="rd_weekday5">
+           <property name="toolTip">
+            <string>Sábado</string>
+           </property>
+           <property name="text">
+            <string>sab</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">grpWeekday</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="rd_weekday6">
+           <property name="toolTip">
+            <string>Domingo</string>
+           </property>
+           <property name="text">
+            <string>dom</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">grpWeekday</string>
+           </attribute>
+          </widget>
+         </item>
+        </layout>
+       </item>
       </layout>
      </widget>
     </item>
@@ -272,9 +331,15 @@
  <tabstops>
   <tabstop>comboDescription</tabstop>
   <tabstop>comboRoom</tabstop>
-  <tabstop>comboWeekday</tabstop>
   <tabstop>editTime</tabstop>
  </tabstops>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="grpWeekday">
+   <property name="exclusive">
+    <bool>true</bool>
+   </property>
+  </buttongroup>
+ </buttongroups>
 </ui>
