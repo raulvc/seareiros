@@ -6,6 +6,7 @@ from PySide.QtGui import QMessageBox, QLineEdit, QComboBox, QScrollArea, QDialog
 from PySide.QtSql import QSqlRelationalTableModel, QSqlQuery
 import operator
 from src.lib import constants
+from src.lib import statics
 from src.lib.table_util import WeekdayTableWidgetItem
 from src.lib.ui.ui_form_associate import Ui_AssociateForm
 from src.lib.validators import UppercaseValidator, EmailValidator, AlphaNumericValidator
@@ -20,6 +21,8 @@ class AddAssociateForm(QScrollArea, Ui_AssociateForm):
     def __init__(self, parent=None):
         super(AddAssociateForm, self).__init__(parent)
         self.setupUi(self)
+
+        self._access = statics.access_level
 
         # had to hardcode these, wouldn't work otherwise:
         self.verticalLayout.setAlignment(self.groupBox, QtCore.Qt.AlignTop)
@@ -200,7 +203,7 @@ class AddAssociateForm(QScrollArea, Ui_AssociateForm):
         data['fullname'] = self.edFullName.text()
         data['nickname'] = self.edNickname.text()
         data['rg'] = self.edRG.text()
-        data['cpf'] = self.edCPF.text()
+        data['cpf'] = self.remove_mask_when_empty(self.edCPF.text())
         data['maritalstatus'] = self.comboMaritalStatus.currentIndex()
         data['email'] = self.edEmail.text()
         data['streetaddress'] = self.edStreet.text()
@@ -208,11 +211,18 @@ class AddAssociateForm(QScrollArea, Ui_AssociateForm):
         data['district'] = self.edDistrict.text()
         data['province'] = self.comboProvince.currentIndex()
         data['city'] = self.edCity.text()
-        data['cep'] = self.edCEP.text()
-        data['resphone'] = self.edPhoneRes.text()
-        data['comphone'] = self.edPhoneCom.text()
-        data['privphone'] = self.edPhoneCell.text()
+        data['cep'] = self.remove_mask_when_empty(self.edCEP.text())
+        data['resphone'] = self.remove_mask_when_empty(self.edPhoneRes.text())
+        data['comphone'] = self.remove_mask_when_empty(self.edPhoneCom.text())
+        data['privphone'] = self.remove_mask_when_empty(self.edPhoneCell.text())
         return data
+
+    def remove_mask_when_empty(self, text):
+        """ I don't want to save a mask when there's no user input """
+        if text in ['()-', '.-', '..-']:
+            return ''
+        else:
+            return text
 
     def extract_activities_input(self):
         # grab id of selected activities

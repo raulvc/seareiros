@@ -14,11 +14,13 @@ class Login(QDialog, Ui_Dialog):
         self.btnBoxLogin.button(QDialogButtonBox.Cancel).clicked.connect(self.close)
         self.btnBoxLogin.button(QDialogButtonBox.Ok).clicked.connect(self.ok_clicked)
         self.load_icon = QMovie(":icons/loading.gif")
-        sql_statement = """SELECT username, password FROM users WHERE
+        sql_statement = """SELECT username, password, access FROM users WHERE
                       users.username=:username AND users.password=:password"""
         self._validate_job = Db_Query_Thread(name="validation", query=sql_statement)
         self._validate_job.query_finished.connect(self.validate_login)
         self._user_logged = False
+        self._username = None
+        self._access = None
 
     def set_loading_icon(self, frame=None):
         self.btnBoxLogin.button(QDialogButtonBox.Ok).setIcon(QIcon(self.load_icon.currentPixmap()))
@@ -40,6 +42,8 @@ class Login(QDialog, Ui_Dialog):
         if db_result:
             # correct username and password
             self._user_logged = True
+            self._username = db_result[0].value(0)
+            self._access = db_result[0].value(2)
             self.accept()
         else:
             if error == 'connError':
@@ -55,8 +59,8 @@ class Login(QDialog, Ui_Dialog):
             self.editUsername.setFocus()
             self.editUsername.selectAll()
 
-    def get_username(self):
+    def get_user_data(self):
         if self._user_logged:
-            return self.editUsername.text()
+            return [self._username, self._access]
         else:
             return None

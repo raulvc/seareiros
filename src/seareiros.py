@@ -23,7 +23,7 @@ def main():
     login_dialog = Login()
     if login_dialog.exec_() == QDialog.Accepted:
         # validation complete, open main interface
-        window = MainWindow(login_dialog.get_username())
+        window = MainWindow(login_dialog.get_user_data())
         window.showMaximized()
         # solves mainwindow focusing on windows/xfce
         app.setActiveWindow(window)
