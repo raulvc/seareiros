@@ -20,6 +20,10 @@ class GenericDock(QDockWidget, Ui_Dock):
         self.visibilityChanged.connect(self.toggle_visibility)
 
     # overwritten in child
+    def setup_add(self):
+        pass
+
+    # overwritten in child
     def setup_search(self):
         pass
 

@@ -2,7 +2,7 @@
 from PySide import QtCore
 from PySide.QtGui import QStackedWidget, QIcon
 from src.dialogs.select_generic import GenericSelect
-from src.forms.form_activity import AddActivityForm
+from src.forms.form_activity import ActivityForm
 from src.forms.search_activity import ActivitySearchForm
 
 class ActivitySelectDialog(GenericSelect):
@@ -14,7 +14,7 @@ class ActivitySelectDialog(GenericSelect):
         self.setWindowIcon(QIcon(":icons/activity.png"))
 
     def setup_add(self):
-        self._addForm = AddActivityForm()
+        self._addForm = ActivityForm()
         self._addForm.show()
         self._stackedWidget.addWidget(self._addForm)
 

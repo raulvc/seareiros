@@ -50,7 +50,3 @@ class GenericSearchForm(QWidget, Ui_SearchForm):
         search = QtCore.QRegExp(text, QtCore.Qt.CaseInsensitive, QtCore.QRegExp.RegExp)
         self._proxy.setFilterRegExp(search)
 
-    @QtCore.Slot(QtCore.QModelIndex)
-    def on_viewSearch_doubleClicked(self, index):
-        record = self._model.get_record(index.row())
-

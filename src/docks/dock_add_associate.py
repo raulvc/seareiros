@@ -2,12 +2,12 @@
 from PySide import QtCore
 from PySide.QtGui import QIcon, QMessageBox
 from src.docks.dock_generic import GenericDock
-from src.forms.form_associate import AddAssociateForm
+from src.forms.form_associate import AssociateForm
 from src.forms.search_associate import AssociateSearchForm
 
 
 class AddAssociateDock(GenericDock):
-    """ Interface for book input """
+    """ Interface for associate input """
 
     def __init__(self, parent=None):
         super(AddAssociateDock, self).__init__(parent)
@@ -15,7 +15,7 @@ class AddAssociateDock(GenericDock):
         self.tabWidget.setTabIcon(self.ADD, QIcon(":icons/associate_add.png"))
 
     def setup_add(self):
-        self._addForm = AddAssociateForm()
+        self._addForm = AssociateForm()
         self._addForm.show()
         self.addPlaceholder.addWidget(self._addForm)
 

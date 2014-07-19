@@ -2,11 +2,11 @@
 from PySide import QtCore
 from PySide.QtGui import QIcon
 from src.docks.dock_generic import GenericDock
-from src.forms.form_activity import AddActivityForm
+from src.forms.form_activity import ActivityForm
 from src.forms.search_activity import ActivitySearchForm
 
 class AddActivityDock(GenericDock):
-    """ Interface for book input """
+    """ Interface for activity input """
 
     def __init__(self, parent=None):
         super(AddActivityDock, self).__init__(parent)
@@ -14,7 +14,7 @@ class AddActivityDock(GenericDock):
         self.tabWidget.setTabIcon(self.ADD, QIcon(":icons/activity_add.png"))
 
     def setup_add(self):
-        self._addForm = AddActivityForm()
+        self._addForm = ActivityForm()
         self._addForm.show()
         self.addPlaceholder.addWidget(self._addForm)
 

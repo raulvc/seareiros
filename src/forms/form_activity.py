@@ -8,17 +8,17 @@ from src.lib.db_util import Db_Instance
 
 logger = logging.getLogger('add_activity')
 
-class AddActivityForm(QScrollArea, Ui_ActivityForm):
+class ActivityForm(QScrollArea, Ui_ActivityForm):
     """ Interface for activity input """
 
     def __init__(self, parent=None):
-        super(AddActivityForm, self).__init__(parent)
+        super(ActivityForm, self).__init__(parent)
         self.setupUi(self)
 
         # had to hardcode these, wouldn't work otherwise:
         self.verticalLayout.setAlignment(self.groupBox, QtCore.Qt.AlignTop)
 
-        self.log = logging.getLogger('AddActivityDock')
+        self.log = logging.getLogger('ActivityForm')
 
         self.setup_editing()
         self.setup_model()
@@ -31,7 +31,7 @@ class AddActivityForm(QScrollArea, Ui_ActivityForm):
             comboBox.activated.connect(comboBox.focusNextChild)
 
     def setup_model(self):
-        db = Db_Instance("add_activity").get_instance()
+        db = Db_Instance("form_activity").get_instance()
         if not db.open():
             self.log.error(db.lastError().text())
             message = unicode("Erro de conexão\n\n""Banco de dados indisponível".decode('utf-8'))

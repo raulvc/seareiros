@@ -28,8 +28,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setCentralWidget(self._stackedWidget)
         self._overview = OverviewDock()
         self._stackedWidget.addWidget(self._overview)
+        self._edit_mode = False
+        self._stackedWidget.currentChanged.connect(self.dock_changed)
         # permission stuff
         self.setup_access(user_data[1])
+
+    def dock_changed(self, new_index):
+        new_dock = self._stackedWidget.widget(new_index).objectName()
+        if "Edit" in new_dock:
+            # it's an editing dock
+            self.set_editing(True)
+
+    def set_editing(self, state):
+        self._edit_mode = state
+
+    def is_editing(self):
+        return self._edit_mode
 
     def setup_access(self, access_level):
         statics.access_level = access_level
@@ -57,17 +71,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionPendencies_activated(self):
         self.show_on_top(PendenciesDock, self.actionPendencies)
 
+
     # @QtCore.Slot()
     # def on_actionAddProduct_activated(self):
     #     self.show_on_top(AddProductDock, self.actionAddProduct)
 
-    def show_on_top(self, widget_type, related_action):
+    def show_on_top(self, widget_type, related_action=None, param=None):
         """ makes the dock related to 'widget_type' the central widget of the mainwindow
             (by stacking it on front of other widgets), grays out respective action while visible """
-        related_action.setDisabled(True)
+        if self.is_editing():
+            # edit dock is being swapped out
+            message = unicode("Todos os dados não salvos serão perdidos".decode('utf-8'))
+            reply = QMessageBox.warning(self, unicode("Atenção".decode('utf-8')), message, QMessageBox.Yes, QMessageBox.No)
+            if reply == QMessageBox.No:
+                return
+            else:
+                self.remove_instance(self._stackedWidget.currentWidget())
+        # there's a need to gray out the corresponding menu option
+        if related_action:
+            related_action.setDisabled(True)
         widget = self.get_instance(widget_type)
         if widget is None:
-            widget = widget_type()
+            # create a new instance of referenced widget if it doesn't exist yet
+            if param:
+                # when a parameter is passed
+                widget = widget_type(param)
+            else:
+                widget = widget_type()
             self._docks.append(widget)
             self._stackedWidget.addWidget(widget)
         # else:
@@ -85,6 +115,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return None
 
     def remove_instance(self, inst):
+        if self.is_editing():
+            self.set_editing(False)
         self._docks.remove(inst)
         self._stackedWidget.removeWidget(inst)
         self._stackedWidget.setCurrentWidget(self._overview)

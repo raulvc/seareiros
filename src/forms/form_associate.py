@@ -15,11 +15,16 @@ from src.dialogs.select_activity import ActivitySelectDialog
 
 logger = logging.getLogger('add_associate')
 
-class AddAssociateForm(QScrollArea, Ui_AssociateForm):
+class AssociateForm(QScrollArea, Ui_AssociateForm):
     """ Interface for book input """
 
-    def __init__(self, parent=None):
-        super(AddAssociateForm, self).__init__(parent)
+    column = {
+            'fullname':1, 'nickname':2, 'rg':3, 'cpf':4, 'maritalstatus':5, 'email':6, 'streetaddress':7,
+            'complement':8, 'district':9, 'province':10, 'city':11, 'cep':12,
+            'resphone':13, 'comphone':14, 'privphone':15 }
+
+    def __init__(self, parent=None, record_id=None):
+        super(AssociateForm, self).__init__(parent)
         self.setupUi(self)
 
         self._access = statics.access_level
@@ -30,10 +35,21 @@ class AddAssociateForm(QScrollArea, Ui_AssociateForm):
         self.verticalLayout.setAlignment(self.groupBox_3, QtCore.Qt.AlignTop)
         self.verticalLayout.setAlignment(self.groupBox_4, QtCore.Qt.AlignTop)
 
-        self.log = logging.getLogger('AddAssociateDock')
+        self.log = logging.getLogger('AssociateForm')
+        self.setup_fields()
 
-        self.setup_editing()
-        self.setup_model()
+        # not sure if this is the right approach but I didn't want to separate into 2 almost identical forms
+        if record_id:
+            # editing mode
+            self._edit_mode = True
+            self._removed_activities = []
+            self._added_activities = []
+            self.setup_model(id=record_id)
+            self.fill_form()
+        else:
+            # adding new associate
+            self._edit_mode = False
+            self.setup_model()
 
         # flag to indicate whether there were changes to the fields
         self._dirty = False
@@ -43,7 +59,7 @@ class AddAssociateForm(QScrollArea, Ui_AssociateForm):
     def is_dirty(self):
         return self._dirty
 
-    def setup_editing(self):
+    def setup_fields(self):
         # tries to make things easier for user by allowing him to tab with return key
         # or after selecting something from a combobox
         self.edFullName.setValidator(UppercaseValidator())
@@ -59,12 +75,30 @@ class AddAssociateForm(QScrollArea, Ui_AssociateForm):
         for comboBox in comboBoxList:
             comboBox.activated.connect(comboBox.focusNextChild)
 
+    def fill_form(self):
+        self.edFullName.setText(self._record.value(1))
+        self.edNickname.setText(self._record.value(2))
+        self.edRG.setText(self._record.value(3))
+        self.edCPF.setText(self._record.value(4))
+        self.comboMaritalStatus.setCurrentIndex(self._record.value(5))
+        self.edEmail.setText(self._record.value(6))
+        self.edStreet.setText(self._record.value(7))
+        self.edComplement.setText(self._record.value(8))
+        self.edDistrict.setText(self._record.value(9))
+        self.comboProvince.setCurrentIndex(self._record.value(10))
+        self.edCity.setText(self._record.value(11))
+        self.edCEP.setText(self._record.value(12))
+        self.edPhoneRes.setText(self._record.value(13))
+        self.edPhoneCom.setText(self._record.value(14))
+        self.edPhoneCell.setText(self._record.value(15))
+        # TODO: Retrieve activities
+
     def check_changes(self, txt):
         if txt != '':
             self._dirty = True
 
-    def setup_model(self):
-        db = Db_Instance("add_associate").get_instance()
+    def setup_model(self, id=None):
+        db = Db_Instance("form_associate").get_instance()
         if not db.open():
             self.log.error(db.lastError().text())
             message = unicode("Erro de conexão\n\n""Banco de dados indisponível".decode('utf-8'))
@@ -72,22 +106,33 @@ class AddAssociateForm(QScrollArea, Ui_AssociateForm):
         else:
             self._model = QSqlRelationalTableModel(self, db=db)
             self._model.setTable("associate")
+            if id:
+                # TODO: Validate this
+                ok = self._model.setFilter("id = " + str(id))
+                self._model.select()
+                self._record = self._model.record(0)
             self._act_model = QSqlRelationalTableModel(self, db=db)
             self._act_model.setTable("associate_in_activity")
 
+    def update_data(self):
+        data = self.extract_input()
+        for key,val in data.items():
+            self._model.setData(self._model.index(0, self.column[key]), val)
+        # try to commit changes
+        # TODO: updating activities
+        if not self._model.submitAll():
+            self.log.error(self._model.lastError().text())
+            message = unicode("Erro de transação\n\n""Não foi possível salvar no banco de dados".decode('utf-8'))
+            QMessageBox.critical(self, "Seareiros - Cadastro de Atividade", message)
+            return False
+        else:
+            pass
+
     def submit_data(self):
         self._model.insertRow(0)
-
         data = self.extract_input()
-
-        column = {
-            'fullname':1, 'nickname':2, 'rg':3, 'cpf':4, 'maritalstatus':5, 'email':6, 'streetaddress':7,
-            'complement':8, 'district':9, 'province':10, 'city':11, 'cep':12,
-            'resphone':13, 'comphone':14, 'privphone':15 }
-
         for key,val in data.items():
-            self._model.setData(self._model.index(0, column[key]), val)
-
+            self._model.setData(self._model.index(0, self.column[key]), val)
         # try to commit a record
         if not self._model.submitAll():
             self.log.error(self._model.lastError().text())
@@ -127,29 +172,6 @@ class AddAssociateForm(QScrollArea, Ui_AssociateForm):
         self.comboProvince.setCurrentIndex(24)
         self.clear_table()
         self.edFullName.setFocus()
-
-    def add_activity(self, record):
-        """ adds an activity to the list except for duplicates """
-        # this brings shame to me but meh, faster to hardcode (see model_activity)
-        # id = str(record.value("id"))
-        id = record.value("id")
-        room = record.value("room")
-        if room == 0:
-            room = "Nenhuma"
-        else:
-            room = str(room)
-        weekday = constants.days_of_the_week[record.value("weekday")]
-        weektime = record.value("weektime").toString("HH:mm")
-        entry = (id, record.value("description"), room,
-                 weekday, weektime)
-        if entry in self._activity_list:
-            return False
-        else:
-            self._activity_list.append(entry)
-            # sorts by day/time
-            self._activity_list.sort(key=operator.itemgetter(3,4))
-            # self._activity_list = sorted(self._activity_list, key=lambda dia_hora: (dia_hora[3], dia_hora[2]))
-            return True
 
     @QtCore.Slot()
     def on_btnAddActivity_clicked(self):
@@ -193,9 +215,36 @@ class AddAssociateForm(QScrollArea, Ui_AssociateForm):
             self.tableActivities.setCellWidget(i, len(row), remove_btn)
         self.tableActivities.resizeColumnsToContents()
 
+    def add_activity(self, record):
+        """ adds an activity to the list except for duplicates """
+        # this brings shame to me but meh, faster to hardcode (see model_activity)
+        # id = str(record.value("id"))
+        if self._edit_mode:
+            self._added_activities.append(record)
+        id = record.value("id")
+        room = record.value("room")
+        if room == 0:
+            room = "Nenhuma"
+        else:
+            room = str(room)
+        weekday = constants.days_of_the_week[record.value("weekday")]
+        weektime = record.value("weektime").toString("HH:mm")
+        entry = (id, record.value("description"), room,
+                 weekday, weektime)
+        if entry in self._activity_list:
+            return False
+        else:
+            self._activity_list.append(entry)
+            # sorts by day/time
+            self._activity_list.sort(key=operator.itemgetter(3,4))
+            # self._activity_list = sorted(self._activity_list, key=lambda dia_hora: (dia_hora[3], dia_hora[2]))
+            return True
+
     def remove_activity(self, activity):
         # remove a row based on its value
         self._activity_list.remove(activity)
+        if self._edit_mode:
+            self._removed_activities.append(activity)
         self.refresh_tableActivities()
 
     def extract_input(self):
