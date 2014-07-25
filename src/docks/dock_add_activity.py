@@ -40,6 +40,7 @@ class AddActivityDock(GenericDock):
     def toggle_visibility(self, visible):
         actionAddActivity = self.parent().parent().actionAddActivity
         if visible:
+            super(AddActivityDock, self).toggle_visibility(visible)
             actionAddActivity.setEnabled(False)
             self._addForm.comboDescription.setFocus()
         else:

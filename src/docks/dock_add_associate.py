@@ -48,6 +48,7 @@ class AddAssociateDock(GenericDock):
     def toggle_visibility(self, visible):
         actionAddAssociate = self.parent().parent().actionAddAssociate
         if visible:
+            super(AddAssociateDock, self).toggle_visibility(visible)
             actionAddAssociate.setEnabled(False)
             self._addForm.edFullName.setFocus()
         else:

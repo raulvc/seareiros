@@ -29,7 +29,7 @@ class GenericDock(QDockWidget, Ui_Dock):
 
     # overwritten in child
     def toggle_visibility(self, visible):
-        pass
+        self.tabWidget.setCurrentIndex(0)
 
     def closeEvent(self, event):
         self.toggle_visibility(False)

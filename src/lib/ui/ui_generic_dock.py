@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/generic_dock.ui'
 #
-# Created: Thu Jul 24 12:54:31 2014
+# Created: Fri Jul 25 16:17:55 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -19,6 +19,7 @@ class Ui_Dock(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Dock.sizePolicy().hasHeightForWidth())
         Dock.setSizePolicy(sizePolicy)
+        Dock.setToolTip("")
         Dock.setStyleSheet("QDockWidget::title\n"
 "{\n"
 "   font-family: \"Roboto Lt\";\n"
@@ -105,7 +106,6 @@ class Ui_Dock(object):
         QtCore.QMetaObject.connectSlotsByName(Dock)
 
     def retranslateUi(self, Dock):
-        Dock.setToolTip(QtGui.QApplication.translate("Dock", "Cadastro de Atividades", None, QtGui.QApplication.UnicodeUTF8))
         self.btnSave.setText(QtGui.QApplication.translate("Dock", "Salvar", None, QtGui.QApplication.UnicodeUTF8))
         self.btnClear.setText(QtGui.QApplication.translate("Dock", "Limpar", None, QtGui.QApplication.UnicodeUTF8))
         self.btnCancel.setText(QtGui.QApplication.translate("Dock", "Cancelar", None, QtGui.QApplication.UnicodeUTF8))

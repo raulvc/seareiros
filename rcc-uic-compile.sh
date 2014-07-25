@@ -4,6 +4,7 @@ pyside-uic src/lib/ui/login.ui -o src/lib/ui/ui_login.py
 pyside-uic src/lib/ui/main.ui -o src/lib/ui/ui_main.py
 pyside-uic src/lib/ui/form_activity.ui -o src/lib/ui/ui_form_activity.py
 pyside-uic src/lib/ui/form_associate.ui -o src/lib/ui/ui_form_associate.py
+pyside-uic src/lib/ui/form_book.ui -o src/lib/ui/ui_form_book.py
 pyside-uic src/lib/ui/generic_dock.ui -o src/lib/ui/ui_generic_dock.py
 pyside-uic src/lib/ui/generic_search.ui -o src/lib/ui/ui_generic_search.py
 pyside-uic src/lib/ui/generic_select.ui -o src/lib/ui/ui_generic_select.py

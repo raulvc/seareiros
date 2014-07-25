@@ -3,7 +3,7 @@ from functools import partial
 import logging
 from PySide import QtCore
 from PySide.QtGui import QMessageBox, QLineEdit, QComboBox, QScrollArea, QDialog, QTableWidgetItem, QPushButton, QIcon
-from PySide.QtSql import QSqlRelationalTableModel, QSqlQuery, QSqlQueryModel
+from PySide.QtSql import QSqlRelationalTableModel, QSqlQueryModel
 import operator
 from src.lib import constants
 from src.lib import statics
@@ -32,10 +32,10 @@ class AssociateEditForm(QScrollArea, Ui_AssociateForm):
         self._record_id = record_id
 
         # had to hardcode these, wouldn't work otherwise:
-        self.verticalLayout.setAlignment(self.groupBox, QtCore.Qt.AlignTop)
-        self.verticalLayout.setAlignment(self.groupBox_2, QtCore.Qt.AlignTop)
-        self.verticalLayout.setAlignment(self.groupBox_3, QtCore.Qt.AlignTop)
-        self.verticalLayout.setAlignment(self.groupBox_4, QtCore.Qt.AlignTop)
+        self.contentsLayout.setAlignment(self.groupBox, QtCore.Qt.AlignTop)
+        self.contentsLayout.setAlignment(self.groupBox_2, QtCore.Qt.AlignTop)
+        self.contentsLayout.setAlignment(self.groupBox_3, QtCore.Qt.AlignTop)
+        self.contentsLayout.setAlignment(self.groupBox_4, QtCore.Qt.AlignTop)
 
         self.log = logging.getLogger('AssociateEditForm')
 
@@ -71,8 +71,6 @@ class AssociateEditForm(QScrollArea, Ui_AssociateForm):
             lineEdit.textChanged.connect(self.check_changes)
         for comboBox in comboBoxList:
             comboBox.activated.connect(comboBox.focusNextChild)
-
-        # TODO: new fields specific to editing
 
     def fill_form(self):
         # retrieving associate info

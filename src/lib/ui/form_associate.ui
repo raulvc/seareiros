@@ -16,7 +16,7 @@
   <property name="widgetResizable">
    <bool>true</bool>
   </property>
-  <widget class="QWidget" name="scrollAreaWidgetContents">
+  <widget class="QWidget" name="FormContents">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -25,7 +25,7 @@
      <height>886</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="contentsLayout">
     <item>
      <widget class="QGroupBox" name="groupBox">
       <property name="sizePolicy">
@@ -585,6 +585,9 @@
     </item>
     <item>
      <widget class="QGroupBox" name="groupBox_4">
+      <property name="toolTip">
+       <string>Atividades</string>
+      </property>
       <property name="styleSheet">
        <string notr="true"> QGroupBox {
 	 font-weight: bold;

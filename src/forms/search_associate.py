@@ -15,7 +15,7 @@ class AssociateSearchForm(GenericSearchForm):
 
     def setup_view(self):
         self.viewSearch.sortByColumn(self._model.FULLNAME, QtCore.Qt.AscendingOrder)
-        self.viewSearch.setColumnHidden(self._model.ID, True)
+        #self.viewSearch.setColumnHidden(self._model.ID, True)
         self.resize_columns()
         self.viewSearch.selectRow(0)
 

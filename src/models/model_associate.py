@@ -56,7 +56,9 @@ class AssociateTableModel(BaseTableModel):
             return None
 
         if orientation == Qt.Horizontal:
-            if section == self.FULLNAME:
+            if section == self.ID:
+                return "Reg."
+            elif section == self.FULLNAME:
                 return "Nome"
             elif section == self.NICKNAME:
                 return "Apelido"

@@ -13,6 +13,7 @@ class EditAssociateDock(EditDock):
         self.setWindowTitle(unicode("Edição de Associado".decode('utf-8')))
         self.tabWidget.setTabIcon(self.ADD, QIcon(":icons/associate_add.png"))
         self.setObjectName("EditAssociate")
+        self.set_label_id(record_id)
         self._record_id = record_id
         self.setup_edit()
 

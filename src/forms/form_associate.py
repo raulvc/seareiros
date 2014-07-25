@@ -31,10 +31,10 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
         self._access = statics.access_level
 
         # had to hardcode these, wouldn't work otherwise:
-        self.verticalLayout.setAlignment(self.groupBox, QtCore.Qt.AlignTop)
-        self.verticalLayout.setAlignment(self.groupBox_2, QtCore.Qt.AlignTop)
-        self.verticalLayout.setAlignment(self.groupBox_3, QtCore.Qt.AlignTop)
-        self.verticalLayout.setAlignment(self.groupBox_4, QtCore.Qt.AlignTop)
+        self.contentsLayout.setAlignment(self.groupBox, QtCore.Qt.AlignTop)
+        self.contentsLayout.setAlignment(self.groupBox_2, QtCore.Qt.AlignTop)
+        self.contentsLayout.setAlignment(self.groupBox_3, QtCore.Qt.AlignTop)
+        self.contentsLayout.setAlignment(self.groupBox_4, QtCore.Qt.AlignTop)
 
         self.log = logging.getLogger('AssociateForm')
         self.setup_fields()

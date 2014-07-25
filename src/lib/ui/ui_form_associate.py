@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/form_associate.ui'
 #
-# Created: Thu Jul 24 12:54:31 2014
+# Created: Fri Jul 25 16:17:55 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -14,12 +14,12 @@ class Ui_AssociateForm(object):
         AssociateForm.setObjectName("AssociateForm")
         AssociateForm.resize(766, 617)
         AssociateForm.setWidgetResizable(True)
-        self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -271, 751, 886))
-        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.verticalLayout = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.groupBox = QtGui.QGroupBox(self.scrollAreaWidgetContents)
+        self.FormContents = QtGui.QWidget()
+        self.FormContents.setGeometry(QtCore.QRect(0, -271, 751, 886))
+        self.FormContents.setObjectName("FormContents")
+        self.contentsLayout = QtGui.QVBoxLayout(self.FormContents)
+        self.contentsLayout.setObjectName("contentsLayout")
+        self.groupBox = QtGui.QGroupBox(self.FormContents)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -93,8 +93,8 @@ class Ui_AssociateForm(object):
         self.label_2 = QtGui.QLabel(self.groupBox)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 1, 0, 1, 1)
-        self.verticalLayout.addWidget(self.groupBox)
-        self.groupBox_2 = QtGui.QGroupBox(self.scrollAreaWidgetContents)
+        self.contentsLayout.addWidget(self.groupBox)
+        self.groupBox_2 = QtGui.QGroupBox(self.FormContents)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -184,8 +184,8 @@ class Ui_AssociateForm(object):
         self.edCEP = QtGui.QLineEdit(self.groupBox_2)
         self.edCEP.setObjectName("edCEP")
         self.gridLayout_2.addWidget(self.edCEP, 4, 1, 1, 1)
-        self.verticalLayout.addWidget(self.groupBox_2)
-        self.groupBox_3 = QtGui.QGroupBox(self.scrollAreaWidgetContents)
+        self.contentsLayout.addWidget(self.groupBox_2)
+        self.groupBox_3 = QtGui.QGroupBox(self.FormContents)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -236,8 +236,8 @@ class Ui_AssociateForm(object):
         self.edPhonePriv.setPlaceholderText("")
         self.edPhonePriv.setObjectName("edPhonePriv")
         self.gridLayout_3.addWidget(self.edPhonePriv, 2, 1, 1, 1)
-        self.verticalLayout.addWidget(self.groupBox_3)
-        self.groupBox_4 = QtGui.QGroupBox(self.scrollAreaWidgetContents)
+        self.contentsLayout.addWidget(self.groupBox_3)
+        self.groupBox_4 = QtGui.QGroupBox(self.FormContents)
         self.groupBox_4.setStyleSheet(" QGroupBox {\n"
 "     font-weight: bold;\n"
 "     border: 2px solid gray;\n"
@@ -276,8 +276,8 @@ class Ui_AssociateForm(object):
         self.tableActivities.setColumnCount(0)
         self.tableActivities.setRowCount(0)
         self.gridLayout_4.addWidget(self.tableActivities, 1, 0, 1, 3)
-        self.verticalLayout.addWidget(self.groupBox_4)
-        AssociateForm.setWidget(self.scrollAreaWidgetContents)
+        self.contentsLayout.addWidget(self.groupBox_4)
+        AssociateForm.setWidget(self.FormContents)
 
         self.retranslateUi(AssociateForm)
         self.comboProvince.setCurrentIndex(24)
@@ -364,6 +364,7 @@ class Ui_AssociateForm(object):
         self.label_14.setText(QtGui.QApplication.translate("AssociateForm", "Celular:", None, QtGui.QApplication.UnicodeUTF8))
         self.edPhonePriv.setToolTip(QtGui.QApplication.translate("AssociateForm", "DDD + Número", None, QtGui.QApplication.UnicodeUTF8))
         self.edPhonePriv.setInputMask(QtGui.QApplication.translate("AssociateForm", "(DD)99999-9999;_", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_4.setToolTip(QtGui.QApplication.translate("AssociateForm", "Atividades", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_4.setTitle(QtGui.QApplication.translate("AssociateForm", "Atividades na casa", None, QtGui.QApplication.UnicodeUTF8))
         self.btnAddActivity.setText(QtGui.QApplication.translate("AssociateForm", "Adicionar", None, QtGui.QApplication.UnicodeUTF8))
         self.btnCleanActivities.setText(QtGui.QApplication.translate("AssociateForm", "Limpar", None, QtGui.QApplication.UnicodeUTF8))
