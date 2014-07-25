@@ -18,3 +18,18 @@ def check_access(access_level, target):
     except ValueError:
         # target not in permission table (will happen to some stuff I don't want to control)
         return True
+
+def iterate_model(model):
+    # returns records associated with a QSqlTableModel or QSqlQueryModel
+    record_list = []
+    i = 0
+    while 1:
+        record = model.record(i)
+        if record.value(0):
+            # valid record
+            record_list.append(record)
+        else:
+            # reached an invalid/empty record
+            break
+        i += 1
+    return record_list

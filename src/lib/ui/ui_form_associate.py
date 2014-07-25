@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/form_associate.ui'
 #
-# Created: Thu Jul 17 14:06:04 2014
+# Created: Thu Jul 24 12:54:31 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -231,11 +231,11 @@ class Ui_AssociateForm(object):
         self.label_14 = QtGui.QLabel(self.groupBox_3)
         self.label_14.setObjectName("label_14")
         self.gridLayout_3.addWidget(self.label_14, 2, 0, 1, 1)
-        self.edPhoneCell = QtGui.QLineEdit(self.groupBox_3)
-        self.edPhoneCell.setInputMethodHints(QtCore.Qt.ImhDigitsOnly)
-        self.edPhoneCell.setPlaceholderText("")
-        self.edPhoneCell.setObjectName("edPhoneCell")
-        self.gridLayout_3.addWidget(self.edPhoneCell, 2, 1, 1, 1)
+        self.edPhonePriv = QtGui.QLineEdit(self.groupBox_3)
+        self.edPhonePriv.setInputMethodHints(QtCore.Qt.ImhDigitsOnly)
+        self.edPhonePriv.setPlaceholderText("")
+        self.edPhonePriv.setObjectName("edPhonePriv")
+        self.gridLayout_3.addWidget(self.edPhonePriv, 2, 1, 1, 1)
         self.verticalLayout.addWidget(self.groupBox_3)
         self.groupBox_4 = QtGui.QGroupBox(self.scrollAreaWidgetContents)
         self.groupBox_4.setStyleSheet(" QGroupBox {\n"
@@ -295,8 +295,8 @@ class Ui_AssociateForm(object):
         AssociateForm.setTabOrder(self.edCity, self.edCEP)
         AssociateForm.setTabOrder(self.edCEP, self.edPhoneRes)
         AssociateForm.setTabOrder(self.edPhoneRes, self.edPhoneCom)
-        AssociateForm.setTabOrder(self.edPhoneCom, self.edPhoneCell)
-        AssociateForm.setTabOrder(self.edPhoneCell, self.btnAddActivity)
+        AssociateForm.setTabOrder(self.edPhoneCom, self.edPhonePriv)
+        AssociateForm.setTabOrder(self.edPhonePriv, self.btnAddActivity)
         AssociateForm.setTabOrder(self.btnAddActivity, self.btnCleanActivities)
         AssociateForm.setTabOrder(self.btnCleanActivities, self.tableActivities)
 
@@ -362,8 +362,8 @@ class Ui_AssociateForm(object):
         self.edPhoneCom.setToolTip(QtGui.QApplication.translate("AssociateForm", "DDD + Número", None, QtGui.QApplication.UnicodeUTF8))
         self.edPhoneCom.setInputMask(QtGui.QApplication.translate("AssociateForm", "(DD)9999-9999;_", None, QtGui.QApplication.UnicodeUTF8))
         self.label_14.setText(QtGui.QApplication.translate("AssociateForm", "Celular:", None, QtGui.QApplication.UnicodeUTF8))
-        self.edPhoneCell.setToolTip(QtGui.QApplication.translate("AssociateForm", "DDD + Número", None, QtGui.QApplication.UnicodeUTF8))
-        self.edPhoneCell.setInputMask(QtGui.QApplication.translate("AssociateForm", "(DD)99999-9999;_", None, QtGui.QApplication.UnicodeUTF8))
+        self.edPhonePriv.setToolTip(QtGui.QApplication.translate("AssociateForm", "DDD + Número", None, QtGui.QApplication.UnicodeUTF8))
+        self.edPhonePriv.setInputMask(QtGui.QApplication.translate("AssociateForm", "(DD)99999-9999;_", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_4.setTitle(QtGui.QApplication.translate("AssociateForm", "Atividades na casa", None, QtGui.QApplication.UnicodeUTF8))
         self.btnAddActivity.setText(QtGui.QApplication.translate("AssociateForm", "Adicionar", None, QtGui.QApplication.UnicodeUTF8))
         self.btnCleanActivities.setText(QtGui.QApplication.translate("AssociateForm", "Limpar", None, QtGui.QApplication.UnicodeUTF8))

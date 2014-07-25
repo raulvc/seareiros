@@ -14,21 +14,22 @@ from src.lib.validators import UppercaseValidator, EmailValidator, AlphaNumericV
 from src.lib.db_util import Db_Instance
 from src.dialogs.select_activity import ActivitySelectDialog
 
-logger = logging.getLogger('add_associate')
+logger = logging.getLogger('edit_associate')
 
-class AssociateAddForm(QScrollArea, Ui_AssociateForm):
-    """ Interface for associate input """
+class AssociateEditForm(QScrollArea, Ui_AssociateForm):
+    """ Interface for associate edit """
 
     column = {
-            'fullname':1, 'nickname':2, 'rg':3, 'cpf':4, 'maritalstatus':5, 'email':6, 'streetaddress':7,
-            'complement':8, 'district':9, 'province':10, 'city':11, 'cep':12,
-            'phoneres':13, 'phonecom':14, 'phonepriv':15 }
+            'id':0, 'fullname':1, 'nickname':2, 'rg':3, 'cpf':4, 'maritalstatus':5, 'email':6, 'streetaddress':7,
+            'complement':8, 'district':9, 'province':10, 'city':11, 'cep':12, 'phoneres':13, 'phonecom':14,
+            'phonepriv':15 }
 
-    def __init__(self, parent=None, record_id=None):
-        super(AssociateAddForm, self).__init__(parent)
+    def __init__(self, record_id, parent=None):
+        super(AssociateEditForm, self).__init__(parent)
         self.setupUi(self)
 
         self._access = statics.access_level
+        self._record_id = record_id
 
         # had to hardcode these, wouldn't work otherwise:
         self.verticalLayout.setAlignment(self.groupBox, QtCore.Qt.AlignTop)
@@ -36,12 +37,18 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
         self.verticalLayout.setAlignment(self.groupBox_3, QtCore.Qt.AlignTop)
         self.verticalLayout.setAlignment(self.groupBox_4, QtCore.Qt.AlignTop)
 
-        self.log = logging.getLogger('AssociateForm')
-        self.setup_fields()
+        self.log = logging.getLogger('AssociateEditForm')
 
         self._activity_list = []
+        self._edit_mode = False
 
+        self._removed_activities = []
+        self._added_activities = []
         self.setup_model()
+
+        self.fill_form()
+        self._old_data = self.extract_input()
+        self.setup_fields()
 
         # flag to indicate whether there were changes to the fields
         self._dirty = False
@@ -65,6 +72,8 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
         for comboBox in comboBoxList:
             comboBox.activated.connect(comboBox.focusNextChild)
 
+        # TODO: new fields specific to editing
+
     def fill_form(self):
         # retrieving associate info
         self.edFullName.setText(self._record.value(1))
@@ -85,13 +94,42 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
         # retrieving associate activities
         for act_record in self._activity_records:
             self.add_activity(act_record)
+        # clearing changes
+        self._added_activities[:] = []
         self.refresh_tableActivities()
 
     def check_changes(self, txt):
-        if txt != '':
+        # getting sender info
+        sender = self.sender().objectName().split('ed')[1].lower()
+        if self._old_data[sender] != txt:
             self._dirty = True
 
-    def setup_model(self, id=None):
+    def check_activities_changes(self):
+        if self._added_activities and self._removed_activities:
+            return False
+        else:
+            return True
+
+    def extract_input(self):
+        data = {}
+        data['fullname'] = self.edFullName.text()
+        data['nickname'] = self.edNickname.text()
+        data['rg'] = self.edRG.text()
+        data['cpf'] = self.remove_mask_when_empty(self.edCPF.text())
+        data['maritalstatus'] = self.comboMaritalStatus.currentIndex()
+        data['email'] = self.edEmail.text()
+        data['streetaddress'] = self.edStreet.text()
+        data['complement'] = self.edComplement.text()
+        data['district'] = self.edDistrict.text()
+        data['province'] = self.comboProvince.currentIndex()
+        data['city'] = self.edCity.text()
+        data['cep'] = self.remove_mask_when_empty(self.edCEP.text())
+        data['phoneres'] = self.remove_mask_when_empty(self.edPhoneRes.text())
+        data['phonecom'] = self.remove_mask_when_empty(self.edPhoneCom.text())
+        data['phonepriv'] = self.remove_mask_when_empty(self.edPhonePriv.text())
+        return data
+
+    def setup_model(self):
         db = Db_Instance("form_associate").get_instance()
         if not db.open():
             self.log.error(db.lastError().text())
@@ -102,51 +140,65 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
             self._model.setTable("associate")
             self._act_model = QSqlRelationalTableModel(self, db=db)
             self._act_model.setTable("associate_in_activity")
+            # TODO: Maybe I should validate these
+            # associate
+            ok = self._model.setFilter("id = " + str(self._record_id))
+            self._model.select()
+            self._record = self._model.record(0)
+            # activities
+            self._activity_records = []
+            sql_statement = """SELECT id, description, room, weekday, weektime FROM activity a,
+                               associate_in_activity a_a WHERE
+                               a.id = a_a.id_activity AND a_a.id_associate = %s
+                            """ % str(self._record_id)
+            model_activities = QSqlQueryModel()
+            model_activities.setQuery(sql_statement, db)
+            # checking query validity
+            if not model_activities.lastError().isValid():
+                self._activity_records = iterate_model(model_activities)
 
-    def submit_data(self):
-        self._model.insertRow(0)
+    def update_data(self):
         data = self.extract_input()
         for key,val in data.items():
             self._model.setData(self._model.index(0, self.column[key]), val)
-        # try to commit a record
+        # try to commit changes
         if not self._model.submitAll():
             self.log.error(self._model.lastError().text())
             message = unicode("Erro de transação\n\n""Não foi possível salvar no banco de dados".decode('utf-8'))
             QMessageBox.critical(self, "Seareiros - Cadastro de Atividade", message)
             return False
         else:
-            # successfully added an associate, adding it's activities
-            activities = self.extract_activities_input()
+            # updating activities
             error = False
-            if len(activities) > 0:
-                associate_id = self.get_added_record().value("id")
-                for id in activities:
-                    self._act_model.insertRow(0)
-                    self._act_model.setData(self._act_model.index(0, 0), associate_id)
-                    self._act_model.setData(self._act_model.index(0, 1), id)
-                    ok = self._act_model.submitAll()
-                    if not ok:
-                        error = True
-                        self.log.error(self._act_model.lastError().text())
+            for added_id in self._added_activities:
+                self._act_model.insertRow(0)
+                self._act_model.setData(self._act_model.index(0, 0), self._record_id)
+                self._act_model.setData(self._act_model.index(0, 1), added_id)
+                ok = self._act_model.submitAll()
+                if not ok:
+                    error = True
+                    self.log.error(self._act_model.lastError().text())
+                    break
+                    # TODO: raise some kind of exception here
+            for removed_id in self._removed_activities:
+                self._act_model.setFilter("id_associate = %s AND id_activity = %s" % (str(self._record_id), str(removed_id)))
+                self._act_model.select()
+                items = iterate_model(self._act_model)
+                print items
+                self._act_model.removeRow(0)
+                ok = self._act_model.submitAll()
+                if not ok:
+                    error = True
+                    self.log.error(self._act_model.lastError().text())
+                    break
             if not error:
                 message = unicode("Sucesso!\n\n""O associado foi salvo com êxito no banco de dados".decode('utf-8'))
-                QMessageBox.information(self, "Seareiros - Cadastro de Associado", message)
+                QMessageBox.information(self, unicode("Seareiros - Edição de Associado".decode('utf-8')), message)
             else:
-                message = unicode("Erro\n\n""Associado cadastrado, "
+                message = unicode("Erro\n\n""Associado alterado, "
                                   "porém ocorreu um problema ao salvar suas atividades".decode('utf-8'))
-                QMessageBox.warning(self, "Seareiros - Cadastro de Associado", message)
-
+                QMessageBox.warning(self, unicode("Seareiros - Edição de Associado".decode('utf-8')), message)
             return True
-
-    def clear(self):
-        self._dirty = False
-        lineEditList = self.findChildren(QLineEdit)
-        for lineEdit in lineEditList:
-            lineEdit.clear()
-        self.comboMaritalStatus.setCurrentIndex(0)
-        self.comboProvince.setCurrentIndex(24)
-        self.clear_table()
-        self.edFullName.setFocus()
 
     @QtCore.Slot()
     def on_btnAddActivity_clicked(self):
@@ -162,9 +214,11 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
         self.clear_table()
 
     def clear_table(self):
-        self._activity_list = []
-        self.tableActivities.clear()
-        self.refresh_tableActivities()
+        # can't directly change activity_list here
+        itens = [i for i in self._activity_list]
+        for item in itens:
+            self.remove_activity(item)
+        self._added_activities[:] = []
 
     def refresh_tableActivities(self):
         if len(self._activity_list) > 0:
@@ -192,6 +246,7 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
 
     def is_in_del_queue(self, record):
         return record in self._removed_activities
+
     def is_in_add_queue(self, record):
         return record in self._added_activities
 
@@ -213,6 +268,13 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
         if entry in self._activity_list:
             return False
         else:
+            if self.is_in_del_queue(id):
+                # no real need to add as it was queued to be removed
+                self._removed_activities.remove(id)
+            else:
+                self._added_activities.append(id)
+            # print self._added_activities
+
             self._activity_list.append(entry)
             # sorts by day/time
             self._activity_list.sort(key=operator.itemgetter(3,4))
@@ -222,26 +284,13 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
     def remove_activity(self, activity):
         # remove a row based on its value
         self._activity_list.remove(activity)
+        id = activity[0]
+        if self.is_in_add_queue(id):
+            # unqueue previously added activity
+            self._added_activities.remove(id)
+        else:
+            self._removed_activities.append(id)
         self.refresh_tableActivities()
-
-    def extract_input(self):
-        data = {}
-        data['fullname'] = self.edFullName.text()
-        data['nickname'] = self.edNickname.text()
-        data['rg'] = self.edRG.text()
-        data['cpf'] = self.remove_mask_when_empty(self.edCPF.text())
-        data['maritalstatus'] = self.comboMaritalStatus.currentIndex()
-        data['email'] = self.edEmail.text()
-        data['streetaddress'] = self.edStreet.text()
-        data['complement'] = self.edComplement.text()
-        data['district'] = self.edDistrict.text()
-        data['province'] = self.comboProvince.currentIndex()
-        data['city'] = self.edCity.text()
-        data['cep'] = self.remove_mask_when_empty(self.edCEP.text())
-        data['phoneres'] = self.remove_mask_when_empty(self.edPhoneRes.text())
-        data['phonecom'] = self.remove_mask_when_empty(self.edPhoneCom.text())
-        data['phonepriv'] = self.remove_mask_when_empty(self.edPhonePriv.text())
-        return data
 
     def remove_mask_when_empty(self, text):
         """ I don't want to save a mask when there's no user input """
@@ -249,46 +298,3 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
             return ''
         else:
             return text
-
-    def extract_activities_input(self):
-        # grab id of selected activities
-        activity_id_list = []
-        for act in self._activity_list:
-            activity_id_list.append(act[0])
-        return activity_id_list
-
-    def get_added_record(self):
-        """ My workaround to get the last inserted id without any postgres specific queries """
-        db = Db_Instance("add_associate_last_id").get_instance()
-        if not db.open():
-            return None
-        else:
-            query = QSqlQuery(db)
-            query.prepare("SELECT * FROM associate WHERE fullname = :fullname")
-            query.bindValue(":fullname", self.edFullName.text())
-            query.exec_()
-            if query.next():
-                return query.record()
-            else:
-                return None
-
-    # def toggle_visibility(self, visible):
-    #     actionAddAssociate = self.parent().parent().actionAddAssociate
-    #     if visible:
-    #         actionAddAssociate.setEnabled(False)
-    #         self.edFullName.setFocus()
-    #     else:
-    #         actionAddAssociate.setEnabled(True)
-    #
-    # def closeEvent(self, event):
-    #     if self._dirty:
-    #         message = unicode("Deseja mesmo sair?\n\nDados não salvos serão perdidos".decode('utf-8'))
-    #         reply = QMessageBox.question(self, 'Seareiros', message, QMessageBox.Yes, QMessageBox.No)
-    #         if reply != QMessageBox.Yes:
-    #             event.ignore()
-    #             # return
-    #     self.toggle_visibility(False)
-    #     grandparent = self.parent().parent()
-    #     grandparent.remove_instance(self)
-    #     event.accept()
-

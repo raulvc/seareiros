@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 from PySide import QtCore
 from PySide.QtCore import Signal
-from PySide.QtGui import QMainWindow, QStackedWidget, QLabel, QMessageBox, QAction
+from PySide.QtGui import QMainWindow, QStackedWidget, QLabel, QMessageBox, QAction, QMenu
 
 from src.docks.dock_add_activity import AddActivityDock
 from src.docks.dock_add_associate import AddAssociateDock
@@ -49,7 +49,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         statics.access_level = access_level
         # set availability for QAction objects
         for action in self.findChildren(QAction):
-             action.setEnabled(check_access(access_level, action.objectName()))
+             action.setVisible(check_access(access_level, action.objectName()))
+        for menu in self.findChildren(QMenu):
+            if menu.isEmpty():
+                # no visible actions under this menu
+                menu.menuAction().setVisible(False)
 
     @QtCore.Slot()
     def on_actionExit_activated(self):

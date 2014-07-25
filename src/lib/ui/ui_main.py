@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/main.ui'
 #
-# Created: Thu Jul 17 14:06:03 2014
+# Created: Thu Jul 24 12:54:30 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -28,10 +28,10 @@ class Ui_MainWindow(object):
         self.menubar.setObjectName("menubar")
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
-        self.menuRegisters = QtGui.QMenu(self.menubar)
-        self.menuRegisters.setObjectName("menuRegisters")
-        self.menuSales = QtGui.QMenu(self.menubar)
-        self.menuSales.setObjectName("menuSales")
+        self.menuAdd = QtGui.QMenu(self.menubar)
+        self.menuAdd.setObjectName("menuAdd")
+        self.menuOrder = QtGui.QMenu(self.menubar)
+        self.menuOrder.setObjectName("menuOrder")
         self.menuReports = QtGui.QMenu(self.menubar)
         self.menuReports.setObjectName("menuReports")
         self.menuHelp = QtGui.QMenu(self.menubar)
@@ -151,13 +151,13 @@ class Ui_MainWindow(object):
         self.actionAddActivity.setIconVisibleInMenu(True)
         self.actionAddActivity.setObjectName("actionAddActivity")
         self.menuFile.addAction(self.actionExit)
-        self.menuRegisters.addAction(self.actionAddAssociate)
-        self.menuRegisters.addAction(self.actionAddActivity)
-        self.menuRegisters.addAction(self.actionAddBook)
-        self.menuRegisters.addAction(self.actionAddProduct)
-        self.menuSales.addAction(self.actionSellBook)
-        self.menuSales.addAction(self.actionSellProduct)
-        self.menuSales.addAction(self.actionSellEvent)
+        self.menuAdd.addAction(self.actionAddAssociate)
+        self.menuAdd.addAction(self.actionAddActivity)
+        self.menuAdd.addAction(self.actionAddBook)
+        self.menuAdd.addAction(self.actionAddProduct)
+        self.menuOrder.addAction(self.actionSellBook)
+        self.menuOrder.addAction(self.actionSellProduct)
+        self.menuOrder.addAction(self.actionSellEvent)
         self.menuReports.addAction(self.actionRepSales)
         self.menuReports.addAction(self.actionRepBook)
         self.menuReports.addAction(self.actionRepProduct)
@@ -170,8 +170,8 @@ class Ui_MainWindow(object):
         self.menuEdit.addAction(self.actionPreferences)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
-        self.menubar.addAction(self.menuRegisters.menuAction())
-        self.menubar.addAction(self.menuSales.menuAction())
+        self.menubar.addAction(self.menuAdd.menuAction())
+        self.menubar.addAction(self.menuOrder.menuAction())
         self.menubar.addAction(self.menuLibrary.menuAction())
         self.menubar.addAction(self.menuReports.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
@@ -188,8 +188,8 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Seareiros", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "&Arquivo", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuRegisters.setTitle(QtGui.QApplication.translate("MainWindow", "&Cadastros", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuSales.setTitle(QtGui.QApplication.translate("MainWindow", "&Vendas", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuAdd.setTitle(QtGui.QApplication.translate("MainWindow", "&Cadastros", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuOrder.setTitle(QtGui.QApplication.translate("MainWindow", "&Vendas", None, QtGui.QApplication.UnicodeUTF8))
         self.menuReports.setTitle(QtGui.QApplication.translate("MainWindow", "&Relatórios", None, QtGui.QApplication.UnicodeUTF8))
         self.menuHelp.setTitle(QtGui.QApplication.translate("MainWindow", "Ajuda", None, QtGui.QApplication.UnicodeUTF8))
         self.menuLibrary.setTitle(QtGui.QApplication.translate("MainWindow", "&Biblioteca", None, QtGui.QApplication.UnicodeUTF8))

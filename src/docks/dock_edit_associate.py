@@ -2,7 +2,7 @@
 from PySide import QtCore
 from PySide.QtGui import QIcon, QMessageBox
 from src.docks.dock_edit import EditDock
-from src.forms.form_associate import AssociateForm
+from src.forms.edit_associate import AssociateEditForm
 
 
 class EditAssociateDock(EditDock):
@@ -17,7 +17,7 @@ class EditAssociateDock(EditDock):
         self.setup_edit()
 
     def setup_edit(self):
-        self._editForm = AssociateForm(record_id=self._record_id)
+        self._editForm = AssociateEditForm(record_id=self._record_id)
         self._editForm.show()
         self.addPlaceholder.addWidget(self._editForm)
 
@@ -25,7 +25,7 @@ class EditAssociateDock(EditDock):
     def on_btnSave_clicked(self):
         ok = self._editForm.update_data()
         if ok:
-            pass
+            self.close()
 
     @QtCore.Slot()
     def on_btnCancel_clicked(self):

@@ -44,7 +44,7 @@
     </property>
     <addaction name="actionExit"/>
    </widget>
-   <widget class="QMenu" name="menuRegisters">
+   <widget class="QMenu" name="menuAdd">
     <property name="title">
      <string>&amp;Cadastros</string>
     </property>
@@ -53,7 +53,7 @@
     <addaction name="actionAddBook"/>
     <addaction name="actionAddProduct"/>
    </widget>
-   <widget class="QMenu" name="menuSales">
+   <widget class="QMenu" name="menuOrder">
     <property name="title">
      <string>&amp;Vendas</string>
     </property>
@@ -93,8 +93,8 @@
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
-   <addaction name="menuRegisters"/>
-   <addaction name="menuSales"/>
+   <addaction name="menuAdd"/>
+   <addaction name="menuOrder"/>
    <addaction name="menuLibrary"/>
    <addaction name="menuReports"/>
    <addaction name="menuHelp"/>
