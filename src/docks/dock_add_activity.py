@@ -2,7 +2,7 @@
 from PySide import QtCore
 from PySide.QtGui import QIcon
 from src.docks.dock_generic import GenericDock
-from src.forms.form_activity import ActivityForm
+from src.forms.add_activity import ActivityForm
 from src.forms.search_activity import ActivitySearchForm
 
 class AddActivityDock(GenericDock):

@@ -2,7 +2,7 @@
 from PySide import QtCore
 from PySide.QtGui import QStackedWidget, QIcon
 from src.dialogs.select_generic import GenericSelect
-from src.forms.form_activity import ActivityForm
+from src.forms.add_activity import ActivityForm
 from src.forms.search_activity import ActivitySearchForm
 
 class ActivitySelectDialog(GenericSelect):

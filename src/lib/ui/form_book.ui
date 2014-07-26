@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BookForm</class>
+ <widget class="QScrollArea" name="BookForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>730</width>
+    <height>744</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ScrollArea</string>
+  </property>
+  <property name="widgetResizable">
+   <bool>true</bool>
+  </property>
+  <property name="alignment">
+   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+  </property>
+  <widget class="QWidget" name="FormContents">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>728</width>
+     <height>742</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="contentsLayout">
+    <property name="spacing">
+     <number>6</number>
+    </property>
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
+    <property name="topMargin">
+     <number>9</number>
+    </property>
+    <item>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>703</width>
+        <height>500</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string/>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> QGroupBox {
+	 font-weight: bold;
+     border: 2px solid gray;
+     border-radius: 5px;
+     margin-top: 25px;
+ }
+
+ QGroupBox::title {
+	 background-color: transparent;
+     subcontrol-origin: margin;
+	 subcontrol-position: top left;
+ }</string>
+      </property>
+      <property name="title">
+       <string>Dados</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <property name="topMargin">
+        <number>9</number>
+       </property>
+       <item row="6" column="2">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>10</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="label">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>76</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>76</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Título:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" rowspan="3">
+        <widget class="QGraphicsView" name="graphicsView">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>150</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>150</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <property name="lineWidth">
+          <number>2</number>
+         </property>
+         <property name="midLineWidth">
+          <number>0</number>
+         </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="backgroundBrush">
+          <brush brushstyle="NoBrush">
+           <color alpha="255">
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+           </color>
+          </brush>
+         </property>
+         <property name="foregroundBrush">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+           </color>
+          </brush>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3" colspan="6">
+        <widget class="QComboBox" name="comboAuthor">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3" colspan="6">
+        <widget class="QLineEdit" name="edTitle">
+         <property name="inputMethodHints">
+          <set>Qt::ImhUppercaseOnly</set>
+         </property>
+         <property name="placeholderText">
+          <string>Nome da obra</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" colspan="7">
+        <widget class="QLineEdit" name="edBarcode">
+         <property name="placeholderText">
+          <string>Código de barras, se houver</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Editora:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLabel" name="label_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>76</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>76</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Autoria:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3" colspan="6">
+        <widget class="QComboBox" name="comboSAuthor">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>10</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="3" colspan="6">
+        <widget class="QComboBox" name="comboPublisher">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Ano:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="6">
+        <widget class="QLabel" name="label_5">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Preço (R$):</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Código de Barras:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1" colspan="8">
+        <widget class="QTextEdit" name="edDescription"/>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Descrição:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="7">
+        <widget class="QLineEdit" name="edPrice">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>0,00</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="3">
+        <layout class="QVBoxLayout" name="edYearHolder"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="maximumSize">
+       <size>
+        <width>703</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Atividades</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> QGroupBox {
+	 font-weight: bold;
+     border: 2px solid gray;
+     border-radius: 5px;
+     margin-top: 25px;
+ }
+
+ QGroupBox::title {
+	 background-color: transparent;
+     subcontrol-origin: margin;
+	 subcontrol-position: top left;
+ }</string>
+      </property>
+      <property name="title">
+       <string>Temas</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="1" column="0" colspan="6">
+        <widget class="QTableWidget" name="tableSubjects">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>130</height>
+          </size>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QPushButton" name="btnCleanSubjects">
+         <property name="text">
+          <string>Limpar</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../res/icons.qrc">
+           <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="3">
+        <widget class="QComboBox" name="comboSubject">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QPushButton" name="btnAddSubject">
+         <property name="text">
+          <string>Adicionar</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../res/icons.qrc">
+           <normaloff>:/icons/activity_add.png</normaloff>:/icons/activity_add.png</iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>edBarcode</tabstop>
+  <tabstop>edTitle</tabstop>
+  <tabstop>comboAuthor</tabstop>
+  <tabstop>comboSAuthor</tabstop>
+  <tabstop>comboPublisher</tabstop>
+  <tabstop>edPrice</tabstop>
+  <tabstop>edDescription</tabstop>
+  <tabstop>comboSubject</tabstop>
+  <tabstop>btnAddSubject</tabstop>
+  <tabstop>tableSubjects</tabstop>
+  <tabstop>btnCleanSubjects</tabstop>
+  <tabstop>graphicsView</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../../../res/icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>

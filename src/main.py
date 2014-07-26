@@ -5,6 +5,7 @@ from PySide.QtGui import QMainWindow, QStackedWidget, QLabel, QMessageBox, QActi
 
 from src.docks.dock_add_activity import AddActivityDock
 from src.docks.dock_add_associate import AddAssociateDock
+from src.docks.dock_add_book import AddBookDock
 from src.docks.overview import OverviewDock
 from src.docks.pendencies import PendenciesDock
 from src.lib import statics
@@ -59,9 +60,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionExit_activated(self):
         self.close()
 
-    # @QtCore.Slot()
-    # def on_actionAddBook_activated(self):
-    #     self.show_on_top(AddBookDock, self.actionAddBook)
+    @QtCore.Slot()
+    def on_actionAddBook_activated(self):
+        self.show_on_top(AddBookDock, self.actionAddBook)
 
     @QtCore.Slot()
     def on_actionAddAssociate_activated(self):

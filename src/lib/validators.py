@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-
 from PySide.QtCore import QRegExp
 from PySide.QtGui import QValidator
 
@@ -46,6 +45,33 @@ class AlphaNumericValidator(QValidator):
 
     def validate(self, input, pos):
         if self.regex.exactMatch(input):
+            return QValidator.Acceptable, input, pos
+        else:
+            return QValidator.Invalid
+
+class NumericValidator(QValidator):
+    """
+        Forces numbers on input (where I can't use an QIntegerValidator due to maxlength)
+    """
+
+    def __init__(self, parent=None):
+        super(NumericValidator, self).__init__(parent)
+        self.regex = QRegExp("[0-9_]*")
+
+    def validate(self, input, pos):
+        if self.regex.exactMatch(input):
+            return QValidator.Acceptable, input, pos
+        else:
+            return QValidator.Invalid
+
+class CurrencyValidator(QValidator):
+    def __init__(self, parent=None):
+        super(CurrencyValidator, self).__init__(parent)
+        self.regex = QRegExp("[0-9]{1,4}[,][0-9]{1,2}")
+
+    def validate(self, input, pos):
+        if self.regex.exactMatch(input):
+            # input = input.replace(input, QLocale.toCurrencyString(input))
             return QValidator.Acceptable, input, pos
         else:
             return QValidator.Invalid

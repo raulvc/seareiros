@@ -63,11 +63,16 @@ CREATE TABLE book (
 	title text NOT NULL,
 	author_id integer REFERENCES author(id),
 	s_author_id integer REFERENCES s_author(id),
-	subject integer REFERENCES subject(id),
 	description text,
 	price money DEFAULT 0,
 	stock integer DEFAULT 0,
-	barcode text
+	barcode text UNIQUE
+);
+
+CREATE TABLE book_in_subject(
+	book_id integer REFERENCES book(id),
+	subject_id integer REFERENCES subject(id),
+	CONSTRAINT book_in_subject_pkey PRIMARY KEY (book_id, subject_id)
 );
 
 CREATE TABLE history (

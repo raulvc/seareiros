@@ -1,6 +1,8 @@
 '''
     Some general useful stuff I couldn't really categorize
 '''
+from PySide.QtCore import Qt
+from PySide.QtGui import QSpinBox
 from src.lib.constants import access_table
 
 def bin(s):
@@ -33,3 +35,12 @@ def iterate_model(model):
             break
         i += 1
     return record_list
+
+class YearSpinBox(QSpinBox):
+    def __init__(self, parent=None):
+        super(YearSpinBox, self).__init__(parent)
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Return:
+            self.focusNextChild()
+        else:
+            super(YearSpinBox, self).keyPressEvent(event)

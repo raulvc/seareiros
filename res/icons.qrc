@@ -24,5 +24,6 @@
      <file>icons/pending.png</file>
      <file>icons/loading.gif</file>
      <file>icons/save.png</file>
+     <file>icons/no_image.png</file>
  </qresource>
  </RCC>

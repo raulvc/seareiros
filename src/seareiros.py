@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 from PySide import QtCore
+from PySide.QtCore import QLocale
 
 from PySide.QtGui import QApplication, QDialog
 
@@ -18,6 +19,9 @@ def main():
 
     # application specifics
     app = QApplication(sys.argv)
+
+    # TODO: remove this, hardcoding it for testing
+    QLocale.setDefault(QLocale(QLocale.Portuguese, QLocale.Brazil))
 
     # login dialog
     login_dialog = Login()

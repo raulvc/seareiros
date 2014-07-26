@@ -3,13 +3,12 @@ from functools import partial
 import logging
 from PySide import QtCore
 from PySide.QtGui import QMessageBox, QLineEdit, QComboBox, QScrollArea, QDialog, QTableWidgetItem, QPushButton, QIcon
-from PySide.QtSql import QSqlRelationalTableModel, QSqlQuery, QSqlQueryModel
+from PySide.QtSql import QSqlRelationalTableModel, QSqlQuery
 import operator
 from src.lib import constants
 from src.lib import statics
 from src.lib.table_util import WeekdayTableWidgetItem
 from src.lib.ui.ui_form_associate import Ui_AssociateForm
-from src.lib.util import iterate_model
 from src.lib.validators import UppercaseValidator, EmailValidator, AlphaNumericValidator
 from src.lib.db_util import Db_Instance
 from src.dialogs.select_activity import ActivitySelectDialog
@@ -24,7 +23,7 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
             'complement':8, 'district':9, 'province':10, 'city':11, 'cep':12,
             'phoneres':13, 'phonecom':14, 'phonepriv':15 }
 
-    def __init__(self, parent=None, record_id=None):
+    def __init__(self, parent=None):
         super(AssociateAddForm, self).__init__(parent)
         self.setupUi(self)
 
@@ -65,33 +64,11 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
         for comboBox in comboBoxList:
             comboBox.activated.connect(comboBox.focusNextChild)
 
-    def fill_form(self):
-        # retrieving associate info
-        self.edFullName.setText(self._record.value(1))
-        self.edNickname.setText(self._record.value(2))
-        self.edRG.setText(self._record.value(3))
-        self.edCPF.setText(self._record.value(4))
-        self.comboMaritalStatus.setCurrentIndex(self._record.value(5))
-        self.edEmail.setText(self._record.value(6))
-        self.edStreet.setText(self._record.value(7))
-        self.edComplement.setText(self._record.value(8))
-        self.edDistrict.setText(self._record.value(9))
-        self.comboProvince.setCurrentIndex(self._record.value(10))
-        self.edCity.setText(self._record.value(11))
-        self.edCEP.setText(self._record.value(12))
-        self.edPhoneRes.setText(self._record.value(13))
-        self.edPhoneCom.setText(self._record.value(14))
-        self.edPhonePriv.setText(self._record.value(15))
-        # retrieving associate activities
-        for act_record in self._activity_records:
-            self.add_activity(act_record)
-        self.refresh_tableActivities()
-
     def check_changes(self, txt):
         if txt != '':
             self._dirty = True
 
-    def setup_model(self, id=None):
+    def setup_model(self):
         db = Db_Instance("form_associate").get_instance()
         if not db.open():
             self.log.error(db.lastError().text())
@@ -189,11 +166,6 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
             remove_btn.clicked.connect(partial(self.remove_activity, activity=row))
             self.tableActivities.setCellWidget(i, len(row), remove_btn)
         self.tableActivities.resizeColumnsToContents()
-
-    def is_in_del_queue(self, record):
-        return record in self._removed_activities
-    def is_in_add_queue(self, record):
-        return record in self._added_activities
 
     def add_activity(self, record):
         """ adds an activity to the list except for duplicates """
