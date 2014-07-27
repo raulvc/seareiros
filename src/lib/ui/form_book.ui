@@ -94,6 +94,13 @@
        <property name="topMargin">
         <number>9</number>
        </property>
+       <item row="2" column="3" colspan="4">
+        <widget class="QLineEdit" name="edAuthor">
+         <property name="placeholderText">
+          <string>Autor encarnado</string>
+         </property>
+        </widget>
+       </item>
        <item row="6" column="2">
         <spacer name="verticalSpacer">
          <property name="orientation">
@@ -135,66 +142,17 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0" rowspan="3">
-        <widget class="QGraphicsView" name="graphicsView">
-         <property name="minimumSize">
-          <size>
-           <width>150</width>
-           <height>150</height>
-          </size>
+       <item row="1" column="0" rowspan="5">
+        <widget class="QLabel" name="edImage">
+         <property name="text">
+          <string/>
          </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>150</height>
-          </size>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <property name="lineWidth">
-          <number>2</number>
-         </property>
-         <property name="midLineWidth">
-          <number>0</number>
-         </property>
-         <property name="verticalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-         <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-         <property name="backgroundBrush">
-          <brush brushstyle="NoBrush">
-           <color alpha="255">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
-           </color>
-          </brush>
-         </property>
-         <property name="foregroundBrush">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
-           </color>
-          </brush>
+         <property name="pixmap">
+          <pixmap resource="../../../res/icons.qrc">:/icons/no_image.png</pixmap>
          </property>
         </widget>
        </item>
-       <item row="2" column="3" colspan="6">
-        <widget class="QComboBox" name="comboAuthor">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3" colspan="6">
+       <item row="1" column="3" colspan="4">
         <widget class="QLineEdit" name="edTitle">
          <property name="inputMethodHints">
           <set>Qt::ImhUppercaseOnly</set>
@@ -204,7 +162,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="2" colspan="7">
+       <item row="0" column="2" colspan="5">
         <widget class="QLineEdit" name="edBarcode">
          <property name="placeholderText">
           <string>Código de barras, se houver</string>
@@ -243,13 +201,6 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="3" colspan="6">
-        <widget class="QComboBox" name="comboSAuthor">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="1">
         <spacer name="horizontalSpacer_2">
          <property name="orientation">
@@ -266,13 +217,6 @@
          </property>
         </spacer>
        </item>
-       <item row="4" column="3" colspan="6">
-        <widget class="QComboBox" name="comboPublisher">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
        <item row="5" column="2">
         <widget class="QLabel" name="label_4">
          <property name="text">
@@ -280,7 +224,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="6">
+       <item row="5" column="4">
         <widget class="QLabel" name="label_5">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -300,17 +244,17 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="1" colspan="8">
-        <widget class="QTextEdit" name="edDescription"/>
-       </item>
        <item row="7" column="0">
         <widget class="QLabel" name="label_7">
          <property name="text">
           <string>Descrição:</string>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+         </property>
         </widget>
        </item>
-       <item row="5" column="7">
+       <item row="5" column="5">
         <widget class="QLineEdit" name="edPrice">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -337,6 +281,23 @@
        </item>
        <item row="5" column="3">
         <layout class="QVBoxLayout" name="edYearHolder"/>
+       </item>
+       <item row="3" column="3" colspan="4">
+        <widget class="QLineEdit" name="edSAuthor">
+         <property name="placeholderText">
+          <string>Autor espírito (se houver)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3" colspan="4">
+        <widget class="QLineEdit" name="edPublisher">
+         <property name="placeholderText">
+          <string>Nome da Editora</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="2" colspan="5">
+        <widget class="QPlainTextEdit" name="edDescription"/>
        </item>
       </layout>
      </widget>
@@ -370,7 +331,7 @@
        <string>Temas</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="1" column="0" colspan="6">
+       <item row="1" column="0" colspan="4">
         <widget class="QTableWidget" name="tableSubjects">
          <property name="minimumSize">
           <size>
@@ -392,7 +353,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="5">
+       <item row="0" column="3">
         <widget class="QPushButton" name="btnCleanSubjects">
          <property name="text">
           <string>Limpar</string>
@@ -403,14 +364,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0" colspan="3">
-        <widget class="QComboBox" name="comboSubject">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
+       <item row="0" column="1">
         <widget class="QPushButton" name="btnAddSubject">
          <property name="text">
           <string>Adicionar</string>
@@ -418,6 +372,13 @@
          <property name="icon">
           <iconset resource="../../../res/icons.qrc">
            <normaloff>:/icons/activity_add.png</normaloff>:/icons/activity_add.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLineEdit" name="edSubject">
+         <property name="placeholderText">
+          <string>Assuntos relacionados ao livro</string>
          </property>
         </widget>
        </item>
@@ -430,16 +391,14 @@
  <tabstops>
   <tabstop>edBarcode</tabstop>
   <tabstop>edTitle</tabstop>
-  <tabstop>comboAuthor</tabstop>
-  <tabstop>comboSAuthor</tabstop>
-  <tabstop>comboPublisher</tabstop>
+  <tabstop>edAuthor</tabstop>
+  <tabstop>edSAuthor</tabstop>
+  <tabstop>edPublisher</tabstop>
   <tabstop>edPrice</tabstop>
-  <tabstop>edDescription</tabstop>
-  <tabstop>comboSubject</tabstop>
+  <tabstop>edSubject</tabstop>
   <tabstop>btnAddSubject</tabstop>
-  <tabstop>tableSubjects</tabstop>
   <tabstop>btnCleanSubjects</tabstop>
-  <tabstop>graphicsView</tabstop>
+  <tabstop>tableSubjects</tabstop>
  </tabstops>
  <resources>
   <include location="../../../res/icons.qrc"/>

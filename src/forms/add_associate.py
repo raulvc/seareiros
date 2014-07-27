@@ -49,8 +49,7 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
         return self._dirty
 
     def setup_fields(self):
-        # tries to make things easier for user by allowing him to tab with return key
-        # or after selecting something from a combobox
+        # setting up validators and stuff
         self.edFullName.setValidator(UppercaseValidator())
         self.edNickname.setValidator(UppercaseValidator())
         self.edEmail.setValidator(EmailValidator())
@@ -59,7 +58,7 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
         comboBoxList = self.findChildren(QComboBox)
         for lineEdit in lineEditList:
             lineEdit.returnPressed.connect(lineEdit.focusNextChild)
-            # detect changes to the line edits
+            # detect changes on line edits
             lineEdit.textChanged.connect(self.check_changes)
         for comboBox in comboBoxList:
             comboBox.activated.connect(comboBox.focusNextChild)
@@ -243,24 +242,3 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
                 return query.record()
             else:
                 return None
-
-    # def toggle_visibility(self, visible):
-    #     actionAddAssociate = self.parent().parent().actionAddAssociate
-    #     if visible:
-    #         actionAddAssociate.setEnabled(False)
-    #         self.edFullName.setFocus()
-    #     else:
-    #         actionAddAssociate.setEnabled(True)
-    #
-    # def closeEvent(self, event):
-    #     if self._dirty:
-    #         message = unicode("Deseja mesmo sair?\n\nDados não salvos serão perdidos".decode('utf-8'))
-    #         reply = QMessageBox.question(self, 'Seareiros', message, QMessageBox.Yes, QMessageBox.No)
-    #         if reply != QMessageBox.Yes:
-    #             event.ignore()
-    #             # return
-    #     self.toggle_visibility(False)
-    #     grandparent = self.parent().parent()
-    #     grandparent.remove_instance(self)
-    #     event.accept()
-

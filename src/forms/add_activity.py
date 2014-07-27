@@ -20,12 +20,11 @@ class ActivityForm(QScrollArea, Ui_ActivityForm):
 
         self.log = logging.getLogger('ActivityForm')
 
-        self.setup_editing()
+        self.setup_fields()
         self.setup_model()
 
-    def setup_editing(self):
-        # tries to make things easier for user by allowing him to tab with return key
-        # or after selecting something from a combobox
+    def setup_fields(self):
+        """ setting up validators and stuff """
         comboBoxList = self.findChildren(QComboBox)
         for comboBox in comboBoxList:
             comboBox.activated.connect(comboBox.focusNextChild)

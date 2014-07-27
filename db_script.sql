@@ -57,6 +57,11 @@ CREATE TABLE subject (
 	name text NOT NULL
 );
 
+CREATE TABLE publisher (
+	id serial PRIMARY KEY,
+	name text NOT NULL
+);
+
 CREATE TABLE book (
 	id serial PRIMARY KEY,
 	image bytea,
