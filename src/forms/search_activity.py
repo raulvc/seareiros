@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 from PySide import QtCore
+
 from src.forms.search_generic import GenericSearchForm
 from src.models.model_activity import ActivityTableModel
 

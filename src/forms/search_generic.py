@@ -2,8 +2,10 @@
 
 from PySide import QtCore
 from PySide.QtGui import QWidget
+
 from src.lib.table_util import CustomSortFilterProxyModel
 from src.lib.ui.ui_generic_search import Ui_SearchForm
+
 
 class GenericSearchForm(QWidget, Ui_SearchForm):
     """ Common interface for search forms """

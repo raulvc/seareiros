@@ -1,10 +1,13 @@
 # -*- coding: UTF-8 -*-
 import logging
+
 from PySide import QtCore
 from PySide.QtGui import QMessageBox, QComboBox, QScrollArea, QRadioButton
 from PySide.QtSql import QSqlRelationalTableModel, QSqlQuery
+
 from src.lib.ui.ui_form_activity import Ui_ActivityForm
 from src.lib.db_util import Db_Instance
+
 
 logger = logging.getLogger('add_activity')
 

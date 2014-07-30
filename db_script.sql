@@ -44,22 +44,22 @@ CREATE TABLE users (
 
 CREATE TABLE author (
 	id serial PRIMARY KEY,
-	name text NOT NULL
+	name text UNIQUE NOT NULL
 );
 
 CREATE TABLE s_author (
 	id serial PRIMARY KEY,
-	name text NOT NULL
+	name text UNIQUE NOT NULL
 );
 
 CREATE TABLE subject (
 	id serial PRIMARY KEY,
-	name text NOT NULL
+	name text UNIQUE NOT NULL
 );
 
 CREATE TABLE publisher (
 	id serial PRIMARY KEY,
-	name text NOT NULL
+	name text UNIQUE NOT NULL
 );
 
 CREATE TABLE book (

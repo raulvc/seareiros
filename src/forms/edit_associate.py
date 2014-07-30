@@ -1,10 +1,12 @@
 # -*- coding: UTF-8 -*-
 from functools import partial
 import logging
+import operator
+
 from PySide import QtCore
 from PySide.QtGui import QMessageBox, QLineEdit, QComboBox, QScrollArea, QDialog, QTableWidgetItem, QPushButton, QIcon
 from PySide.QtSql import QSqlRelationalTableModel, QSqlQueryModel
-import operator
+
 from src.lib import constants
 from src.lib import statics
 from src.lib.table_util import WeekdayTableWidgetItem
@@ -13,6 +15,7 @@ from src.lib.util import iterate_model
 from src.lib.validators import UppercaseValidator, EmailValidator, AlphaNumericValidator
 from src.lib.db_util import Db_Instance
 from src.dialogs.select_activity import ActivitySelectDialog
+
 
 logger = logging.getLogger('edit_associate')
 
@@ -182,7 +185,6 @@ class AssociateEditForm(QScrollArea, Ui_AssociateForm):
                 self._act_model.setFilter("id_associate = %s AND id_activity = %s" % (str(self._record_id), str(removed_id)))
                 self._act_model.select()
                 items = iterate_model(self._act_model)
-                print items
                 self._act_model.removeRow(0)
                 ok = self._act_model.submitAll()
                 if not ok:

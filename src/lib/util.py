@@ -1,9 +1,13 @@
 '''
     Some general useful stuff I couldn't really categorize
 '''
-from PySide.QtCore import Qt
-from PySide.QtGui import QSpinBox
+from PySide.QtCore import Qt, QObject, QEvent, Signal, QBuffer, QByteArray, QIODevice
+from PySide.QtGui import QSpinBox, QImage
 from src.lib.constants import access_table
+
+import sys
+import PySide
+sys.modules['PyQt4'] = PySide
 
 def bin(s):
     """ returns a binary number (str format) based on an integer (not really needed on python3) """
@@ -44,3 +48,38 @@ class YearSpinBox(QSpinBox):
             self.focusNextChild()
         else:
             super(YearSpinBox, self).keyPressEvent(event)
+
+def clickable(widget):
+    """ Makes non-clickable widgets clickable
+        usage: clickable(widget).connect(slot)
+    """
+    class Filter(QObject):
+
+        clicked = Signal()
+
+        def eventFilter(self, obj, event):
+
+            if obj == widget:
+                if event.type() == QEvent.MouseButtonRelease and event.button() == Qt.LeftButton:
+                    if obj.rect().contains(event.pos()):
+                        self.clicked.emit()
+                        # The developer can opt for .emit(obj) to get the object within the slot.
+                        return True
+
+            return False
+    filter = Filter(widget)
+    widget.installEventFilter(filter)
+    return filter.clicked
+
+def qpixmap_to_qbytearray(pix):
+    img = pix.toImage()
+    ba = QByteArray()
+    buffer = QBuffer(ba)
+    buffer.open(QIODevice.WriteOnly)
+    img.save(buffer, "PNG") # writes image into ba in PNG format
+    return ba
+
+def qbytearray_to_qimage(ba):
+    img = QImage()
+    img.loadFromData(ba, "PNG")
+    return img

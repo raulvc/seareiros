@@ -2,20 +2,21 @@
 from datetime import date
 from functools import partial
 import logging
-from PySide import QtCore
-from PySide.QtCore import QLocale, QRegExp, Qt, QModelIndex
-from PySide.QtGui import QMessageBox, QLineEdit, QComboBox, QScrollArea, QDialog, QTableWidgetItem, QPushButton, QIcon, \
-    QRegExpValidator, QPixmap, QCompleter, QHeaderView
-from PySide.QtSql import QSqlRelationalTableModel, QSqlQuery, QSqlTableModel
 import operator
-from src.lib import constants
+import os
+
+from PySide import QtCore
+from PySide.QtCore import QLocale, Qt
+from PySide.QtGui import QMessageBox, QLineEdit, QScrollArea, QTableWidgetItem, QPushButton, QIcon, \
+    QCompleter, QHeaderView, QFileDialog, QPixmap, QImage, QPalette, QBrush, QVBoxLayout
+from PySide.QtSql import QSqlTableModel, QSqlQuery
+
 from src.lib import statics
-from src.lib.table_util import WeekdayTableWidgetItem
 from src.lib.ui.ui_form_book import Ui_BookForm
-from src.lib.util import YearSpinBox
-from src.lib.validators import UppercaseValidator, NumericValidator
+from src.lib.util import YearSpinBox, clickable, qpixmap_to_qbytearray
+from src.lib.validators import UppercaseValidator, NumericValidator, CurrencyValidator
 from src.lib.db_util import Db_Instance
-from src.dialogs.select_activity import ActivitySelectDialog
+
 
 logger = logging.getLogger('add_associate')
 
@@ -25,6 +26,8 @@ class BookAddForm(QScrollArea, Ui_BookForm):
     column = {
             'barcode':1, 'title':2, 'author':3, 'sauthor':4, 'publisher':5, 'year':6, 'price':7,
             'description':8 }
+
+    IMG_SIZE = (150, 150)
 
     def __init__(self, parent=None):
         super(BookAddForm, self).__init__(parent)
@@ -44,9 +47,23 @@ class BookAddForm(QScrollArea, Ui_BookForm):
         self.setup_fields()
 
         self._subject_list = []
+        self._img_data = None
 
         # flag to indicate whether there were changes to the fields
         self._dirty = False
+        # user did input an image
+        self._image_set = False
+
+        # overlaying a clean button over the image (couldn't do it in designer)
+        self.btnCleanImage = QPushButton()
+        self.btnCleanImage.setIcon(QIcon(":icons/clean.png"))
+        self.btnCleanImage.setFixedWidth(35)
+        self.btnCleanImage.clicked.connect(self.clear_image)
+        self.btnCleanImage.setVisible(False)
+        clean_img_layout = QVBoxLayout(self.edImage)
+        clean_img_layout.addWidget(self.btnCleanImage)
+        clean_img_layout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+        clean_img_layout.setContentsMargins(2,2,0,0)
 
     def is_dirty(self):
         return self._dirty
@@ -75,7 +92,6 @@ class BookAddForm(QScrollArea, Ui_BookForm):
             self._publisher_model.setTable("publisher")
             self._publisher_model.select()
 
-
     def setup_fields(self):
         """ setting up validators and stuff """
         # validators
@@ -84,8 +100,7 @@ class BookAddForm(QScrollArea, Ui_BookForm):
         self.edAuthor.setValidator(UppercaseValidator())
         self.edSAuthor.setValidator(UppercaseValidator())
         self.edPublisher.setValidator(UppercaseValidator())
-        currencyValidator = QRegExpValidator(QRegExp("[0-9]{1,4}[,][0-9]{1,2}"))
-        self.edPrice.setValidator(currencyValidator)
+        self.edPrice.setValidator(CurrencyValidator(self.edPrice))
         self.edBarcode.setValidator(NumericValidator())
         # had to subclass this spinbox to support return grabbing
         self.edYear = YearSpinBox(self)
@@ -113,6 +128,27 @@ class BookAddForm(QScrollArea, Ui_BookForm):
         self.config_completer(self.edSAuthor, self._s_author_model, "name")
         self.config_completer(self.edPublisher, self._publisher_model, "name")
 
+        # making image clickable
+        clickable(self.edImage).connect(self.handle_image)
+
+    def clear_image(self):
+        img = QImage(":icons/no_image.png")
+        self.set_image(img)
+        self._image_set = False
+        self.btnCleanImage.setVisible(False)
+
+    def handle_image(self):
+        image_path = QFileDialog.getOpenFileName(self, "Escolha uma imagem", os.getenv("HOME"), "Imagens (*.png, *.jpg *.bmp)")[0]
+        if os.path.exists(image_path):
+            self.set_image(QImage(image_path))
+        self._image_set = True
+        self.btnCleanImage.setVisible(True)
+
+    def set_image(self, img):
+        pix = QPixmap.fromImage(img)
+        pix = pix.scaled(self.IMG_SIZE[0], self.IMG_SIZE[1], Qt.KeepAspectRatio)
+        self.edImage.setPixmap(pix)
+        self.edImage.setScaledContents(True)
 
     def config_completer(self, line_edit, model, field):
         # sets up a completer based on a QSqlTableModel for the specified field on a QLineEdit
@@ -120,16 +156,55 @@ class BookAddForm(QScrollArea, Ui_BookForm):
         completer.setModel(model)
         completer.setCompletionColumn(model.fieldIndex(field))
         completer.setCompletionMode(QCompleter.PopupCompletion)
+        completer.setCaseSensitivity(Qt.CaseInsensitive)
+        completer.activated.connect(line_edit.returnPressed)
         line_edit.setCompleter(completer)
-
 
     def check_changes(self, txt):
         if txt != '':
             self._dirty = True
 
+    def _submit_and_get_id(self, model, val):
+        model.insertRow(0)
+        model.setData(model.index(0,1), val)
+        if not model.submitAll():
+            self.log.error(model.lastError().text())
+            message = unicode("Erro de transação\n\n""Não foi possível salvar no banco de dados".decode('utf-8'))
+            QMessageBox.critical(self, "Seareiros - Cadastro de Livro", message)
+            return None
+        else:
+            return self._get_id_from_name(model.tableName(), val)
+
+    def _get_id_from_name(self, table, name):
+        if name == '':
+            return None
+        db = Db_Instance(table + "_last_id").get_instance()
+        if not db.open():
+            return None
+        else:
+            query = QSqlQuery(db)
+            query.prepare("SELECT id FROM " + table + " WHERE name = :name")
+            query.bindValue(":name", name)
+            query.exec_()
+            if query.next():
+                return query.record().value("id")
+            else:
+                return None
+
     def submit_data(self):
-        # TODO: build a statement so we can get the latest id in a safe way
-        pass
+        data = self.extract_input()
+        # checking fields that aren't inserted yet
+        for val, model in [('author', self._author_model), ('s_author', self._s_author_model),
+                           ('publisher', self._publisher_model)]:
+            if isinstance(data[val], unicode):
+                # needs to be inserted
+                data[val] = self._submit_and_get_id(model, data[val])
+        
+
+        # print data['author']
+        # print data['s_author']
+        # print data['publisher']
+
     #     self._model.insertRow(0)
     #     data = self.extract_input()
     #     for key,val in data.items():
@@ -170,13 +245,14 @@ class BookAddForm(QScrollArea, Ui_BookForm):
         for lineEdit in lineEditList:
             lineEdit.clear()
         self.clear_table()
+        self.clear_image()
         self.edBarcode.setFocus()
 
     @QtCore.Slot()
     def on_btnAddSubject_clicked(self):
         txt = self.edSubject.text()
         if txt != '':
-            id = self.id_from_completion(self.edSubject)
+            id = self._get_id_from_name('subject', self.edSubject.text())
             if id:
                 # known register
                 data = [id, txt]
@@ -186,18 +262,8 @@ class BookAddForm(QScrollArea, Ui_BookForm):
             not_a_duplicate = self.add_subject(data)
             if not_a_duplicate:
                 self.refresh_tableSubjects()
-                self.edSubject.setText('')
+                self.edSubject.clear()
             self.edSubject.setFocus()
-
-    def id_from_completion(self, line_edit):
-        index = line_edit.completer().currentIndex()
-        if index.isValid():
-            # known register
-            row = index.row()
-            id = line_edit.completer().completionModel().index(row, 0).data()
-            return id
-        else:
-            return None
 
     @QtCore.Slot()
     def on_btnCleanSubjects_clicked(self):
@@ -249,24 +315,20 @@ class BookAddForm(QScrollArea, Ui_BookForm):
         data = {}
         data['barcode'] = self.edBarcode.text()
         data['title'] = self.edTitle.text()
-        # author
-        if self.id_from_completion(self.edAuthor):
-            data['author'] = self.id_from_completion(self.edAuthor)
-        else:
-            data['author'] = self.edAuthor.text()
-        # s_author
-        if self.id_from_completion(self.edSAuthor):
-            data['s_author'] = self.id_from_completion(self.edSAuthor)
-        else:
-            data['s_author'] = self.edAuthor.text()
-        # publisher
-        if self.id_from_completion(self.edPublisher):
-            data['publisher'] = self.id_from_completion(self.edPublisher)
-        else:
-            data['publisher'] = self.edAuthor.text()
+
+        # completer fields
+        for c_field, line_edit in [("author", self.edAuthor), ("s_author", self.edSAuthor), ("publisher", self.edPublisher)]:
+            id = self._get_id_from_name(c_field, line_edit.text())
+            if id:
+                data[c_field] = id
+            else:
+                data[c_field] = line_edit.text()
         data['year'] = self.edYear.value()
         data['price'] = self._locale.toDouble(self.edPrice.text())[0]
         data['description'] = self.edDescription.toPlainText()
+        if self._image_set:
+            data['image'] = qpixmap_to_qbytearray(self.edImage.pixmap())
+
         return data
 
     def extract_subjects_input(self):
@@ -282,17 +344,3 @@ class BookAddForm(QScrollArea, Ui_BookForm):
                 new_subjects.append(subj[1])
         return [subjects, new_subjects]
 
-    # def get_added_record(self):
-        # """ My workaround to get the last inserted id without any postgres specific queries """
-        # db = Db_Instance("add_book_last_id").get_instance()
-        # if not db.open():
-        #     return None
-        # else:
-        #     query = QSqlQuery(db)
-        #     query.prepare("SELECT * FROM book WHERE fullname = :fullname")
-        #     query.bindValue(":fullname", self.edFullName.text())
-        #     query.exec_()
-        #     if query.next():
-        #         return query.record()
-        #     else:
-        #         return None

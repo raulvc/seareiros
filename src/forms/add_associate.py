@@ -1,10 +1,12 @@
 # -*- coding: UTF-8 -*-
 from functools import partial
 import logging
+import operator
+
 from PySide import QtCore
 from PySide.QtGui import QMessageBox, QLineEdit, QComboBox, QScrollArea, QDialog, QTableWidgetItem, QPushButton, QIcon
 from PySide.QtSql import QSqlRelationalTableModel, QSqlQuery
-import operator
+
 from src.lib import constants
 from src.lib import statics
 from src.lib.table_util import WeekdayTableWidgetItem
@@ -12,6 +14,7 @@ from src.lib.ui.ui_form_associate import Ui_AssociateForm
 from src.lib.validators import UppercaseValidator, EmailValidator, AlphaNumericValidator
 from src.lib.db_util import Db_Instance
 from src.dialogs.select_activity import ActivitySelectDialog
+
 
 logger = logging.getLogger('add_associate')
 

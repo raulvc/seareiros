@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 from PySide import QtCore
-from PySide.QtGui import QApplication, QMainWindow
+
 from src.forms.search_generic import GenericSearchForm
 from src.models.model_book import BookTableModel
 
