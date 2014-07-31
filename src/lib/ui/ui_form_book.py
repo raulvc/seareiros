@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/form_book.ui'
 #
-# Created: Tue Jul 29 16:41:13 2014
+# Created: Thu Jul 31 15:27:05 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -94,6 +94,7 @@ class Ui_BookForm(object):
         self.edPublisher.setObjectName("edPublisher")
         self.gridLayout.addWidget(self.edPublisher, 4, 3, 1, 4)
         self.edBarcode = QtGui.QLineEdit(self.groupBox)
+        self.edBarcode.setMaxLength(13)
         self.edBarcode.setObjectName("edBarcode")
         self.gridLayout.addWidget(self.edBarcode, 0, 2, 1, 5)
         spacerItem1 = QtGui.QSpacerItem(20, 10, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)

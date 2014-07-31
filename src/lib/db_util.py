@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 #from time import sleep
 from PySide.QtCore import QThread, Signal, QObject
+from PySide.QtGui import QMessageBox
 from PySide.QtSql import QSqlDatabase, QSqlQuery
 import logging
 from src.lib.settings import SettingsParser
@@ -140,4 +141,33 @@ class Db_Instance():
     def get_instance(self):
         return self._db
 
+def last_id_from_sequence(table, db, id_field="id"):
+    # db has to be passed as parameter as we have to capture the same session for this to work
+    if not db.isOpen():
+        print "passei aqui"
+        return None
+    else:
+        query = QSqlQuery(db)
+        query.prepare("SELECT currval(pg_get_serial_sequence(:table,:id))")
+        query.bindValue(":table", table)
+        query.bindValue(":id", id_field)
+        query.exec_()
+        if query.next():
+            return query.record().value("currval")
+        else:
+            return None
 
+def submit_and_get_id(parent, model, log_inst, id_field=None):
+    model.database().transaction()
+    if not model.submitAll():
+        log_inst.error(model.lastError().text())
+        model.database().rollback()
+        message = unicode("Erro de transação\n\n""Não foi possível salvar no banco de dados".decode('utf-8'))
+        QMessageBox.critical(parent, "Seareiros", message)
+        return None
+    else:
+        model.database().commit()
+        if not id_field:
+            return last_id_from_sequence(model.tableName(), model.database())
+        else:
+            return last_id_from_sequence(model.tableName(), model.database(), id_field)

@@ -8,24 +8,24 @@ import os
 from PySide import QtCore
 from PySide.QtCore import QLocale, Qt
 from PySide.QtGui import QMessageBox, QLineEdit, QScrollArea, QTableWidgetItem, QPushButton, QIcon, \
-    QCompleter, QHeaderView, QFileDialog, QPixmap, QImage, QPalette, QBrush, QVBoxLayout
+    QCompleter, QHeaderView, QFileDialog, QPixmap, QImage, QVBoxLayout
 from PySide.QtSql import QSqlTableModel, QSqlQuery
 
 from src.lib import statics
 from src.lib.ui.ui_form_book import Ui_BookForm
 from src.lib.util import YearSpinBox, clickable, qpixmap_to_qbytearray
 from src.lib.validators import UppercaseValidator, NumericValidator, CurrencyValidator
-from src.lib.db_util import Db_Instance
+from src.lib.db_util import Db_Instance,  submit_and_get_id
 
 
 logger = logging.getLogger('add_associate')
 
 class BookAddForm(QScrollArea, Ui_BookForm):
-    """ Interface for associate input """
+    """ Interface for book input """
 
     column = {
-            'barcode':1, 'title':2, 'author':3, 'sauthor':4, 'publisher':5, 'year':6, 'price':7,
-            'description':8 }
+            'barcode':1, 'title':2, 'author':3, 's_author':4, 'publisher':5, 'year':6, 'price':7,
+            'description':8, 'stock':9, 'image':10 }
 
     IMG_SIZE = (150, 150)
 
@@ -75,6 +75,9 @@ class BookAddForm(QScrollArea, Ui_BookForm):
             message = unicode("Erro de conexão\n\n""Banco de dados indisponível".decode('utf-8'))
             QMessageBox.critical(self, "Seareiros - Cadastro de Livro", message)
         else:
+            # book
+            self._model = QSqlTableModel(self, db=db)
+            self._model.setTable("book")
             # subject
             self._subject_model = QSqlTableModel(self, db=db)
             self._subject_model.setTable("subject")
@@ -91,6 +94,9 @@ class BookAddForm(QScrollArea, Ui_BookForm):
             self._publisher_model = QSqlTableModel(self, db=db)
             self._publisher_model.setTable("publisher")
             self._publisher_model.select()
+            # book subjects
+            self._book_in_subj_model = QSqlTableModel(self, db=db)
+            self._book_in_subj_model.setTable("book_in_subject")
 
     def setup_fields(self):
         """ setting up validators and stuff """
@@ -119,7 +125,8 @@ class BookAddForm(QScrollArea, Ui_BookForm):
                 lineEdit.returnPressed.connect(lineEdit.focusNextChild)
             # detect changes on line edits
             lineEdit.textChanged.connect(self.check_changes)
-        # different behaviour for this one
+        # different behaviour for these
+        self.edBarcode.textChanged.connect(self.check_barcode)
         self.edSubject.returnPressed.connect(self.on_btnAddSubject_clicked)
 
         # completers
@@ -164,26 +171,17 @@ class BookAddForm(QScrollArea, Ui_BookForm):
         if txt != '':
             self._dirty = True
 
-    def _submit_and_get_id(self, model, val):
-        model.insertRow(0)
-        model.setData(model.index(0,1), val)
-        if not model.submitAll():
-            self.log.error(model.lastError().text())
-            message = unicode("Erro de transação\n\n""Não foi possível salvar no banco de dados".decode('utf-8'))
-            QMessageBox.critical(self, "Seareiros - Cadastro de Livro", message)
-            return None
-        else:
-            return self._get_id_from_name(model.tableName(), val)
+    def check_barcode(self, txt):
+        if len(txt) == self.edBarcode.maxLength():
+            self.edBarcode.focusNextChild()
 
     def _get_id_from_name(self, table, name):
-        if name == '':
-            return None
-        db = Db_Instance(table + "_last_id").get_instance()
+        db = Db_Instance(table + "_fetch_" + name + "_id").get_instance()
         if not db.open():
             return None
         else:
             query = QSqlQuery(db)
-            query.prepare("SELECT id FROM " + table + " WHERE name = :name")
+            query.prepare("SELECT id FROM %s WHERE name = :name" % table)
             query.bindValue(":name", name)
             query.exec_()
             if query.next():
@@ -198,46 +196,48 @@ class BookAddForm(QScrollArea, Ui_BookForm):
                            ('publisher', self._publisher_model)]:
             if isinstance(data[val], unicode):
                 # needs to be inserted
-                data[val] = self._submit_and_get_id(model, data[val])
-        
-
-        # print data['author']
-        # print data['s_author']
-        # print data['publisher']
-
-    #     self._model.insertRow(0)
-    #     data = self.extract_input()
-    #     for key,val in data.items():
-    #         self._model.setData(self._model.index(0, self.column[key]), val)
-    #     # try to commit a record
-    #     if not self._model.submitAll():
-    #         self.log.error(self._model.lastError().text())
-    #         message = unicode("Erro de transação\n\n""Não foi possível salvar no banco de dados".decode('utf-8'))
-    #         QMessageBox.critical(self, "Seareiros - Cadastro de Atividade", message)
-    #         return False
-    #     else:
-    #         # successfully added an associate, adding it's activities
-    #         activities = self.extract_activities_input()
-    #         error = False
-    #         if len(activities) > 0:
-    #             associate_id = self.get_added_record().value("id")
-    #             for id in activities:
-    #                 self._act_model.insertRow(0)
-    #                 self._act_model.setData(self._act_model.index(0, 0), associate_id)
-    #                 self._act_model.setData(self._act_model.index(0, 1), id)
-    #                 ok = self._act_model.submitAll()
-    #                 if not ok:
-    #                     error = True
-    #                     self.log.error(self._act_model.lastError().text())
-    #         if not error:
-    #             message = unicode("Sucesso!\n\n""O associado foi salvo com êxito no banco de dados".decode('utf-8'))
-    #             QMessageBox.information(self, "Seareiros - Cadastro de Associado", message)
-    #         else:
-    #             message = unicode("Erro\n\n""Associado cadastrado, "
-    #                               "porém ocorreu um problema ao salvar suas atividades".decode('utf-8'))
-    #             QMessageBox.warning(self, "Seareiros - Cadastro de Associado", message)
-    #
-    #         return True
+                model.insertRow(0)
+                model.setData(model.index(0,1), data[val])
+                data[val] = submit_and_get_id(self, model, self.log)
+                if not data[val]:
+                    # won't proceed if this fails
+                    return False
+        # filling a book row
+        self._model.insertRow(0)
+        for key,val in data.items():
+            self._model.setData(self._model.index(0, self.column[key]), val)
+        book_id = submit_and_get_id(self, self._model, self.log)
+        if book_id:
+            # book sucessfully added, now associating related subjects
+            subjects, new_subjects = self.extract_subjects_input()
+            for subj in new_subjects:
+                self._subject_model.insertRow(0)
+                self._subject_model.setData(self._subject_model.index(0,1), subj)
+                id = submit_and_get_id(self, self._subject_model, self.log)
+                if not id:
+                    # issue saving new subject
+                    return False
+                subjects.append(int(id))
+            # associating book and it's subjects
+            error = False
+            for subj_id in subjects:
+                self._book_in_subj_model.insertRow(0)
+                self._book_in_subj_model.setData(self._book_in_subj_model.index(0,0), book_id)
+                self._book_in_subj_model.setData(self._book_in_subj_model.index(0,1), subj_id)
+                ok = self._book_in_subj_model.submitAll()
+                if not ok:
+                    error = True
+                    break
+            if error:
+                self.log.error(self._book_in_subj_model.lastError.text())
+                message = unicode("Erro\n\n""Livro cadastrado, porém ocorreu um problema ao"
+                              " salvar os temas a que está associado".decode('utf-8'))
+                QMessageBox.warning(self, "Seareiros - Cadastro de Livro", message)
+                return False
+            else:
+                message = unicode("Sucesso!\n\n""O livro foi salvo com êxito no banco de dados".decode('utf-8'))
+                QMessageBox.information(self, "Seareiros - Cadastro de Livro", message)
+                return True
 
     def clear(self):
         self._dirty = False
@@ -318,11 +318,7 @@ class BookAddForm(QScrollArea, Ui_BookForm):
 
         # completer fields
         for c_field, line_edit in [("author", self.edAuthor), ("s_author", self.edSAuthor), ("publisher", self.edPublisher)]:
-            id = self._get_id_from_name(c_field, line_edit.text())
-            if id:
-                data[c_field] = id
-            else:
-                data[c_field] = line_edit.text()
+            data[c_field] = self._get_cfield_value(c_field, line_edit.text())
         data['year'] = self.edYear.value()
         data['price'] = self._locale.toDouble(self.edPrice.text())[0]
         data['description'] = self.edDescription.toPlainText()
@@ -330,6 +326,15 @@ class BookAddForm(QScrollArea, Ui_BookForm):
             data['image'] = qpixmap_to_qbytearray(self.edImage.pixmap())
 
         return data
+
+    def _get_cfield_value(self, c_field, text):
+        if text == '':
+            return None
+        id = self._get_id_from_name(c_field, text)
+        if id:
+            return id
+        else:
+            return text
 
     def extract_subjects_input(self):
         # grab id of selected activities
@@ -342,5 +347,5 @@ class BookAddForm(QScrollArea, Ui_BookForm):
             else:
                 # new subject
                 new_subjects.append(subj[1])
-        return [subjects, new_subjects]
+        return (subjects, new_subjects)
 

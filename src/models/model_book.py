@@ -12,8 +12,9 @@ class BookTableModel(BaseTableModel):
     def __init__(self, parent=None):
         super(BookTableModel, self).__init__(parent)
         self._sql_statement = "SELECT b.id, b.title, a.name as author, s_a.name as s_author, b.price, b.stock " \
-                        "FROM book b, author a, s_author s_a " \
-                        "WHERE b.author_id = a.id AND b.s_author_id = s_a.id"
+                        "FROM book b " \
+                        "LEFT JOIN author a ON b.author_id = a.id " \
+                        "LEFT JOIN s_author s_a ON b.s_author_id = s_a.id"
         self._name = "populate_book"
 
     def load(self):

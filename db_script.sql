@@ -52,26 +52,28 @@ CREATE TABLE s_author (
 	name text UNIQUE NOT NULL
 );
 
-CREATE TABLE subject (
+CREATE TABLE publisher (
 	id serial PRIMARY KEY,
 	name text UNIQUE NOT NULL
 );
 
-CREATE TABLE publisher (
+CREATE TABLE subject (
 	id serial PRIMARY KEY,
 	name text UNIQUE NOT NULL
 );
 
 CREATE TABLE book (
 	id serial PRIMARY KEY,
-	image bytea,
-	title text NOT NULL,
+  barcode text UNIQUE,
+  title text NOT NULL,
 	author_id integer REFERENCES author(id),
 	s_author_id integer REFERENCES s_author(id),
-	description text,
-	price money DEFAULT 0,
-	stock integer DEFAULT 0,
-	barcode text UNIQUE
+  publisher_id integer REFERENCES publisher(id),
+  year numeric(4,0),
+  price money DEFAULT 0,
+  description text,
+  stock integer DEFAULT 0,
+  image bytea
 );
 
 CREATE TABLE book_in_subject(

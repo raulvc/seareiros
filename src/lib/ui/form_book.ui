@@ -191,6 +191,9 @@
        </item>
        <item row="0" column="2" colspan="5">
         <widget class="QLineEdit" name="edBarcode">
+         <property name="maxLength">
+          <number>13</number>
+         </property>
          <property name="placeholderText">
           <string>Código de barras, se houver</string>
          </property>
