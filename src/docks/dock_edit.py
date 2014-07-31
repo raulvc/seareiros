@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from PySide.QtGui import QLabel
+from PySide.QtGui import QLabel, QMessageBox
 from src.docks.dock_generic import GenericDock
 
 
@@ -20,3 +20,16 @@ class EditDock(GenericDock):
     # overwritten in child
     def setup_edit(self):
         pass
+
+    def closeEvent(self, event):
+        if not self._editForm.is_dirty():
+            super(EditDock, self).closeEvent(event)
+            event.accept()
+        else:
+            message = unicode("Descartar dados não salvos e sair?".decode('utf-8'))
+            reply = QMessageBox.question(self, 'Seareiros', message, QMessageBox.Yes, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                super(EditDock, self).closeEvent(event)
+                event.accept()
+            else:
+                event.ignore()

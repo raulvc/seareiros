@@ -11,6 +11,7 @@
      <file>icons/book.png</file>
      <file>icons/book_add.png</file>
      <file>icons/book_lend.png</file>
+     <file>icons/book_update.png</file>
      <file>icons/book_return.png</file>
      <file>icons/clean.png</file>
      <file>icons/product.png</file>
@@ -20,6 +21,7 @@
      <file>icons/events.png</file>
      <file>icons/associate.png</file>
      <file>icons/associate_add.png</file>
+     <file>icons/associate_update.png</file>
      <file>icons/search.png</file>
      <file>icons/pending.png</file>
      <file>icons/loading.gif</file>
