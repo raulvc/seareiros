@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 from PySide import QtCore
-from PySide.QtGui import QWidget
+from PySide.QtGui import QWidget, QHeaderView
 
 from src.lib.table_util import CustomSortFilterProxyModel
 from src.lib.ui.ui_generic_search import Ui_SearchForm
@@ -31,6 +31,7 @@ class GenericSearchForm(QWidget, Ui_SearchForm):
 
     def resize_columns(self):
         self.viewSearch.resizeColumnsToContents()
+        self.viewSearch.horizontalHeader().setResizeMode(QHeaderView.Stretch)
 
     def refresh(self):
         self._model.load()

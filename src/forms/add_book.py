@@ -8,12 +8,12 @@ import os
 from PySide import QtCore
 from PySide.QtCore import QLocale, Qt
 from PySide.QtGui import QMessageBox, QLineEdit, QScrollArea, QTableWidgetItem, QPushButton, QIcon, \
-    QCompleter, QHeaderView, QFileDialog, QPixmap, QImage, QVBoxLayout
+    QHeaderView, QFileDialog, QPixmap, QImage, QVBoxLayout
 from PySide.QtSql import QSqlTableModel, QSqlQuery
 
 from src.lib import statics
 from src.lib.ui.ui_form_book import Ui_BookForm
-from src.lib.util import YearSpinBox, clickable, qpixmap_to_qbytearray
+from src.lib.util import YearSpinBox, clickable, qpixmap_to_qbytearray, config_completer
 from src.lib.validators import UppercaseValidator, NumericValidator, CurrencyValidator
 from src.lib.db_util import Db_Instance,  submit_and_get_id
 
@@ -32,6 +32,9 @@ class BookAddForm(QScrollArea, Ui_BookForm):
     def __init__(self, parent=None):
         super(BookAddForm, self).__init__(parent)
         self.setupUi(self)
+        # had to subclass this spinbox to support return grabbing
+        self.edYear = YearSpinBox(self)
+        self.edYearHolder.addWidget(self.edYear)
 
         self._access = statics.access_level
         # for currency formatting
@@ -47,7 +50,6 @@ class BookAddForm(QScrollArea, Ui_BookForm):
         self.setup_fields()
 
         self._subject_list = []
-        self._img_data = None
 
         # flag to indicate whether there were changes to the fields
         self._dirty = False
@@ -108,9 +110,6 @@ class BookAddForm(QScrollArea, Ui_BookForm):
         self.edPublisher.setValidator(UppercaseValidator())
         self.edPrice.setValidator(CurrencyValidator(self.edPrice))
         self.edBarcode.setValidator(NumericValidator())
-        # had to subclass this spinbox to support return grabbing
-        self.edYear = YearSpinBox(self)
-        self.edYearHolder.addWidget(self.edYear)
         self.edYear.setMinimum(1900)
         self.edYear.setMaximum(date.today().year)
         self.edYear.setValue(date.today().year)
@@ -130,10 +129,10 @@ class BookAddForm(QScrollArea, Ui_BookForm):
         self.edSubject.returnPressed.connect(self.on_btnAddSubject_clicked)
 
         # completers
-        self.config_completer(self.edSubject, self._subject_model, "name")
-        self.config_completer(self.edAuthor, self._author_model, "name")
-        self.config_completer(self.edSAuthor, self._s_author_model, "name")
-        self.config_completer(self.edPublisher, self._publisher_model, "name")
+        config_completer(self.edSubject, self._subject_model, "name")
+        config_completer(self.edAuthor, self._author_model, "name")
+        config_completer(self.edSAuthor, self._s_author_model, "name")
+        config_completer(self.edPublisher, self._publisher_model, "name")
 
         # making image clickable
         clickable(self.edImage).connect(self.handle_image)
@@ -148,24 +147,14 @@ class BookAddForm(QScrollArea, Ui_BookForm):
         image_path = QFileDialog.getOpenFileName(self, "Escolha uma imagem", os.getenv("HOME"), "Imagens (*.png, *.jpg *.bmp)")[0]
         if os.path.exists(image_path):
             self.set_image(QImage(image_path))
-        self._image_set = True
-        self.btnCleanImage.setVisible(True)
+            self._image_set = True
+            self.btnCleanImage.setVisible(True)
 
     def set_image(self, img):
         pix = QPixmap.fromImage(img)
         pix = pix.scaled(self.IMG_SIZE[0], self.IMG_SIZE[1], Qt.KeepAspectRatio)
         self.edImage.setPixmap(pix)
         self.edImage.setScaledContents(True)
-
-    def config_completer(self, line_edit, model, field):
-        # sets up a completer based on a QSqlTableModel for the specified field on a QLineEdit
-        completer = QCompleter()
-        completer.setModel(model)
-        completer.setCompletionColumn(model.fieldIndex(field))
-        completer.setCompletionMode(QCompleter.PopupCompletion)
-        completer.setCaseSensitivity(Qt.CaseInsensitive)
-        completer.activated.connect(line_edit.returnPressed)
-        line_edit.setCompleter(completer)
 
     def check_changes(self, txt):
         if txt != '':

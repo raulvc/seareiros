@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from PySide.QtGui import QLabel, QMessageBox
+from PySide.QtGui import QMessageBox
 from src.docks.dock_generic import GenericDock
 
 

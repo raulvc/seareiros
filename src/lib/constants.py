@@ -11,6 +11,4 @@ access_table = [
     'actionRepSales', 'actionRepLibrary', 'actionRepProduct', 'actionRepBook',
     # Pendencies
     'actionPendencies'
-    # # Menus
-    # 'menuAdd', 'menuOrder', 'menuLibrary', 'menuReports'
 ]

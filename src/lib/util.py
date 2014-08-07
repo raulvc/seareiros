@@ -2,7 +2,7 @@
     Some general useful stuff I couldn't really categorize
 '''
 from PySide.QtCore import Qt, QObject, QEvent, Signal, QBuffer, QByteArray, QIODevice
-from PySide.QtGui import QSpinBox, QImage
+from PySide.QtGui import QSpinBox, QImage, QCompleter
 from src.lib.constants import access_table
 
 import sys
@@ -83,3 +83,13 @@ def qbytearray_to_qimage(ba):
     img = QImage()
     img.loadFromData(ba, "PNG")
     return img
+
+def config_completer(line_edit, model, field):
+    # sets up a completer based on a QSqlTableModel for the specified field on a QLineEdit
+    completer = QCompleter()
+    completer.setModel(model)
+    completer.setCompletionColumn(model.fieldIndex(field))
+    completer.setCompletionMode(QCompleter.PopupCompletion)
+    completer.setCaseSensitivity(Qt.CaseInsensitive)
+    completer.activated.connect(line_edit.returnPressed)
+    line_edit.setCompleter(completer)

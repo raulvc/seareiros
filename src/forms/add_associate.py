@@ -4,7 +4,8 @@ import logging
 import operator
 
 from PySide import QtCore
-from PySide.QtGui import QMessageBox, QLineEdit, QComboBox, QScrollArea, QDialog, QTableWidgetItem, QPushButton, QIcon
+from PySide.QtGui import QMessageBox, QLineEdit, QComboBox, QScrollArea, QDialog, QTableWidgetItem, QPushButton, QIcon, \
+    QHeaderView
 from PySide.QtSql import QSqlRelationalTableModel, QSqlQuery
 
 from src.lib import constants
@@ -168,6 +169,7 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
             remove_btn.clicked.connect(partial(self.remove_activity, activity=row))
             self.tableActivities.setCellWidget(i, len(row), remove_btn)
         self.tableActivities.resizeColumnsToContents()
+        self.tableActivities.horizontalHeader().setResizeMode(1, QHeaderView.Stretch)
 
     def add_activity(self, record):
         """ adds an activity to the list except for duplicates """

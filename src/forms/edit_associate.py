@@ -4,7 +4,8 @@ import logging
 import operator
 
 from PySide import QtCore
-from PySide.QtGui import QMessageBox, QLineEdit, QComboBox, QScrollArea, QDialog, QTableWidgetItem, QPushButton, QIcon
+from PySide.QtGui import QMessageBox, QLineEdit, QComboBox, QScrollArea, QDialog, QTableWidgetItem, QPushButton, QIcon, \
+    QHeaderView
 from PySide.QtSql import QSqlRelationalTableModel, QSqlQueryModel
 
 from src.lib import constants
@@ -43,7 +44,6 @@ class AssociateEditForm(QScrollArea, Ui_AssociateForm):
         self.log = logging.getLogger('AssociateEditForm')
 
         self._activity_list = []
-        self._edit_mode = False
 
         self._removed_activities = []
         self._added_activities = []
@@ -131,11 +131,11 @@ class AssociateEditForm(QScrollArea, Ui_AssociateForm):
         return data
 
     def setup_model(self):
-        db = Db_Instance("form_associate").get_instance()
+        db = Db_Instance("edit_associate").get_instance()
         if not db.open():
             self.log.error(db.lastError().text())
             message = unicode("Erro de conexão\n\n""Banco de dados indisponível".decode('utf-8'))
-            QMessageBox.critical(self, "Seareiros - Cadastro de Associado", message)
+            QMessageBox.critical(self, unicode("Seareiros - Edição de Associado".decode('utf-8')), message)
         else:
             self._model = QSqlRelationalTableModel(self, db=db)
             self._model.setTable("associate")
@@ -143,7 +143,7 @@ class AssociateEditForm(QScrollArea, Ui_AssociateForm):
             self._act_model.setTable("associate_in_activity")
             # TODO: Maybe I should validate these
             # associate
-            ok = self._model.setFilter("id = " + str(self._record_id))
+            self._model.setFilter("id = " + str(self._record_id))
             self._model.select()
             self._record = self._model.record(0)
             # activities
@@ -184,20 +184,20 @@ class AssociateEditForm(QScrollArea, Ui_AssociateForm):
             for removed_id in self._removed_activities:
                 self._act_model.setFilter("id_associate = %s AND id_activity = %s" % (str(self._record_id), str(removed_id)))
                 self._act_model.select()
-                items = iterate_model(self._act_model)
                 self._act_model.removeRow(0)
-                ok = self._act_model.submitAll()
-                if not ok:
+                if self._act_model.lastError().isValid():
                     error = True
                     self.log.error(self._act_model.lastError().text())
                     break
             if not error:
-                message = unicode("Sucesso!\n\n""O associado foi salvo com êxito no banco de dados".decode('utf-8'))
+                message = unicode("Sucesso!\n\n""O associado foi atualizado com êxito no banco de dados".decode('utf-8'))
                 QMessageBox.information(self, unicode("Seareiros - Edição de Associado".decode('utf-8')), message)
             else:
                 message = unicode("Erro\n\n""Associado alterado, "
-                                  "porém ocorreu um problema ao salvar suas atividades".decode('utf-8'))
+                                  "porém ocorreu um problema ao atualizar suas atividades".decode('utf-8'))
                 QMessageBox.warning(self, unicode("Seareiros - Edição de Associado".decode('utf-8')), message)
+            # if I don't set this flag here it'll trigger a warning for altering data on the form
+            self._dirty = False
             return True
 
     @QtCore.Slot()
@@ -243,6 +243,7 @@ class AssociateEditForm(QScrollArea, Ui_AssociateForm):
             remove_btn.clicked.connect(partial(self.remove_activity, activity=row))
             self.tableActivities.setCellWidget(i, len(row), remove_btn)
         self.tableActivities.resizeColumnsToContents()
+        self.tableActivities.horizontalHeader().setResizeMode(1, QHeaderView.Stretch)
 
     def is_in_del_queue(self, record):
         return record in self._removed_activities

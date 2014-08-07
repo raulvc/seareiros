@@ -1,8 +1,8 @@
 # -*- coding: UTF-8 -*-
 from PySide import QtCore
-from PySide.QtGui import QIcon, QMessageBox
+from PySide.QtGui import QIcon
 from src.docks.dock_edit import EditDock
-from src.forms.edit_associate import AssociateEditForm
+from src.forms.edit_book import BookEditForm
 
 
 class EditBookDock(EditDock):
