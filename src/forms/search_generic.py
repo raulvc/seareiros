@@ -32,6 +32,10 @@ class GenericSearchForm(QWidget, Ui_SearchForm):
     def resize_columns(self):
         self.viewSearch.resizeColumnsToContents()
         self.viewSearch.horizontalHeader().setResizeMode(QHeaderView.Stretch)
+        # for some reason developers made resizemode options all mutually exclusive, you can't
+        # stretch columns to fill up the widget AND be able to resize them without this
+        for col in range(self.viewSearch.horizontalHeader().count()-1):
+            self.viewSearch.horizontalHeader().setResizeMode(col, QHeaderView.Interactive)
 
     def refresh(self):
         self._model.load()
@@ -53,3 +57,6 @@ class GenericSearchForm(QWidget, Ui_SearchForm):
         search = QtCore.QRegExp(text, QtCore.Qt.CaseInsensitive, QtCore.QRegExp.RegExp)
         self._proxy.setFilterRegExp(search)
 
+    def resizeEvent(self, event):
+        self.resize_columns()
+        super(GenericSearchForm, self).resizeEvent(event)

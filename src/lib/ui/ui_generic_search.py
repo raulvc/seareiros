@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/generic_search.ui'
 #
-# Created: Thu Jul 31 16:54:35 2014
+# Created: Mon Aug 11 11:19:03 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,6 +26,7 @@ class Ui_SearchForm(object):
         self.viewSearch.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         self.viewSearch.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.viewSearch.setObjectName("viewSearch")
+        self.viewSearch.horizontalHeader().setStretchLastSection(False)
         self.viewSearch.verticalHeader().setVisible(False)
         self.gridLayout.addWidget(self.viewSearch, 1, 0, 1, 4)
         self.btnRefresh = QtGui.QPushButton(SearchForm)

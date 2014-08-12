@@ -26,7 +26,8 @@ CREATE TABLE associate (
     resphone text,
     comphone text,
     privphone text,
-    debt money DEFAULT 0
+    debt numeric(15,2) DEFAULT 0.00,
+    active boolean
 );
 
 CREATE TABLE associate_in_activity (
@@ -70,10 +71,11 @@ CREATE TABLE book (
 	s_author_id integer REFERENCES s_author(id),
   publisher_id integer REFERENCES publisher(id),
   year numeric(4,0),
-  price money DEFAULT 0,
+  price numeric(6,2) DEFAULT 0.00,
   description text,
   stock integer DEFAULT 0,
-  image bytea
+  image bytea,
+  availability smallint NOT NULL DEFAULT 0
 );
 
 CREATE TABLE book_in_subject(

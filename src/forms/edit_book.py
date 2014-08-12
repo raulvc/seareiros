@@ -26,7 +26,7 @@ class BookEditForm(QScrollArea, Ui_BookForm):
 
     column = {
             'id':0, 'barcode':1, 'title':2, 'author':3, 's_author':4, 'publisher':5, 'year':6, 'price':7,
-            'description':8, 'stock':9, 'image':10 }
+            'description':8, 'stock':9, 'image':10, 'availability':11 }
     IMG_SIZE = (150, 150)
 
     def __init__(self, record_id, parent=None):
@@ -35,6 +35,10 @@ class BookEditForm(QScrollArea, Ui_BookForm):
         # had to subclass this spinbox to support return grabbing
         self.edYear = YearSpinBox(self)
         self.edYearHolder.addWidget(self.edYear)
+        # configuring id's for radio group
+        self.radioAvailability.setId(self.rdSell,0)
+        self.radioAvailability.setId(self.rdRent,1)
+        self.radioAvailability.setId(self.rdInactive,2)
         # overlaying a clean button over the image (couldn't do it in designer)
         self.btnCleanImage = QPushButton()
         self.btnCleanImage.setIcon(QIcon(":icons/clean.png"))
@@ -120,6 +124,7 @@ class BookEditForm(QScrollArea, Ui_BookForm):
         self.edTitle.setText(self._record.value("title"))
         self.edYear.setValue(self._record.value("year"))
         self.edDescription.setPlainText(self._record.value("description"))
+        self.radioAvailability.button(self._record.value("availability")).setChecked(True)
         # retrieving image
         ba = QByteArray(self._record.value("image"))
         if ba:
@@ -127,7 +132,8 @@ class BookEditForm(QScrollArea, Ui_BookForm):
             img = qbytearray_to_qimage(ba)
             self.set_image(img, clean_visible=True)
         # currency
-        self.edPrice.setText(self._locale.toString(float(self._record.value("price").replace('$',''))).replace('.',''))
+        # TODO: ARRUMAR
+        self.edPrice.setText(self._locale.toString(self._record.value("price")).replace('.',''))
         # qcompleter fields
         self.edAuthor.setText(self._get_name_from_id("author", self._record.value("author_id")))
         self.edSAuthor.setText(self._get_name_from_id("s_author", self._record.value("s_author_id")))
@@ -188,6 +194,8 @@ class BookEditForm(QScrollArea, Ui_BookForm):
         data['description'] = self.edDescription.toPlainText()
         if not text_only and self._image_changed and self._image_set:
             data['image'] = qpixmap_to_qbytearray(self.edImage.pixmap())
+
+        data['availability'] = self.radioAvailability.checkedId()
 
         return data
 
@@ -254,8 +262,6 @@ class BookEditForm(QScrollArea, Ui_BookForm):
                     return False
         for key,val in data.items():
             self._model.setData(self._model.index(0, self.column[key]), val)
-        print 'image' in data
-        print self._image_changed
         if 'image' not in data and self._image_changed:
             # user cleared the image
             ok = self._model.setData(self._model.index(0, self.column['image']), None)

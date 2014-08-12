@@ -25,7 +25,7 @@ class BookAddForm(QScrollArea, Ui_BookForm):
 
     column = {
             'barcode':1, 'title':2, 'author':3, 's_author':4, 'publisher':5, 'year':6, 'price':7,
-            'description':8, 'stock':9, 'image':10 }
+            'description':8, 'stock':9, 'image':10, 'availability':11 }
 
     IMG_SIZE = (150, 150)
 
@@ -35,6 +35,10 @@ class BookAddForm(QScrollArea, Ui_BookForm):
         # had to subclass this spinbox to support return grabbing
         self.edYear = YearSpinBox(self)
         self.edYearHolder.addWidget(self.edYear)
+        # configuring id's for radio group
+        self.radioAvailability.setId(self.rdSell,0)
+        self.radioAvailability.setId(self.rdRent,1)
+        self.radioAvailability.setId(self.rdInactive,2)
 
         self._access = statics.access_level
         # for currency formatting
@@ -313,6 +317,8 @@ class BookAddForm(QScrollArea, Ui_BookForm):
         data['description'] = self.edDescription.toPlainText()
         if self._image_set:
             data['image'] = qpixmap_to_qbytearray(self.edImage.pixmap())
+
+        data['availability'] = self.radioAvailability.checkedId()
 
         return data
 

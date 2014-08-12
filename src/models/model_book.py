@@ -7,14 +7,18 @@ from src.models.model_base import BaseTableModel
 class BookTableModel(BaseTableModel):
     """ Model for associate objects """
 
-    ID, TITLE, AUTHOR, S_AUTHOR, PRICE, STOCK = range(6)
+    ID, TITLE, AUTHOR, S_AUTHOR, PRICE, STOCK, AVAILABILITY = range(7)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, display_mode=""):
         super(BookTableModel, self).__init__(parent)
-        self._sql_statement = "SELECT b.id, b.title, a.name as author, s_a.name as s_author, b.price, b.stock " \
-                        "FROM book b " \
-                        "LEFT JOIN author a ON b.author_id = a.id " \
-                        "LEFT JOIN s_author s_a ON b.s_author_id = s_a.id"
+        self._sql_statement = "SELECT b.id, b.title, a.name as author, s_a.name as s_author, b.price, b.stock, b.availability " \
+                "FROM book b " \
+                "LEFT JOIN author a ON b.author_id = a.id " \
+                "LEFT JOIN s_author s_a ON b.s_author_id = s_a.id"
+        if display_mode == "SELL":
+            self._sql_statement.replace(self._sql_statement, self._sql_statement + " WHERE b.availability = 0")
+        elif display_mode == "RENT":
+            self._sql_statement.replace(self._sql_statement, self._sql_statement + " WHERE b.availability = 1")
         self._name = "populate_book"
 
     def load(self):
@@ -41,6 +45,8 @@ class BookTableModel(BaseTableModel):
                 return record.value("price")
             elif column == self.STOCK:
                 return record.value("stock")
+            elif column == self.AVAILABILITY:
+                return self.extend_availability(record.value("availability"))
         return None
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):
@@ -65,4 +71,10 @@ class BookTableModel(BaseTableModel):
                 return unicode("Preço".decode('utf-8'))
             elif section == self.STOCK:
                 return "Estoque"
+            elif section == self.AVAILABILITY:
+                return "Disponibilidade"
         return section + 1
+
+    def extend_availability(self, availability):
+        avail_list = ['Venda', unicode('Locação'.decode('utf-8')), 'Inativo']
+        return avail_list[availability]

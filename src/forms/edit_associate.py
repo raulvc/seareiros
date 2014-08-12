@@ -26,7 +26,7 @@ class AssociateEditForm(QScrollArea, Ui_AssociateForm):
     column = {
             'id':0, 'fullname':1, 'nickname':2, 'rg':3, 'cpf':4, 'maritalstatus':5, 'email':6, 'streetaddress':7,
             'complement':8, 'district':9, 'province':10, 'city':11, 'cep':12, 'phoneres':13, 'phonecom':14,
-            'phonepriv':15 }
+            'phonepriv':15, 'active':17 }
 
     def __init__(self, record_id, parent=None):
         super(AssociateEditForm, self).__init__(parent)
@@ -34,6 +34,10 @@ class AssociateEditForm(QScrollArea, Ui_AssociateForm):
 
         self._access = statics.access_level
         self._record_id = record_id
+
+        # configuring id's for radio group
+        self.radioStatus.setId(self.rdActive,0)
+        self.radioStatus.setId(self.rdInactive,1)
 
         # had to hardcode these, wouldn't work otherwise:
         self.contentsLayout.setAlignment(self.groupBox, QtCore.Qt.AlignTop)
@@ -92,6 +96,10 @@ class AssociateEditForm(QScrollArea, Ui_AssociateForm):
         self.edPhoneRes.setText(self._record.value(13))
         self.edPhoneCom.setText(self._record.value(14))
         self.edPhonePriv.setText(self._record.value(15))
+        if self._record.value("active"):
+            self.rdActive.setChecked(True)
+        else:
+            self.rdInactive.setChecked(True)
         # retrieving associate activities
         for act_record in self._activity_records:
             self.add_activity(act_record)
@@ -128,6 +136,10 @@ class AssociateEditForm(QScrollArea, Ui_AssociateForm):
         data['phoneres'] = self.remove_mask_when_empty(self.edPhoneRes.text())
         data['phonecom'] = self.remove_mask_when_empty(self.edPhoneCom.text())
         data['phonepriv'] = self.remove_mask_when_empty(self.edPhonePriv.text())
+        if self.radioStatus.checkedId() == 0:
+            data['active'] = True
+        else:
+            data['active'] = False
         return data
 
     def setup_model(self):

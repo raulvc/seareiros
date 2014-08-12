@@ -9,8 +9,10 @@ from src.models.model_associate import AssociateTableModel
 class AssociateSearchForm(GenericSearchForm):
     """ Search form for associates """
 
-    def __init__(self, parent=None, editable=False):
-        super(AssociateSearchForm, self).__init__(AssociateTableModel(), parent)
+    def __init__(self, parent=None, editable=False, osa=False):
+        # bad practice, repassing parameter endlessly
+        # osa = True: DISPLAY ONLY ACTIVE RECORDS
+        super(AssociateSearchForm, self).__init__(AssociateTableModel(only_show_active=osa), parent)
         self._editable = editable
 
     def setup_view(self):

@@ -7,12 +7,16 @@ from src.models.model_base import BaseTableModel
 class AssociateTableModel(BaseTableModel):
     """ Model for associate objects """
 
-    ID, FULLNAME, NICKNAME, EMAIL, RESPHONE, COMPHONE, PRIVPHONE, STREETADDRESS = range(8)
+    ID, FULLNAME, NICKNAME, EMAIL, RESPHONE, COMPHONE, PRIVPHONE, STREETADDRESS, ACTIVE = range(9)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, only_show_active=False):
         super(AssociateTableModel, self).__init__(parent)
-        self._sql_statement = "SELECT id, fullname, nickname, email, resphone, comphone, privphone, " \
-                        "streetaddress FROM associate"
+        if only_show_active:
+            self._sql_statement = "SELECT id, fullname, nickname, email, resphone, comphone, privphone, " \
+                        "streetaddress FROM associate WHERE active = TRUE"
+        else:
+            self._sql_statement = "SELECT id, fullname, nickname, email, resphone, comphone, privphone, " \
+                        "streetaddress, active FROM associate"
         self._name = "populate_associate"
 
     def load(self):
@@ -43,6 +47,11 @@ class AssociateTableModel(BaseTableModel):
                 return record.value("privphone")
             elif column == self.STREETADDRESS:
                 return record.value("streetaddress")
+            elif column == self.ACTIVE:
+                if record.value("active"):
+                    return "Ativo"
+                else:
+                    return "Inativo"
 
         return None
 
@@ -72,4 +81,6 @@ class AssociateTableModel(BaseTableModel):
                 return "Celular"
             elif section == self.STREETADDRESS:
                 return unicode("Endereço".decode('utf-8'))
+            elif section == self.ACTIVE:
+                return "Status"
         return section + 1

@@ -322,6 +322,89 @@
     </item>
     <item>
      <widget class="QGroupBox" name="groupBox_2">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>703</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Disponibilidade</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> QGroupBox {
+	 font-weight: bold;
+     border: 2px solid gray;
+     border-radius: 5px;
+     margin-top: 25px;
+ }
+
+ QGroupBox::title {
+	 background-color: transparent;
+     subcontrol-origin: margin;
+	 subcontrol-position: top left;
+ }</string>
+      </property>
+      <property name="title">
+       <string>Disponibilidade</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QRadioButton" name="rdSell">
+         <property name="text">
+          <string>Venda</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../res/icons.qrc">
+           <normaloff>:/icons/book.png</normaloff>:/icons/book.png</iconset>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">radioAvailability</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QRadioButton" name="rdRent">
+         <property name="text">
+          <string>Locação</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../res/icons.qrc">
+           <normaloff>:/icons/book_lend.png</normaloff>:/icons/book_lend.png</iconset>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">radioAvailability</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QRadioButton" name="rdInactive">
+         <property name="text">
+          <string>Inativo</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../res/icons.qrc">
+           <normaloff>:/icons/conn_failed.png</normaloff>:/icons/conn_failed.png</iconset>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">radioAvailability</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox_3">
       <property name="maximumSize">
        <size>
         <width>703</width>
@@ -414,6 +497,9 @@
   <tabstop>edPublisher</tabstop>
   <tabstop>edPrice</tabstop>
   <tabstop>edDescription</tabstop>
+  <tabstop>rdSell</tabstop>
+  <tabstop>rdRent</tabstop>
+  <tabstop>rdInactive</tabstop>
   <tabstop>edSubject</tabstop>
   <tabstop>btnAddSubject</tabstop>
   <tabstop>btnCleanSubjects</tabstop>
@@ -423,4 +509,7 @@
   <include location="../../../res/icons.qrc"/>
  </resources>
  <connections/>
+ <buttongroups>
+  <buttongroup name="radioAvailability"/>
+ </buttongroups>
 </ui>

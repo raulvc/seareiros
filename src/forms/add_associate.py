@@ -25,7 +25,7 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
     column = {
             'fullname':1, 'nickname':2, 'rg':3, 'cpf':4, 'maritalstatus':5, 'email':6, 'streetaddress':7,
             'complement':8, 'district':9, 'province':10, 'city':11, 'cep':12,
-            'phoneres':13, 'phonecom':14, 'phonepriv':15 }
+            'phoneres':13, 'phonecom':14, 'phonepriv':15, 'active':17 }
 
     def __init__(self, parent=None):
         super(AssociateAddForm, self).__init__(parent)
@@ -33,7 +33,12 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
 
         self._access = statics.access_level
 
+        # configuring id's for radio group
+        self.radioStatus.setId(self.rdActive,0)
+        self.radioStatus.setId(self.rdInactive,1)
+
         # had to hardcode these, wouldn't work otherwise:
+        self.contentsLayout.setAlignment(self.groupBox_5, QtCore.Qt.AlignTop)
         self.contentsLayout.setAlignment(self.groupBox, QtCore.Qt.AlignTop)
         self.contentsLayout.setAlignment(self.groupBox_2, QtCore.Qt.AlignTop)
         self.contentsLayout.setAlignment(self.groupBox_3, QtCore.Qt.AlignTop)
@@ -217,6 +222,10 @@ class AssociateAddForm(QScrollArea, Ui_AssociateForm):
         data['phoneres'] = self.remove_mask_when_empty(self.edPhoneRes.text())
         data['phonecom'] = self.remove_mask_when_empty(self.edPhoneCom.text())
         data['phonepriv'] = self.remove_mask_when_empty(self.edPhonePriv.text())
+        if self.radioStatus.checkedId() == 0:
+            data['active'] = True
+        else:
+            data['active'] = False
         return data
 
     def remove_mask_when_empty(self, text):
