@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/main.ui'
 #
-# Created: Mon Aug 11 11:19:02 2014
+# Created: Wed Aug 13 16:30:15 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -154,7 +154,6 @@ class Ui_MainWindow(object):
         self.menuAdd.addAction(self.actionAddAssociate)
         self.menuAdd.addAction(self.actionAddActivity)
         self.menuAdd.addAction(self.actionAddBook)
-        self.menuAdd.addAction(self.actionAddProduct)
         self.menuOrder.addAction(self.actionSellBook)
         self.menuOrder.addAction(self.actionSellProduct)
         self.menuOrder.addAction(self.actionSellEvent)

@@ -7,7 +7,7 @@ from src.models.model_book import BookTableModel
 
 
 class BookSearchForm(GenericSearchForm):
-    """ Search form for associates """
+    """ Search form for books """
 
     def __init__(self, parent=None, editable=False, dm=""):
         super(BookSearchForm, self).__init__(BookTableModel(display_mode=dm), parent)

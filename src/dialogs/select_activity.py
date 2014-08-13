@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
-from PySide import QtCore
-from PySide.QtGui import QStackedWidget, QIcon
+from PySide.QtGui import QIcon
 from src.dialogs.select_generic import GenericSelect
 from src.forms.add_activity import ActivityForm
 from src.forms.search_activity import ActivitySearchForm
@@ -10,7 +9,7 @@ class ActivitySelectDialog(GenericSelect):
 
     def __init__(self, parent=None):
         super(ActivitySelectDialog, self).__init__(parent)
-        self.setWindowTitle("Seleçionar Atividade")
+        self.setWindowTitle("Selecionar Atividade")
         self.setWindowIcon(QIcon(":icons/activity.png"))
 
     def setup_add(self):

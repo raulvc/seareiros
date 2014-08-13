@@ -40,14 +40,14 @@ def iterate_model(model):
         i += 1
     return record_list
 
-class YearSpinBox(QSpinBox):
+class ReturnKeySpinBox(QSpinBox):
     def __init__(self, parent=None):
-        super(YearSpinBox, self).__init__(parent)
+        super(ReturnKeySpinBox, self).__init__(parent)
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Return:
             self.focusNextChild()
         else:
-            super(YearSpinBox, self).keyPressEvent(event)
+            super(ReturnKeySpinBox, self).keyPressEvent(event)
 
 def clickable(widget):
     """ Makes non-clickable widgets clickable

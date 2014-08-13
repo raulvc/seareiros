@@ -13,7 +13,7 @@ from PySide.QtSql import QSqlTableModel, QSqlQuery
 
 from src.lib import statics
 from src.lib.ui.ui_form_book import Ui_BookForm
-from src.lib.util import YearSpinBox, clickable, qpixmap_to_qbytearray, config_completer
+from src.lib.util import ReturnKeySpinBox, clickable, qpixmap_to_qbytearray, config_completer
 from src.lib.validators import UppercaseValidator, NumericValidator, CurrencyValidator
 from src.lib.db_util import Db_Instance,  submit_and_get_id
 
@@ -33,7 +33,7 @@ class BookAddForm(QScrollArea, Ui_BookForm):
         super(BookAddForm, self).__init__(parent)
         self.setupUi(self)
         # had to subclass this spinbox to support return grabbing
-        self.edYear = YearSpinBox(self)
+        self.edYear = ReturnKeySpinBox(self)
         self.edYearHolder.addWidget(self.edYear)
         # configuring id's for radio group
         self.radioAvailability.setId(self.rdSell,0)
@@ -231,6 +231,8 @@ class BookAddForm(QScrollArea, Ui_BookForm):
                 message = unicode("Sucesso!\n\n""O livro foi salvo com êxito no banco de dados".decode('utf-8'))
                 QMessageBox.information(self, "Seareiros - Cadastro de Livro", message)
                 return True
+        # failed to insert a row
+        return False
 
     def clear(self):
         self._dirty = False

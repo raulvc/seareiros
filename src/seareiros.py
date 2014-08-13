@@ -1,9 +1,6 @@
 # -*- coding: UTF-8 -*-
-from PySide import QtCore
 from PySide.QtCore import QLocale
-
 from PySide.QtGui import QApplication, QDialog
-
 import sys
 import logging
 from src.login import Login

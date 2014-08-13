@@ -84,6 +84,24 @@ CREATE TABLE book_in_subject(
 	CONSTRAINT book_in_subject_pkey PRIMARY KEY (book_id, subject_id)
 );
 
+CREATE TABLE p_order(
+  id serial PRIMARY KEY,
+  associate_id integer REFERENCES associate(id),
+  date timestamp without time zone NOT NULL DEFAULT now(),
+  obs text,
+  -- keeping this field stored for better performance (instead of calculating on the fly)
+  total numeric(6,2) NOT NULL DEFAULT 0.00
+);
+-- client's rule: don't keep a reference to the product itself
+CREATE TABLE p_order_item(
+  id serial PRIMARY KEY,
+  p_order_id integer REFERENCES p_order(id) NOT NULL,
+  p_name text NOT NULL,
+  price numeric(6,2) NOT NULL,
+  quantity smallint NOT NULL DEFAULT 1
+);
+
+
 CREATE TABLE history (
     id serial PRIMARY KEY,
     type text,

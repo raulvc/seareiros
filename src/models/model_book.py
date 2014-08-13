@@ -5,7 +5,7 @@ from src.models.model_base import BaseTableModel
 
 
 class BookTableModel(BaseTableModel):
-    """ Model for associate objects """
+    """ Model for book objects """
 
     ID, TITLE, AUTHOR, S_AUTHOR, PRICE, STOCK, AVAILABILITY = range(7)
 
@@ -68,7 +68,7 @@ class BookTableModel(BaseTableModel):
             elif section == self.S_AUTHOR:
                 return "Autor (Esp.)"
             elif section == self.PRICE:
-                return unicode("Preço".decode('utf-8'))
+                return unicode("Preço (R$)".decode('utf-8'))
             elif section == self.STOCK:
                 return "Estoque"
             elif section == self.AVAILABILITY:

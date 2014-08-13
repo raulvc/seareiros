@@ -51,7 +51,6 @@
     <addaction name="actionAddAssociate"/>
     <addaction name="actionAddActivity"/>
     <addaction name="actionAddBook"/>
-    <addaction name="actionAddProduct"/>
    </widget>
    <widget class="QMenu" name="menuOrder">
     <property name="title">

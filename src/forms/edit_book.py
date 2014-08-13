@@ -13,7 +13,7 @@ from PySide.QtSql import QSqlQueryModel, QSqlTableModel, QSqlRelationalTableMode
 
 from src.lib import statics
 from src.lib.ui.ui_form_book import Ui_BookForm
-from src.lib.util import iterate_model, YearSpinBox, clickable, qpixmap_to_qbytearray, qbytearray_to_qimage, \
+from src.lib.util import iterate_model, ReturnKeySpinBox, clickable, qpixmap_to_qbytearray, qbytearray_to_qimage, \
     config_completer
 from src.lib.validators import UppercaseValidator, CurrencyValidator, NumericValidator
 from src.lib.db_util import Db_Instance, submit_and_get_id
@@ -33,7 +33,7 @@ class BookEditForm(QScrollArea, Ui_BookForm):
         super(BookEditForm, self).__init__(parent)
         self.setupUi(self)
         # had to subclass this spinbox to support return grabbing
-        self.edYear = YearSpinBox(self)
+        self.edYear = ReturnKeySpinBox(self)
         self.edYearHolder.addWidget(self.edYear)
         # configuring id's for radio group
         self.radioAvailability.setId(self.rdSell,0)
@@ -133,7 +133,7 @@ class BookEditForm(QScrollArea, Ui_BookForm):
             self.set_image(img, clean_visible=True)
         # currency
         # TODO: ARRUMAR
-        self.edPrice.setText(self._locale.toString(self._record.value("price")).replace('.',''))
+        self.edPrice.setText(self._locale.toString(self._record.value("price"), 'f', 2).replace('.',''))
         # qcompleter fields
         self.edAuthor.setText(self._get_name_from_id("author", self._record.value("author_id")))
         self.edSAuthor.setText(self._get_name_from_id("s_author", self._record.value("s_author_id")))
