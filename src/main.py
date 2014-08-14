@@ -23,8 +23,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, user_data, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        message = QLabel(unicode("Usuário: ".decode('utf-8')) + user_data[0])
-        self.statusbar.addWidget(message)
+        self.set_username(user_data[0])
         self._docks = []
         self._stackedWidget = QStackedWidget()
         self.setCentralWidget(self._stackedWidget)
@@ -33,7 +32,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._edit_mode = False
         self._stackedWidget.currentChanged.connect(self.dock_changed)
         # permission stuff
-        self.setup_access(user_data[1])
+        self.set_access(user_data[1])
 
     def dock_changed(self, new_index):
         new_dock = self._stackedWidget.widget(new_index).objectName()
@@ -47,7 +46,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def is_editing(self):
         return self._edit_mode
 
-    def setup_access(self, access_level):
+    def set_username(self, username):
+        statics.username = username
+        message = QLabel(unicode("Usuário: ".decode('utf-8')) + username)
+        self.statusbar.addWidget(message)
+
+    def set_access(self, access_level):
         statics.access_level = access_level
         # set availability for QAction objects
         for action in self.findChildren(QAction):
@@ -130,6 +134,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._docks.remove(inst)
         self._stackedWidget.removeWidget(inst)
         self._stackedWidget.setCurrentWidget(self._overview)
+        self._overview.refresh()
 
     def closeEvent(self, event):
         message = unicode("Deseja mesmo sair?".decode('utf-8'))

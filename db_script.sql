@@ -101,11 +101,11 @@ CREATE TABLE p_order_item(
   quantity smallint NOT NULL DEFAULT 1
 );
 
-
 CREATE TABLE history (
-    id serial PRIMARY KEY,
+    id serial PRIMARY KEY,    
     type text,
+    id_ref integer,
     description text,
-    date timestamp without time zone,
-    username text REFERENCES users(username)
+    date timestamp without time zone NOT NULL DEFAULT now(),
+    username text REFERENCES users(username) NOT NULL
 );

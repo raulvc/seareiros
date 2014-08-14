@@ -2,8 +2,9 @@
 #from time import sleep
 from PySide.QtCore import QThread, Signal, QObject
 from PySide.QtGui import QMessageBox
-from PySide.QtSql import QSqlDatabase, QSqlQuery
+from PySide.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
 import logging
+from src.lib import statics
 from src.lib.settings import SettingsParser
 
 # logging.basicConfig(filename="seareiros.log", format="""%(asctime)-15s:
@@ -140,6 +141,21 @@ class Db_Instance():
         self._db.setPassword("localadm")
     def get_instance(self):
         return self._db
+
+def log_to_history(db_session, type, id_ref, description):
+    """ logs a short summary to be displayed on the overview dock """
+    # history
+    model = QSqlTableModel(db=db_session)
+    model.setTable("history")
+    model.insertRow(0)
+    model.setData(model.index(0,1), type)
+    model.setData(model.index(0,2), id_ref)
+    model.setData(model.index(0,3), description)
+    model.setData(model.index(0,5), statics.username)
+    if model.submitAll():
+        return True
+    return False
+
 
 def last_id_from_sequence(table, db, id_field="id"):
     # db has to be passed as parameter as we have to capture the same session for this to work

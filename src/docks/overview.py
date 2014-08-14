@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 from PySide import QtCore
-from PySide.QtGui import QDockWidget, QSortFilterProxyModel
+from PySide.QtGui import QDockWidget, QSortFilterProxyModel, QHeaderView
 from src.lib.ui.ui_overview import Ui_Dock
 from src.models.model_overview import OverviewTableModel
 
@@ -24,12 +24,15 @@ class OverviewDock(QDockWidget, Ui_Dock):
 
     def setup_view(self):
         self.tableView.setColumnHidden(self._model.ID, True)
+        self.tableView.setColumnHidden(self._model.TYPE, True)
+        self.tableView.setColumnHidden(self._model.ID_REF, True)
         self.resize_columns()
         #self.tableView.setFocus()
         self.tableView.selectRow(self._model.rowCount() - 1)
 
     def resize_columns(self):
         self.tableView.resizeColumnsToContents()
+        self.tableView.horizontalHeader().setResizeMode(self._model.DESCRIPTION, QHeaderView.Stretch)
 
     @QtCore.Slot(QtCore.QDate)
     def on_dateEdit_dateChanged(self, date):
@@ -37,6 +40,9 @@ class OverviewDock(QDockWidget, Ui_Dock):
 
     @QtCore.Slot()
     def on_btnRefresh_clicked(self):
+        self.refresh()
+
+    def refresh(self):
         self._model.load_date(self.dateEdit.date())
 
     @QtCore.Slot(QtCore.QModelIndex)

@@ -8,7 +8,7 @@ from src.models.model_base import BaseTableModel
 class OverviewTableModel(BaseTableModel):
     """ Model for overview objects """
 
-    ID, TYPE, DESCRIPTION, DATE, USERNAME = range(5)
+    ID, TYPE, ID_REF, DESCRIPTION, DATE, USERNAME = range(6)
 
     def __init__(self, parent=None):
         super(OverviewTableModel, self).__init__(parent)
@@ -43,6 +43,8 @@ class OverviewTableModel(BaseTableModel):
                 return record.value("id")
             elif column == self.TYPE:
                 return record.value("type")
+            elif column == self.ID_REF:
+                return record.value("id_ref")
             elif column == self.DESCRIPTION:
                 return record.value("description")
             elif column == self.DATE:
@@ -52,8 +54,10 @@ class OverviewTableModel(BaseTableModel):
 
         elif role == Qt.BackgroundRole:
             type = record.value('type')
-            if type == 'venda':
-                return QColor("yellow")
+            if type == 'venda_bazar':
+                return QColor(248, 255, 122)
+            elif type == 'venda_livro':
+                return QColor(197, 252, 249)
             else:
                 return QColor("white")
 
@@ -71,9 +75,7 @@ class OverviewTableModel(BaseTableModel):
             return None
 
         if orientation == Qt.Horizontal:
-            if section == self.TYPE:
-                return "Tipo"
-            elif section == self.DESCRIPTION:
+            if section == self.DESCRIPTION:
                 return unicode("Descrição".decode('utf-8'))
             elif section == self.DATE:
                 return "Data e Hora"

@@ -16,7 +16,7 @@ from src.lib import statics
 from src.lib.ui.ui_oform_product import Ui_ProductOForm
 from src.lib.util import ReturnKeySpinBox
 from src.lib.validators import UppercaseValidator, CurrencyValidator
-from src.lib.db_util import Db_Instance, submit_and_get_id
+from src.lib.db_util import Db_Instance, submit_and_get_id, log_to_history
 
 
 logger = logging.getLogger('order_product')
@@ -130,6 +130,13 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
                 QMessageBox.warning(self, "Seareiros - Vendas do Bazar", message)
                 return False
             else:
+                # all went fine
+                if 'associate' in data:
+                    desc = "Venda do bazar no valor de R$ %s para %s" % (self._locale.toString(data['total'], 'f', 2).replace('.',''),
+                                                                      self.lblNickname.text())
+                else:
+                    desc = "Venda do bazar no valor de R$ %s" % self._locale.toString(data['total'], 'f', 2).replace('.','')
+                log_to_history(self._model.database(), "venda_bazar", order_id, desc)
                 message = unicode("Sucesso!\n\n""Venda concluída.".decode('utf-8'))
                 QMessageBox.information(self, "Seareiros - Vendas do Bazar", message)
                 return True
