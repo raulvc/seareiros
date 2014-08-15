@@ -24,7 +24,7 @@ logger = logging.getLogger('order_product')
 class ProductOrderForm(QScrollArea, Ui_ProductOForm):
     """ Interface for ordering products """
 
-    column = { 'associate':1, 'obs':3, 'total':4 }
+    column = { 'associate':1, 'obs':3, 'total':4, 'paid':5 }
 
 
     def __init__(self, parent=None):
@@ -42,6 +42,7 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
         self.contentsLayout.setAlignment(self.groupBox, QtCore.Qt.AlignTop)
         self.contentsLayout.setAlignment(self.groupBox_2, QtCore.Qt.AlignTop)
         self.contentsLayout.setAlignment(self.groupBox_3, QtCore.Qt.AlignTop)
+        self.contentsLayout.setAlignment(self.groupBox_4, QtCore.Qt.AlignTop)
 
 
         self.log = logging.getLogger('ProductOForm')
@@ -101,6 +102,13 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
             self._dirty = True
 
     def submit_data(self):
+        # I should block empty orders I guess
+        if len(self._product_list) == 0:
+            message = unicode("Venda vazia!\n\n"""
+                              "É necessário adicionar um produto antes de concluir uma venda".decode('utf-8'))
+            QMessageBox.critical(self, "Seareiros - Vendas do Bazar", message)
+            self.edProductName.setFocus()
+            return False
         data = self.extract_input()
         # filling a product order
         self._model.insertRow(0)
@@ -131,12 +139,14 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
                 return False
             else:
                 # all went fine
+                # retrieving some brief info of the order to display at the main window
                 if 'associate' in data:
-                    desc = "Venda do bazar no valor de R$ %s para %s" % (self._locale.toString(data['total'], 'f', 2).replace('.',''),
-                                                                      self.lblNickname.text())
+                    desc = "Venda do bazar no valor de R$ %s para %s" % \
+                           (self._locale.toString(data['total'], 'f', 2).replace('.',''), self.lblNickname.text())
                 else:
                     desc = "Venda do bazar no valor de R$ %s" % self._locale.toString(data['total'], 'f', 2).replace('.','')
-                log_to_history(self._model.database(), "venda_bazar", order_id, desc)
+                if not log_to_history(self._model.database(), "venda_bazar", order_id, desc):
+                    self.log.error(self._model.lastError().text())
                 message = unicode("Sucesso!\n\n""Venda concluída.".decode('utf-8'))
                 QMessageBox.information(self, "Seareiros - Vendas do Bazar", message)
                 return True
@@ -164,6 +174,9 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
         self.lblNickname.clear()
         self._associate_id = None
         self.frameAssociate.setVisible(False)
+        # can't allow an order to be paid later without an associate to relate to
+        self.rdNotPaid.setEnabled(False)
+        self.rdPaid.setChecked(True)
 
     @QtCore.Slot()
     def on_btnAddProduct_clicked(self):
@@ -189,6 +202,8 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
             self._associate_id = record.value("id")
             self.set_associate_info(record.value("fullname"), record.value("nickname"))
             self.frameAssociate.setVisible(True)
+            # a registered associate can pay later
+            self.rdNotPaid.setEnabled(True)
             self.edProductName.setFocus()
 
     def set_associate_info(self, fullname, nickname):
@@ -270,4 +285,8 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
             data['associate'] = self._associate_id
         data['obs'] = self.edObs.toPlainText()
         data['total'] = self._total
+        if self.rdPaid.isChecked():
+            data['paid'] = True
+        else:
+            data['paid'] = False
         return data

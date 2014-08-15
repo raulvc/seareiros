@@ -27,5 +27,7 @@
      <file>icons/loading.gif</file>
      <file>icons/save.png</file>
      <file>icons/no_image.png</file>
+     <file>icons/money_received.png</file>
+     <file>icons/money_unreceived.png</file>
  </qresource>
  </RCC>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>730</width>
-    <height>721</height>
+    <height>804</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>728</width>
-     <height>719</height>
+     <height>802</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="contentsLayout">
@@ -472,6 +472,69 @@
      </widget>
     </item>
     <item>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="maximumSize">
+       <size>
+        <width>703</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> QGroupBox {
+	 font-weight: bold;
+     border: 2px solid gray;
+     border-radius: 5px;
+     margin-top: 25px;
+ }
+
+ QGroupBox::title {
+	 background-color: transparent;
+     subcontrol-origin: margin;
+	 subcontrol-position: top left;
+ }</string>
+      </property>
+      <property name="title">
+       <string>Situação</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QRadioButton" name="rdPaid">
+         <property name="text">
+          <string>Quitado</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../res/icons.qrc">
+           <normaloff>:/icons/money_received.png</normaloff>:/icons/money_received.png</iconset>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">radioMoney</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="rdNotPaid">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>A receber</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../res/icons.qrc">
+           <normaloff>:/icons/money_unreceived.png</normaloff>:/icons/money_unreceived.png</iconset>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">radioMoney</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
      <widget class="QGroupBox" name="groupBox_3">
       <property name="maximumSize">
        <size>
@@ -539,4 +602,7 @@
   <include location="../../../res/icons.qrc"/>
  </resources>
  <connections/>
+ <buttongroups>
+  <buttongroup name="radioMoney"/>
+ </buttongroups>
 </ui>

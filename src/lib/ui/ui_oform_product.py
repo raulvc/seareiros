@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/oform_product.ui'
 #
-# Created: Wed Aug 13 16:30:15 2014
+# Created: Fri Aug 15 09:53:18 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,11 +12,11 @@ from PySide import QtCore, QtGui
 class Ui_ProductOForm(object):
     def setupUi(self, ProductOForm):
         ProductOForm.setObjectName("ProductOForm")
-        ProductOForm.resize(730, 721)
+        ProductOForm.resize(730, 804)
         ProductOForm.setWidgetResizable(True)
         ProductOForm.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.FormContents = QtGui.QWidget()
-        self.FormContents.setGeometry(QtCore.QRect(0, 0, 728, 719))
+        self.FormContents.setGeometry(QtCore.QRect(0, 0, 728, 802))
         self.FormContents.setObjectName("FormContents")
         self.contentsLayout = QtGui.QVBoxLayout(self.FormContents)
         self.contentsLayout.setSpacing(6)
@@ -199,6 +199,42 @@ class Ui_ProductOForm(object):
         self.verticalLayout_4.addItem(spacerItem4)
         self.gridLayout_4.addLayout(self.verticalLayout_4, 1, 4, 2, 1)
         self.contentsLayout.addWidget(self.groupBox_2)
+        self.groupBox_4 = QtGui.QGroupBox(self.FormContents)
+        self.groupBox_4.setMaximumSize(QtCore.QSize(703, 16777215))
+        self.groupBox_4.setStyleSheet(" QGroupBox {\n"
+"     font-weight: bold;\n"
+"     border: 2px solid gray;\n"
+"     border-radius: 5px;\n"
+"     margin-top: 25px;\n"
+" }\n"
+"\n"
+" QGroupBox::title {\n"
+"     background-color: transparent;\n"
+"     subcontrol-origin: margin;\n"
+"     subcontrol-position: top left;\n"
+" }")
+        self.groupBox_4.setObjectName("groupBox_4")
+        self.horizontalLayout_2 = QtGui.QHBoxLayout(self.groupBox_4)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.rdPaid = QtGui.QRadioButton(self.groupBox_4)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(":/icons/money_received.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.rdPaid.setIcon(icon3)
+        self.rdPaid.setChecked(True)
+        self.rdPaid.setObjectName("rdPaid")
+        self.radioMoney = QtGui.QButtonGroup(ProductOForm)
+        self.radioMoney.setObjectName("radioMoney")
+        self.radioMoney.addButton(self.rdPaid)
+        self.horizontalLayout_2.addWidget(self.rdPaid)
+        self.rdNotPaid = QtGui.QRadioButton(self.groupBox_4)
+        self.rdNotPaid.setEnabled(False)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(":/icons/money_unreceived.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.rdNotPaid.setIcon(icon4)
+        self.rdNotPaid.setObjectName("rdNotPaid")
+        self.radioMoney.addButton(self.rdNotPaid)
+        self.horizontalLayout_2.addWidget(self.rdNotPaid)
+        self.contentsLayout.addWidget(self.groupBox_4)
         self.groupBox_3 = QtGui.QGroupBox(self.FormContents)
         self.groupBox_3.setMaximumSize(QtCore.QSize(703, 16777215))
         self.groupBox_3.setStyleSheet(" QGroupBox {\n"
@@ -254,6 +290,9 @@ class Ui_ProductOForm(object):
         self.label_2.setText(QtGui.QApplication.translate("ProductOForm", "Preço (R$):", None, QtGui.QApplication.UnicodeUTF8))
         self.btnAddProduct.setText(QtGui.QApplication.translate("ProductOForm", "Adicionar", None, QtGui.QApplication.UnicodeUTF8))
         self.btnCleanProducts.setText(QtGui.QApplication.translate("ProductOForm", "Limpar", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_4.setTitle(QtGui.QApplication.translate("ProductOForm", "Situação", None, QtGui.QApplication.UnicodeUTF8))
+        self.rdPaid.setText(QtGui.QApplication.translate("ProductOForm", "Quitado", None, QtGui.QApplication.UnicodeUTF8))
+        self.rdNotPaid.setText(QtGui.QApplication.translate("ProductOForm", "A receber", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_3.setToolTip(QtGui.QApplication.translate("ProductOForm", "Observações", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_3.setTitle(QtGui.QApplication.translate("ProductOForm", "Observações", None, QtGui.QApplication.UnicodeUTF8))
 

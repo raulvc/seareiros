@@ -90,7 +90,8 @@ CREATE TABLE p_order(
   date timestamp without time zone NOT NULL DEFAULT now(),
   obs text,
   -- keeping this field stored for better performance (instead of calculating on the fly)
-  total numeric(6,2) NOT NULL DEFAULT 0.00
+  total numeric(6,2) NOT NULL DEFAULT 0.00,
+  paid boolean NOT NULL
 );
 -- client's rule: don't keep a reference to the product itself
 CREATE TABLE p_order_item(
@@ -100,6 +101,20 @@ CREATE TABLE p_order_item(
   price numeric(6,2) NOT NULL,
   quantity smallint NOT NULL DEFAULT 1
 );
+
+-- rule to update associate's debt on p_order insert
+CREATE RULE product_order_unpaid AS
+	ON INSERT TO p_order
+		DO UPDATE associate
+			SET debt = debt + new.total
+		WHERE id = new.associate_id AND new.paid = false;
+-- rule to update associate's debt on p_order update
+CREATE RULE product_order_unpaid_update AS
+	ON UPDATE TO p_order
+		DO UPDATE associate
+			SET debt = debt - old.total + new.total
+		WHERE id = new.associate_id AND new.paid = false;
+
 
 CREATE TABLE history (
     id serial PRIMARY KEY,    
