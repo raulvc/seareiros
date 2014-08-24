@@ -130,13 +130,19 @@ CREATE TABLE book_order_item(
   b_id integer REFERENCES book(id) NOT NULL,  
   quantity smallint NOT NULL DEFAULT 1
 );
+-- rule to decrement book stock on book_order insert
+CREATE RULE decrement_book_stock AS
+	ON INSERT TO book_order_item
+		DO UPDATE book
+			SET stock = stock - new.quantity
+		WHERE id = new.b_id
 -- rule to update associate's debt on book_order insert
 CREATE RULE book_order_unpaid AS
 	ON INSERT TO book_order
 		DO UPDATE associate
 			SET debt = debt + new.total
 		WHERE id = new.associate_id AND new.paid = false;
--- rule to update associate's debt on product_order update
+-- rule to update associate's debt on book_order update
 CREATE RULE book_order_unpaid_update AS
 	ON UPDATE TO book_order
 		DO UPDATE associate
