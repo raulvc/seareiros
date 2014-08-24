@@ -4,22 +4,22 @@ from PySide.QtCore import Qt, QLocale
 from src.models.model_base import BaseTableModel
 
 
-class ProductTableModel(BaseTableModel):
+class ProductOrderTableModel(BaseTableModel):
     """ Model for product objects """
 
     ID, DATE, TOTAL, ASSOCIATE, OBS = range(5)
 
     def __init__(self, parent=None):
-        super(ProductTableModel, self).__init__(parent)
+        super(ProductOrderTableModel, self).__init__(parent)
         self._sql_statement = "SELECT p_o.id, p_o.date, p_o.total, a.fullname as associate, SUBSTR(p_o.obs,0,50) as obs " \
-                "FROM p_order p_o " \
+                "FROM product_order p_o " \
                 "LEFT JOIN associate a ON p_o.associate_id = a.id"
-        self._name = "populate_product"
+        self._name = "populate_oproduct"
         self._locale = QLocale()
 
     def load(self):
         self.set_query_info(self._name, self._sql_statement)
-        super(ProductTableModel, self).load()
+        super(ProductOrderTableModel, self).load()
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid() or not (0<=index.row()<self.rowCount()):

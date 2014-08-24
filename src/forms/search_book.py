@@ -3,17 +3,21 @@ from PySide import QtCore
 from PySide.QtGui import QApplication, QMainWindow
 from src.docks.dock_edit_book import EditBookDock
 from src.forms.search_generic import GenericSearchForm
+from src.lib import constants
 from src.models.model_book import BookTableModel
 
 
 class BookSearchForm(GenericSearchForm):
     """ Search form for books """
 
-    def __init__(self, parent=None, editable=False, dm=""):
-        super(BookSearchForm, self).__init__(BookTableModel(display_mode=dm), parent)
+    def __init__(self, parent=None, editable=False, dm=constants.BOOK_ALL):
+        self.dm = dm
+        super(BookSearchForm, self).__init__(BookTableModel(display_mode=self.dm), parent)
         self._editable = editable
 
     def setup_view(self):
+        if self.dm == constants.BOOK_SELL:
+            self.viewSearch.hideColumn(self._model.AVAILABILITY)
         self.viewSearch.sortByColumn(self._model.TITLE, QtCore.Qt.AscendingOrder)
         self.resize_columns()
         self.viewSearch.selectRow(0)

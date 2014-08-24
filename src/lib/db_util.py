@@ -160,7 +160,6 @@ def log_to_history(db_session, type, id_ref, description):
 def last_id_from_sequence(table, db, id_field="id"):
     # db has to be passed as parameter as we have to capture the same session for this to work
     if not db.isOpen():
-        print "passei aqui"
         return None
     else:
         query = QSqlQuery(db)

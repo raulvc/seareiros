@@ -6,7 +6,7 @@ from src.forms.search_associate import AssociateSearchForm
 
 
 class AssociateSelectDialog(GenericSelect):
-    """ Dialog for selecting an activity """
+    """ Dialog for selecting an associate """
 
     def __init__(self, parent=None):
         super(AssociateSelectDialog, self).__init__(parent)

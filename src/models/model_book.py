@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 
-from PySide.QtCore import Qt
+from PySide.QtCore import Qt, QLocale
+from src.lib import constants
 from src.models.model_base import BaseTableModel
 
 
@@ -9,17 +10,18 @@ class BookTableModel(BaseTableModel):
 
     ID, TITLE, AUTHOR, S_AUTHOR, PRICE, STOCK, AVAILABILITY = range(7)
 
-    def __init__(self, parent=None, display_mode=""):
+    def __init__(self, parent=None, display_mode=constants.BOOK_ALL):
         super(BookTableModel, self).__init__(parent)
         self._sql_statement = "SELECT b.id, b.title, a.name as author, s_a.name as s_author, b.price, b.stock, b.availability " \
                 "FROM book b " \
                 "LEFT JOIN author a ON b.author_id = a.id " \
                 "LEFT JOIN s_author s_a ON b.s_author_id = s_a.id"
-        if display_mode == "SELL":
-            self._sql_statement.replace(self._sql_statement, self._sql_statement + " WHERE b.availability = 0")
-        elif display_mode == "RENT":
-            self._sql_statement.replace(self._sql_statement, self._sql_statement + " WHERE b.availability = 1")
+        if display_mode == constants.BOOK_SELL:
+            self._sql_statement += " WHERE b.availability = 0 AND b.stock > 0"
+        elif display_mode == constants.BOOK_RENT:
+            self._sql_statement += " WHERE b.availability = 1"
         self._name = "populate_book"
+        self._locale = QLocale()
 
     def load(self):
         self.set_query_info(self._name, self._sql_statement)
@@ -42,7 +44,7 @@ class BookTableModel(BaseTableModel):
             elif column == self.S_AUTHOR:
                 return record.value("s_author")
             elif column == self.PRICE:
-                return record.value("price")
+                return self._locale.toString(record.value("price"), 'f', 2).replace('.','')
             elif column == self.STOCK:
                 return record.value("stock")
             elif column == self.AVAILABILITY:

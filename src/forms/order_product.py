@@ -31,8 +31,8 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
         super(ProductOrderForm, self).__init__(parent)
         self.setupUi(self)
         # had to subclass this spinbox to support return grabbing
-        self.edQtd = ReturnKeySpinBox(self)
-        self.edQtdHolder.addWidget(self.edQtd)
+        self.edQuantity = ReturnKeySpinBox(self)
+        self.edQuantityHolder.addWidget(self.edQuantity)
 
         self._access = statics.access_level
         # for currency formatting
@@ -71,18 +71,19 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
         else:
             # product order
             self._model = QSqlTableModel(self, db=db)
-            self._model.setTable("p_order")
+            self._model.setTable("product_order")
             # product order items
             self._items_model = QSqlTableModel(self, db=db)
-            self._items_model.setTable("p_order_item")
+            self._items_model.setTable("product_order_item")
 
     def setup_fields(self):
         """ setting up validators and stuff """
         # validators
         self.edProductName.setValidator(UppercaseValidator())
         self.edPrice.setValidator(CurrencyValidator(self.edPrice))
-        # hiding associate frame
+        # hiding associate frame and clean button
         self.frameAssociate.setVisible(False)
+        self.btnCleanAssociate.setVisible(False)
         # connecting return key to tab
         for lineEdit in self.findChildren(QLineEdit):
             # qspinbox has a C++ originated qlineedit "hidden" in it, we don't wanna mess with that
@@ -90,12 +91,12 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
                 lineEdit.returnPressed.connect(lineEdit.focusNextChild)
                 # detect changes on line edits
                 lineEdit.textChanged.connect(self.check_changes)
-        self.edQtd.setMinimum(1)
-        self.edQtd.setMaximum(2000)
-        self.edQtd.setValue(1)
+        self.edQuantity.setMinimum(1)
+        self.edQuantity.setMaximum(2000)
+        self.edQuantity.setValue(1)
         # fixing tab order
-        self.setTabOrder(self.edPrice, self.edQtd)
-        self.setTabOrder(self.edQtd, self.btnAddProduct)
+        self.setTabOrder(self.edPrice, self.edQuantity)
+        self.setTabOrder(self.edQuantity, self.btnAddProduct)
 
     def check_changes(self, txt):
         if txt != '':
@@ -162,7 +163,7 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
         # edProduct is a QLineEdit so... already clean
         self.clear_table()
         self.lblTotal.setText("0,00")
-        self.edQtd.setValue(1)
+        self.edQuantity.setValue(1)
         # associate
         self.clear_associate()
 
@@ -174,6 +175,7 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
         self.lblNickname.clear()
         self._associate_id = None
         self.frameAssociate.setVisible(False)
+        self.btnCleanAssociate.setVisible(False)
         # can't allow an order to be paid later without an associate to relate to
         self.rdNotPaid.setEnabled(False)
         self.rdPaid.setChecked(True)
@@ -182,7 +184,7 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
     def on_btnAddProduct_clicked(self):
         txt = self.edProductName.text()
         price = self._locale.toDouble(self.edPrice.text())[0]
-        quantity = self.edQtd.value()
+        quantity = self.edQuantity.value()
         if txt != '':
             data = [txt,price,quantity]
             self.add_product(data)
@@ -191,7 +193,7 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
             # cleaning product related input
             self.edProductName.clear()
             self.edPrice.setText("0,00")
-            self.edQtd.setValue(1)
+            self.edQuantity.setValue(1)
             self.edProductName.setFocus()
 
     @QtCore.Slot()
@@ -202,6 +204,7 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
             self._associate_id = record.value("id")
             self.set_associate_info(record.value("fullname"), record.value("nickname"))
             self.frameAssociate.setVisible(True)
+            self.btnCleanAssociate.setVisible(True)
             # a registered associate can pay later
             self.rdNotPaid.setEnabled(True)
             self.edProductName.setFocus()
@@ -230,7 +233,7 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
         self._total = 0.0
         self.update_total(0.0)
         self.edPrice.setText("0,00")
-        self.edQtd.setValue(1)
+        self.edQuantity.setValue(1)
         self.edProductName.clear()
         self.edProductName.setFocus()
 

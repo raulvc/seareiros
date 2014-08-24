@@ -1,16 +1,15 @@
 # -*- coding: UTF-8 -*-
 from PySide import QtCore
-from PySide.QtGui import QApplication, QMainWindow
 
 from src.forms.search_generic import GenericSearchForm
-from src.models.model_product import ProductTableModel
+from src.models.omodel_book import BookOrderTableModel
 
 
-class ProductSearchForm(GenericSearchForm):
-    """ Search form for products """
+class BookOrderSearchForm(GenericSearchForm):
+    """ Search form for book orders """
 
     def __init__(self, parent=None, editable=False):
-        super(ProductSearchForm, self).__init__(ProductTableModel(), parent)
+        super(BookOrderSearchForm, self).__init__(BookOrderTableModel(), parent)
         self._editable = editable
 
     def setup_view(self):

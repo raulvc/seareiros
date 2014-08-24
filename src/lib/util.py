@@ -44,7 +44,7 @@ class ReturnKeySpinBox(QSpinBox):
     def __init__(self, parent=None):
         super(ReturnKeySpinBox, self).__init__(parent)
     def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Return:
+        if event.key() in [Qt.Key_Return, Qt.Key_Enter]:
             self.focusNextChild()
         else:
             super(ReturnKeySpinBox, self).keyPressEvent(event)

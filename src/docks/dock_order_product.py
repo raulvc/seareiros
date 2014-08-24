@@ -1,9 +1,8 @@
 # -*- coding: UTF-8 -*-
-from PySide import QtCore
-from PySide.QtGui import QIcon, QMessageBox, QApplication, QMainWindow
+from PySide.QtGui import QIcon, QApplication, QMainWindow
 from src.docks.dock_order import OrderDock
 from src.forms.order_product import ProductOrderForm
-from src.forms.search_product import ProductSearchForm
+from src.forms.osearch_product import ProductOrderSearchForm
 
 
 class OrderProductDock(OrderDock):
@@ -20,7 +19,7 @@ class OrderProductDock(OrderDock):
         self.addPlaceholder.addWidget(self._addForm)
 
     def setup_search(self):
-        self._searchForm = ProductSearchForm()
+        self._searchForm = ProductOrderSearchForm()
         self._searchForm.show()
         self.searchPlaceholder.addWidget(self._searchForm)
 

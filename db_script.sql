@@ -65,17 +65,17 @@ CREATE TABLE subject (
 
 CREATE TABLE book (
 	id serial PRIMARY KEY,
-  barcode text UNIQUE,
-  title text NOT NULL,
+ 	barcode text UNIQUE,
+ 	title text NOT NULL,
 	author_id integer REFERENCES author(id),
 	s_author_id integer REFERENCES s_author(id),
-  publisher_id integer REFERENCES publisher(id),
-  year numeric(4,0),
-  price numeric(6,2) DEFAULT 0.00,
-  description text,
-  stock integer DEFAULT 0,
-  image bytea,
-  availability smallint NOT NULL DEFAULT 0
+ 	publisher_id integer REFERENCES publisher(id),
+ 	year numeric(4,0),
+ 	price numeric(6,2) DEFAULT 0.00,
+ 	description text,
+ 	stock integer DEFAULT 0,
+ 	image bytea,
+ 	availability smallint NOT NULL DEFAULT 0
 );
 
 CREATE TABLE book_in_subject(
@@ -84,7 +84,7 @@ CREATE TABLE book_in_subject(
 	CONSTRAINT book_in_subject_pkey PRIMARY KEY (book_id, subject_id)
 );
 
-CREATE TABLE p_order(
+CREATE TABLE product_order(
   id serial PRIMARY KEY,
   associate_id integer REFERENCES associate(id),
   date timestamp without time zone NOT NULL DEFAULT now(),
@@ -94,27 +94,54 @@ CREATE TABLE p_order(
   paid boolean NOT NULL
 );
 -- client's rule: don't keep a reference to the product itself
-CREATE TABLE p_order_item(
+CREATE TABLE product_order_item(
   id serial PRIMARY KEY,
-  p_order_id integer REFERENCES p_order(id) NOT NULL,
+  p_order_id integer REFERENCES product_order(id) NOT NULL,
   p_name text NOT NULL,
   price numeric(6,2) NOT NULL,
   quantity smallint NOT NULL DEFAULT 1
 );
 
--- rule to update associate's debt on p_order insert
+-- rule to update associate's debt on product_order insert
 CREATE RULE product_order_unpaid AS
-	ON INSERT TO p_order
+	ON INSERT TO product_order
 		DO UPDATE associate
 			SET debt = debt + new.total
 		WHERE id = new.associate_id AND new.paid = false;
--- rule to update associate's debt on p_order update
+-- rule to update associate's debt on product_order update
 CREATE RULE product_order_unpaid_update AS
-	ON UPDATE TO p_order
+	ON UPDATE TO product_order
 		DO UPDATE associate
 			SET debt = debt - old.total + new.total
 		WHERE id = new.associate_id AND new.paid = false;
 
+CREATE TABLE book_order(
+	id serial PRIMARY KEY,
+	associate_id integer REFERENCES associate(id),
+	date timestamp without time zone NOT NULL DEFAULT now(),
+	obs text,
+	-- keeping this field stored for better performance (instead of calculating on the fly)
+  	total numeric(6,2) NOT NULL DEFAULT 0.00,
+  	paid boolean NOT NULL
+);
+CREATE TABLE book_order_item(
+  id serial PRIMARY KEY,
+  b_order_id integer REFERENCES book_order(id) NOT NULL,
+  b_id integer REFERENCES book(id) NOT NULL,  
+  quantity smallint NOT NULL DEFAULT 1
+);
+-- rule to update associate's debt on book_order insert
+CREATE RULE book_order_unpaid AS
+	ON INSERT TO book_order
+		DO UPDATE associate
+			SET debt = debt + new.total
+		WHERE id = new.associate_id AND new.paid = false;
+-- rule to update associate's debt on product_order update
+CREATE RULE book_order_unpaid_update AS
+	ON UPDATE TO book_order
+		DO UPDATE associate
+			SET debt = debt - old.total + new.total
+		WHERE id = new.associate_id AND new.paid = false;
 
 CREATE TABLE history (
     id serial PRIMARY KEY,    

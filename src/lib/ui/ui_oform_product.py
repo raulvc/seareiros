@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/oform_product.ui'
 #
-# Created: Fri Aug 15 09:53:18 2014
+# Created: Sun Aug 24 18:44:13 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -165,9 +165,9 @@ class Ui_ProductOForm(object):
         self.label_2.setMaximumSize(QtCore.QSize(16777215, 33))
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 2, 0, 1, 1)
-        self.edQtdHolder = QtGui.QVBoxLayout()
-        self.edQtdHolder.setObjectName("edQtdHolder")
-        self.gridLayout.addLayout(self.edQtdHolder, 3, 1, 1, 1)
+        self.edQuantityHolder = QtGui.QVBoxLayout()
+        self.edQuantityHolder.setObjectName("edQuantityHolder")
+        self.gridLayout.addLayout(self.edQuantityHolder, 3, 1, 1, 1)
         self.gridLayout_4.addWidget(self.frame, 1, 0, 2, 4)
         spacerItem3 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.gridLayout_4.addItem(spacerItem3, 5, 0, 1, 4)

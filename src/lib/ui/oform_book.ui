@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ProductOForm</class>
- <widget class="QScrollArea" name="ProductOForm">
+ <class>BookOForm</class>
+ <widget class="QScrollArea" name="BookOForm">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -191,7 +191,7 @@
        </size>
       </property>
       <property name="toolTip">
-       <string>Produtos do Bazar</string>
+       <string>Livros</string>
       </property>
       <property name="styleSheet">
        <string notr="true"> QGroupBox {
@@ -208,198 +208,75 @@
  }</string>
       </property>
       <property name="title">
-       <string>Produtos do Bazar</string>
+       <string>Livros</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
       </property>
-      <layout class="QGridLayout" name="gridLayout_4">
-       <item row="4" column="0" colspan="5">
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="5">
-        <widget class="QTableWidget" name="tableProducts">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>130</height>
-          </size>
-         </property>
-         <property name="alternatingRowColors">
-          <bool>true</bool>
-         </property>
-         <property name="selectionMode">
-          <enum>QAbstractItemView::SingleSelection</enum>
-         </property>
-         <property name="selectionBehavior">
-          <enum>QAbstractItemView::SelectRows</enum>
-         </property>
-         <property name="sortingEnabled">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="4">
-        <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0" colspan="2">
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>Total (R$):</string>
+          <widget class="QFrame" name="frame">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
+           <property name="maximumSize">
+            <size>
+             <width>533</width>
+             <height>100</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>33</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Código de Barras:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="edBarcode">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>33</height>
+               </size>
+              </property>
+              <property name="maxLength">
+               <number>13</number>
+              </property>
+              <property name="placeholderText">
+               <string>Digite o código de barras ou clique em &quot;Adicionar&quot;</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
-         <item>
-          <widget class="QLabel" name="lblTotal">
-           <property name="styleSheet">
-            <string notr="true"> QLabel {
-	 color: rgb(0, 0, 255);
- }</string>
-           </property>
-           <property name="text">
-            <string>0,00</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="1" column="0" rowspan="2" colspan="4">
-        <widget class="QFrame" name="frame">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="1" rowspan="2" colspan="5">
-           <widget class="QLineEdit" name="edProductName"/>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>33</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>33</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Produto:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="edPrice">
-            <property name="maximumSize">
-             <size>
-              <width>100</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>0,00</string>
-            </property>
-            <property name="maxLength">
-             <number>7</number>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_6">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>33</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>33</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Quantidade:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2" colspan="4">
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="3" column="2" colspan="4">
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>33</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>33</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Preço (R$):</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <layout class="QVBoxLayout" name="edQuantityHolder"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="4">
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="4" rowspan="2">
-        <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
           <widget class="QFrame" name="frame_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
              <width>140</width>
@@ -423,13 +300,16 @@
              <enum>QLayout::SetFixedSize</enum>
             </property>
             <item>
-             <widget class="QPushButton" name="btnAddProduct">
+             <widget class="QPushButton" name="btnSelectBook">
+              <property name="toolTip">
+               <string>Selecionar livro de uma lista</string>
+              </property>
               <property name="text">
                <string>Adicionar</string>
               </property>
               <property name="icon">
                <iconset resource="../../../res/icons.qrc">
-                <normaloff>:/icons/product_add.png</normaloff>:/icons/product_add.png</iconset>
+                <normaloff>:/icons/book.png</normaloff>:/icons/book.png</iconset>
               </property>
               <property name="autoDefault">
                <bool>true</bool>
@@ -437,7 +317,10 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="btnCleanProducts">
+             <widget class="QPushButton" name="btnCleanBooks">
+              <property name="toolTip">
+               <string>Limpar Itens</string>
+              </property>
               <property name="text">
                <string>Limpar</string>
               </property>
@@ -453,18 +336,79 @@
            </layout>
           </widget>
          </item>
+        </layout>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QTableWidget" name="tableBooks">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>130</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>681</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Total (R$):</string>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lblTotal">
+           <property name="toolTip">
+            <string>Total calculado</string>
            </property>
-          </spacer>
+           <property name="styleSheet">
+            <string notr="true"> QLabel {
+	 color: rgb(0, 0, 255);
+ }</string>
+           </property>
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -472,7 +416,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QGroupBox" name="groupBox_4">
+     <widget class="QGroupBox" name="groupBox_3">
       <property name="maximumSize">
        <size>
         <width>703</width>
@@ -535,7 +479,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QGroupBox" name="groupBox_3">
+     <widget class="QGroupBox" name="groupBox_4">
       <property name="maximumSize">
        <size>
         <width>703</width>
@@ -591,11 +535,12 @@
  <tabstops>
   <tabstop>btnSelectAssociate</tabstop>
   <tabstop>btnCleanAssociate</tabstop>
-  <tabstop>edProductName</tabstop>
-  <tabstop>edPrice</tabstop>
-  <tabstop>btnAddProduct</tabstop>
-  <tabstop>btnCleanProducts</tabstop>
-  <tabstop>tableProducts</tabstop>
+  <tabstop>edBarcode</tabstop>
+  <tabstop>btnSelectBook</tabstop>
+  <tabstop>btnCleanBooks</tabstop>
+  <tabstop>tableBooks</tabstop>
+  <tabstop>rdPaid</tabstop>
+  <tabstop>rdNotPaid</tabstop>
   <tabstop>edObs</tabstop>
  </tabstops>
  <resources>

@@ -6,6 +6,7 @@ from PySide.QtGui import QMainWindow, QStackedWidget, QLabel, QMessageBox, QActi
 from src.docks.dock_add_activity import AddActivityDock
 from src.docks.dock_add_associate import AddAssociateDock
 from src.docks.dock_add_book import AddBookDock
+from src.docks.dock_order_book import OrderBookDock
 from src.docks.dock_order_product import OrderProductDock
 from src.docks.overview import OverviewDock
 from src.docks.pendencies import PendenciesDock
@@ -85,10 +86,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionSellProduct_activated(self):
         self.show_on_top(OrderProductDock, self.actionSellProduct)
 
+    @QtCore.Slot()
+    def on_actionSellBook_activated(self):
+        self.show_on_top(OrderBookDock, self.actionSellBook)
 
-    # @QtCore.Slot()
-    # def on_actionAddProduct_activated(self):
-    #     self.show_on_top(AddProductDock, self.actionAddProduct)
 
     def show_on_top(self, widget_type, related_action=None, param=None):
         """ makes the dock related to 'widget_type' the central widget of the mainwindow

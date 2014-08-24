@@ -57,6 +57,8 @@ class BookAddForm(QScrollArea, Ui_BookForm):
 
         # flag to indicate whether there were changes to the fields
         self._dirty = False
+        # for use in selection docks, indicates a saved record
+        self._book_id = None
         # user did input an image
         self._image_set = False
 
@@ -201,6 +203,8 @@ class BookAddForm(QScrollArea, Ui_BookForm):
             self._model.setData(self._model.index(0, self.column[key]), val)
         book_id = submit_and_get_id(self, self._model, self.log)
         if book_id:
+            # for use in selection docks
+            self.setBookId(book_id)
             # book sucessfully added, now associating related subjects
             subjects, new_subjects = self.extract_subjects_input()
             for subj in new_subjects:
@@ -233,6 +237,23 @@ class BookAddForm(QScrollArea, Ui_BookForm):
                 return True
         # failed to insert a row
         return False
+
+    def setBookId(self, id):
+        self._book_id = id
+
+    def get_added_record(self):
+        db = Db_Instance("added_book_record").get_instance()
+        if db.open() and self._book_id:
+            query = QSqlQuery(db)
+            query.prepare("SELECT * FROM book WHERE id = :id")
+            query.bindValue(":id", self._book_id)
+            query.exec_()
+            if query.next():
+                return query.record()
+            else:
+                return None
+        else:
+            return None
 
     def clear(self):
         self._dirty = False

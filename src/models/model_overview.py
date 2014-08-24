@@ -56,7 +56,7 @@ class OverviewTableModel(BaseTableModel):
             type = record.value('type')
             if type == 'venda_bazar':
                 return QColor(248, 255, 122)
-            elif type == 'venda_livro':
+            elif type == 'venda_livraria':
                 return QColor(197, 252, 249)
             else:
                 return QColor("white")
