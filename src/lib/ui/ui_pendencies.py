@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/pendencies.ui'
 #
-# Created: Sun Aug 24 18:44:14 2014
+# Created: Mon Aug 25 20:22:27 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -14,9 +14,7 @@ class Ui_Dock(object):
         Dock.setObjectName("Dock")
         Dock.setWindowModality(QtCore.Qt.WindowModal)
         Dock.resize(709, 552)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/title.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        Dock.setWindowIcon(icon)
+        Dock.setToolTip("")
         Dock.setStyleSheet("QDockWidget::title\n"
 "{\n"
 "   font-family: \"Roboto Lt\";\n"
@@ -25,7 +23,7 @@ class Ui_Dock(object):
 "   padding-left: 10px; \n"
 "   padding-top: 4px;\n"
 "}")
-        Dock.setFeatures(QtGui.QDockWidget.NoDockWidgetFeatures)
+        Dock.setFeatures(QtGui.QDockWidget.DockWidgetClosable)
         Dock.setAllowedAreas(QtCore.Qt.TopDockWidgetArea)
         self.dockWidgetContents = QtGui.QWidget()
         self.dockWidgetContents.setObjectName("dockWidgetContents")
@@ -43,9 +41,9 @@ class Ui_Dock(object):
         self.tableView.setObjectName("tableView")
         self.gridLayout.addWidget(self.tableView, 1, 0, 1, 4)
         self.btnRefresh = QtGui.QPushButton(self.dockWidgetContents)
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/icons/loading.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.btnRefresh.setIcon(icon1)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/icons/loading.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btnRefresh.setIcon(icon)
         self.btnRefresh.setObjectName("btnRefresh")
         self.gridLayout.addWidget(self.btnRefresh, 0, 3, 1, 1)
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
@@ -60,7 +58,6 @@ class Ui_Dock(object):
         QtCore.QMetaObject.connectSlotsByName(Dock)
 
     def retranslateUi(self, Dock):
-        Dock.setToolTip(QtGui.QApplication.translate("Dock", "Pendências", None, QtGui.QApplication.UnicodeUTF8))
         Dock.setWindowTitle(QtGui.QApplication.translate("Dock", "Pendências", None, QtGui.QApplication.UnicodeUTF8))
         self.edKeyword.setPlaceholderText(QtGui.QApplication.translate("Dock", "Digite a palavra-chave", None, QtGui.QApplication.UnicodeUTF8))
         self.btnRefresh.setText(QtGui.QApplication.translate("Dock", "Atualizar", None, QtGui.QApplication.UnicodeUTF8))

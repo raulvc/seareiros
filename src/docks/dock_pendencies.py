@@ -18,11 +18,9 @@ class PendenciesDock(QDockWidget, Ui_Dock):
         self.visibilityChanged.connect(self.toggle_visibility)
 
         self.tableView.setModel(self._proxy)
-        self.initialLoad()
-
-    def initialLoad(self):
+        # having problem moving sections, had to flag it
+        self.__first_load = True
         self._model.modelReset.connect(self.setup_view)
-        self.refresh()
 
     def refresh(self):
         self._model.load()
@@ -31,7 +29,9 @@ class PendenciesDock(QDockWidget, Ui_Dock):
         self.tableView.setColumnHidden(self._model.ID, True)
         # Debt should be the first column
         # (I could do it on the model but I wouldn't be able to subclass and use the parent there)
-        self.tableView.horizontalHeader().moveSection(self._model.DEBT, 0)
+        if self.__first_load:
+            self.__first_load = False
+            self.tableView.horizontalHeader().moveSection(8,0)
         self.resize_columns()
         self.tableView.selectRow(0)
 
@@ -42,6 +42,7 @@ class PendenciesDock(QDockWidget, Ui_Dock):
     def toggle_visibility(self, visible):
         actionPendencies = self.parent().parent().actionPendencies
         if visible:
+            self.refresh()
             actionPendencies.setEnabled(False)
             self.edKeyword.setFocus()
         else:
