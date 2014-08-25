@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 from PySide import QtCore
-from PySide.QtGui import QDockWidget, QSortFilterProxyModel
+from PySide.QtGui import QDockWidget, QSortFilterProxyModel, QHeaderView
 from src.lib.ui.ui_pendencies import Ui_Dock
 from src.models.model_associate_defaulter import DefaulterTableModel
 
@@ -29,11 +29,15 @@ class PendenciesDock(QDockWidget, Ui_Dock):
 
     def setup_view(self):
         self.tableView.setColumnHidden(self._model.ID, True)
+        # Debt should be the first column
+        # (I could do it on the model but I wouldn't be able to subclass and use the parent there)
+        self.tableView.horizontalHeader().moveSection(self._model.DEBT, 0)
         self.resize_columns()
         self.tableView.selectRow(0)
 
     def resize_columns(self):
         self.tableView.resizeColumnsToContents()
+        self.tableView.horizontalHeader().setResizeMode(1, QHeaderView.Stretch)
 
     def toggle_visibility(self, visible):
         actionPendencies = self.parent().parent().actionPendencies

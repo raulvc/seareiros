@@ -9,7 +9,7 @@ from src.docks.dock_add_book import AddBookDock
 from src.docks.dock_order_book import OrderBookDock
 from src.docks.dock_order_product import OrderProductDock
 from src.docks.overview import OverviewDock
-from src.docks.pendencies import PendenciesDock
+from src.docks.dock_pendencies import PendenciesDock
 from src.lib import statics
 from src.lib.ui.ui_main import Ui_MainWindow
 from src.lib.util import check_access

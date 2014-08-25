@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from PySide.QtCore import Qt
+from PySide.QtCore import Qt, QLocale
 
 from src.models.model_associate import AssociateTableModel
 
@@ -12,8 +12,9 @@ class DefaulterTableModel(AssociateTableModel):
     def __init__(self, parent=None):
         super(DefaulterTableModel, self).__init__(parent)
         self._sql_statement = "SELECT id, fullname, nickname, email, resphone, comphone, privphone, " \
-                        "streetaddress, debt FROM associate WHERE debt > '0.0'::MONEY"
+                        "streetaddress, debt FROM associate WHERE debt > 0.0"
         self._name = "populate_defaulter"
+        self._locale = QLocale()
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid() or not (0<=index.row()<self.rowCount()):
@@ -23,7 +24,7 @@ class DefaulterTableModel(AssociateTableModel):
         column = index.column()
         if role == Qt.DisplayRole:
             if column == self.DEBT:
-                return record.value("debt")
+                return self._locale.toString(record.value("debt"), 'f', 2).replace('.','')
             else:
                 return super(DefaulterTableModel, self).data(index, role)
 
@@ -38,7 +39,7 @@ class DefaulterTableModel(AssociateTableModel):
 
         if orientation == Qt.Horizontal:
             if section == self.DEBT:
-                return unicode("Pendência".decode('utf-8'))
+                return unicode("Pendência (R$)".decode('utf-8'))
             else:
                 return super(DefaulterTableModel, self).headerData(section, orientation, role)
         return section + 1
