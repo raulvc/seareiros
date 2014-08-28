@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/overview.ui'
 #
-# Created: Mon Aug 25 20:22:27 2014
+# Created: Thu Aug 28 04:12:22 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,6 +17,7 @@ class Ui_Dock(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/title.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dock.setWindowIcon(icon)
+        Dock.setToolTip("")
         Dock.setStyleSheet("QDockWidget::title\n"
 "{\n"
 "   font-family: \"Roboto Lt\";\n"
@@ -87,7 +88,6 @@ class Ui_Dock(object):
         QtCore.QMetaObject.connectSlotsByName(Dock)
 
     def retranslateUi(self, Dock):
-        Dock.setToolTip(QtGui.QApplication.translate("Dock", "Últimas Ações", None, QtGui.QApplication.UnicodeUTF8))
         Dock.setWindowTitle(QtGui.QApplication.translate("Dock", "Últimas Ações", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("Dock", "Dia:", None, QtGui.QApplication.UnicodeUTF8))
         self.dateEdit.setDisplayFormat(QtGui.QApplication.translate("Dock", "ddd dd/MMM/yyyy", None, QtGui.QApplication.UnicodeUTF8))

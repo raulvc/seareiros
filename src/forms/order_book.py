@@ -13,6 +13,7 @@ from src.dialogs.select_associate import AssociateSelectDialog
 from src.dialogs.select_book import BookSelectDialog
 
 from src.lib import statics
+from src.lib import constants
 from src.lib.exceptions import StockOverflowException, RecordNotFoundException, DbUnavailableException
 from src.lib.ui.ui_oform_book import Ui_BookOForm
 
@@ -26,7 +27,7 @@ logger = logging.getLogger('order_book')
 class BookOrderForm(QScrollArea, Ui_BookOForm):
     """ Interface for ordering books """
 
-    column = { 'associate':1, 'obs':3, 'total':4, 'paid':5 }
+    column = { 'associate':1, 'obs':3, 'total':4, 'paid':5, 'type':7 }
 
 
     def __init__(self, parent=None):
@@ -70,7 +71,7 @@ class BookOrderForm(QScrollArea, Ui_BookOForm):
         else:
             # book order
             self._model = QSqlTableModel(self, db=db)
-            self._model.setTable("book_order")
+            self._model.setTable("order_request")
             # book order items
             self._items_model = QSqlTableModel(self, db=db)
             self._items_model.setTable("book_order_item")
@@ -346,4 +347,5 @@ class BookOrderForm(QScrollArea, Ui_BookOForm):
             data['paid'] = True
         else:
             data['paid'] = False
+        data['type'] = constants.ORDER_BOOK
         return data

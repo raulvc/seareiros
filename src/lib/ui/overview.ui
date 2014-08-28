@@ -18,7 +18,7 @@
     <normaloff>:/icons/title.png</normaloff>:/icons/title.png</iconset>
   </property>
   <property name="toolTip">
-   <string>Últimas Ações</string>
+   <string/>
   </property>
   <property name="styleSheet">
    <string notr="true">QDockWidget::title

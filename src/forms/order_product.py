@@ -12,6 +12,7 @@ from PySide.QtSql import QSqlTableModel
 from src.dialogs.select_associate import AssociateSelectDialog
 
 from src.lib import statics
+from src.lib import constants
 
 from src.lib.ui.ui_oform_product import Ui_ProductOForm
 from src.lib.util import ReturnKeySpinBox
@@ -24,7 +25,7 @@ logger = logging.getLogger('order_product')
 class ProductOrderForm(QScrollArea, Ui_ProductOForm):
     """ Interface for ordering products """
 
-    column = { 'associate':1, 'obs':3, 'total':4, 'paid':5 }
+    column = { 'associate':1, 'obs':3, 'total':4, 'paid':5, 'type':7 }
 
 
     def __init__(self, parent=None):
@@ -71,7 +72,7 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
         else:
             # product order
             self._model = QSqlTableModel(self, db=db)
-            self._model.setTable("product_order")
+            self._model.setTable("order_request")
             # product order items
             self._items_model = QSqlTableModel(self, db=db)
             self._items_model.setTable("product_order_item")
@@ -292,4 +293,5 @@ class ProductOrderForm(QScrollArea, Ui_ProductOForm):
             data['paid'] = True
         else:
             data['paid'] = False
+        data['type'] = constants.ORDER_PRODUCT
         return data

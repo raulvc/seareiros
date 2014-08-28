@@ -12,7 +12,7 @@ class BookOrderTableModel(BaseTableModel):
     def __init__(self, parent=None):
         super(BookOrderTableModel, self).__init__(parent)
         self._sql_statement = "SELECT b_o.id, b_o.date, b_o.total, a.fullname as associate, SUBSTR(b_o.obs,0,50) as obs " \
-                "FROM book_order b_o " \
+                "FROM order_request b_o " \
                 "LEFT JOIN associate a ON b_o.associate_id = a.id"
         self._name = "populate_obook"
         self._locale = QLocale()

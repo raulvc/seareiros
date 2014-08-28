@@ -84,70 +84,51 @@ CREATE TABLE book_in_subject(
 	CONSTRAINT book_in_subject_pkey PRIMARY KEY (book_id, subject_id)
 );
 
-CREATE TABLE product_order(
+-- as you can imagine, I can't just call a table "ORDER" so I came up with this name
+CREATE TABLE order_request(
   id serial PRIMARY KEY,
   associate_id integer REFERENCES associate(id),
   date timestamp without time zone NOT NULL DEFAULT now(),
   obs text,
   -- keeping this field stored for better performance (instead of calculating on the fly)
   total numeric(6,2) NOT NULL DEFAULT 0.00,
-  paid boolean NOT NULL
+  paid boolean NOT NULL,
+  -- partially paid orders
+  paid_value numeric(6,2),
+  type smallint
 );
 -- client's rule: don't keep a reference to the product itself
 CREATE TABLE product_order_item(
   id serial PRIMARY KEY,
-  p_order_id integer REFERENCES product_order(id) NOT NULL,
+  order_id integer REFERENCES order_request(id) NOT NULL,
   p_name text NOT NULL,
   price numeric(6,2) NOT NULL,
   quantity smallint NOT NULL DEFAULT 1
 );
-
--- rule to update associate's debt on product_order insert
-CREATE RULE product_order_unpaid AS
-	ON INSERT TO product_order
-		DO UPDATE associate
-			SET debt = debt + new.total
-		WHERE id = new.associate_id AND new.paid = false;
--- rule to update associate's debt on product_order update
-CREATE RULE product_order_unpaid_update AS
-	ON UPDATE TO product_order
-		DO UPDATE associate
-			SET debt = debt - old.total + new.total
-		WHERE id = new.associate_id AND new.paid = false;
-
-CREATE TABLE book_order(
-	id serial PRIMARY KEY,
-	associate_id integer REFERENCES associate(id),
-	date timestamp without time zone NOT NULL DEFAULT now(),
-	obs text,
-	-- keeping this field stored for better performance (instead of calculating on the fly)
-  	total numeric(6,2) NOT NULL DEFAULT 0.00,
-  	paid boolean NOT NULL
-);
 CREATE TABLE book_order_item(
   id serial PRIMARY KEY,
-  b_order_id integer REFERENCES book_order(id) NOT NULL,
+  order_id integer REFERENCES order_request(id) NOT NULL,
   b_id integer REFERENCES book(id) NOT NULL,  
   quantity smallint NOT NULL DEFAULT 1
 );
+-- rule to update associate's debt on order insert
+CREATE RULE order_unpaid AS
+	ON INSERT TO order_request
+		DO UPDATE associate
+			SET debt = debt + new.total
+		WHERE id = new.associate_id AND new.paid = false;
+-- rule to update associate's debt on order update
+CREATE RULE order_unpaid_update AS
+	ON UPDATE TO order_request
+		DO UPDATE associate
+			SET debt = debt - old.total + new.total
+		WHERE id = new.associate_id AND new.paid = false;
 -- rule to decrement book stock on book_order insert
 CREATE RULE decrement_book_stock AS
 	ON INSERT TO book_order_item
 		DO UPDATE book
 			SET stock = stock - new.quantity
 		WHERE id = new.b_id
--- rule to update associate's debt on book_order insert
-CREATE RULE book_order_unpaid AS
-	ON INSERT TO book_order
-		DO UPDATE associate
-			SET debt = debt + new.total
-		WHERE id = new.associate_id AND new.paid = false;
--- rule to update associate's debt on book_order update
-CREATE RULE book_order_unpaid_update AS
-	ON UPDATE TO book_order
-		DO UPDATE associate
-			SET debt = debt - old.total + new.total
-		WHERE id = new.associate_id AND new.paid = false;
 
 CREATE TABLE history (
     id serial PRIMARY KEY,    

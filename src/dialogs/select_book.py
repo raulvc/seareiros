@@ -16,9 +16,12 @@ class BookSelectDialog(GenericSelect):
         self.setWindowIcon(QIcon(":icons/book.png"))
 
     def setup_add(self):
-        self._addForm = BookAddForm()
-        self._addForm.show()
-        self._stackedWidget.addWidget(self._addForm)
+        if self.dm == constants.BOOK_SELL:
+            self.btnToggleFuncion.setVisible(False)
+        else:
+            self._addForm = BookAddForm()
+            self._addForm.show()
+            self._stackedWidget.addWidget(self._addForm)
 
     def setup_search(self):
         self._searchForm = BookSearchForm(dm=self.dm)
