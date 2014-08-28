@@ -25,7 +25,7 @@ class CustomSortFilterProxyModel(QSortFilterProxyModel):
             return float(left_var) < float(right_var)
         except (ValueError, TypeError):
             pass
-
+        
         # weekdays
         try:
             return days_of_the_week.index(left_var) < days_of_the_week.index(right_var)
@@ -33,3 +33,16 @@ class CustomSortFilterProxyModel(QSortFilterProxyModel):
             pass
 
         return left_var < right_var
+
+    def filterAcceptsRow(self, row_num, parent):
+        """
+            implements multiple column search
+        """
+        model = self.sourceModel()  # the underlying model
+        for col in range(self.columnCount()):
+            index = model.index(row_num, col, parent)
+            regexp = self.filterRegExp()
+            # trying to match regexp, -1 means not found
+            if regexp.indexIn(str(index.data())) != -1:
+                return True
+        return False

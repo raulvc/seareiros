@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from PySide import QtCore
-from PySide.QtGui import QDockWidget, QSortFilterProxyModel, QHeaderView
+from PySide.QtGui import QDockWidget, QHeaderView
+from src.lib.table_util import CustomSortFilterProxyModel
 from src.lib.ui.ui_pendencies import Ui_Dock
 from src.models.model_associate_defaulter import DefaulterTableModel
 
@@ -12,7 +13,7 @@ class PendenciesDock(QDockWidget, Ui_Dock):
         self.setupUi(self)
         self.tableView.setSortingEnabled(True)
         self._model = DefaulterTableModel()
-        self._proxy = QSortFilterProxyModel()
+        self._proxy = CustomSortFilterProxyModel()
         self._proxy.setSourceModel(self._model)
 
         self.visibilityChanged.connect(self.toggle_visibility)
@@ -57,7 +58,13 @@ class PendenciesDock(QDockWidget, Ui_Dock):
     def on_btnRefresh_clicked(self):
         self.refresh()
 
+    @QtCore.Slot(str)
+    def on_edKeyword_textChanged(self, text):
+        search = QtCore.QRegExp(text, QtCore.Qt.CaseInsensitive, QtCore.QRegExp.RegExp)
+        self._proxy.setFilterRegExp(search)
+
     @QtCore.Slot(QtCore.QModelIndex)
     def on_tableView_doubleClicked(self, index):
         source_index = self._proxy.mapToSource(index)
         record = self._model.get_record(source_index.row())
+        print record
