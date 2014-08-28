@@ -18,6 +18,7 @@ class BookSearchForm(GenericSearchForm):
     def setup_view(self):
         if self.dm == constants.BOOK_SELL:
             self.viewSearch.hideColumn(self._model.AVAILABILITY)
+        self._proxy.set_filter_columns([1,2,3])
         self.viewSearch.sortByColumn(self._model.TITLE, QtCore.Qt.AscendingOrder)
         self.resize_columns()
         self.viewSearch.selectRow(0)

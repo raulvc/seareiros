@@ -12,6 +12,7 @@ class ActivitySearchForm(GenericSearchForm):
         super(ActivitySearchForm, self).__init__(ActivityTableModel(), parent)
 
     def setup_view(self):
+        self._proxy.set_filter_columns([1])
         self.viewSearch.sortByColumn(self._model.DESCRIPTION, QtCore.Qt.AscendingOrder)
         self.viewSearch.setColumnHidden(self._model.ID, True)
         self.resize_columns()

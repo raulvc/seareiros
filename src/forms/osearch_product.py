@@ -13,6 +13,7 @@ class ProductOrderSearchForm(GenericSearchForm):
         self._editable = editable
 
     def setup_view(self):
+        self._proxy.set_filter_columns([3,4])
         self.viewSearch.sortByColumn(self._model.ID, QtCore.Qt.DescendingOrder)
         self.resize_columns()
         self.viewSearch.selectRow(0)

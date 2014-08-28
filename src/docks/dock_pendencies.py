@@ -15,6 +15,7 @@ class PendenciesDock(QDockWidget, Ui_Dock):
         self._model = DefaulterTableModel()
         self._proxy = CustomSortFilterProxyModel()
         self._proxy.setSourceModel(self._model)
+        self._proxy.set_filter_columns([1,2,3])
 
         self.visibilityChanged.connect(self.toggle_visibility)
 

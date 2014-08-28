@@ -18,6 +18,7 @@ class GenericSearchForm(QWidget, Ui_SearchForm):
         self._model = model
         self._proxy = CustomSortFilterProxyModel()
         self._proxy.setSourceModel(self._model)
+        self._proxy.set_filter_columns([0])
         self.viewSearch.setModel(self._proxy)
         self.initialLoad()
         self._record = None

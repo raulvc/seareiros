@@ -16,6 +16,7 @@ class AssociateSearchForm(GenericSearchForm):
         self._editable = editable
 
     def setup_view(self):
+        self._proxy.set_filter_columns([1,2,3])
         self.viewSearch.sortByColumn(self._model.FULLNAME, QtCore.Qt.AscendingOrder)
         #self.viewSearch.setColumnHidden(self._model.ID, True)
         self.resize_columns()
