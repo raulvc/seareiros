@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/oform_product.ui'
 #
-# Created: Thu Aug 28 04:12:21 2014
+# Created: Sat Aug 30 08:19:35 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -113,6 +113,7 @@ class Ui_ProductOForm(object):
         self.gridLayout_4.addWidget(self.line, 4, 0, 1, 5)
         self.tableProducts = QtGui.QTableWidget(self.groupBox_2)
         self.tableProducts.setMinimumSize(QtCore.QSize(0, 130))
+        self.tableProducts.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
         self.tableProducts.setAlternatingRowColors(True)
         self.tableProducts.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         self.tableProducts.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/oform_book.ui'
 #
-# Created: Thu Aug 28 04:12:21 2014
+# Created: Sat Aug 30 08:19:35 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -161,6 +161,7 @@ class Ui_BookOForm(object):
         self.tableBooks = QtGui.QTableWidget(self.groupBox_2)
         self.tableBooks.setMinimumSize(QtCore.QSize(0, 130))
         self.tableBooks.setMaximumSize(QtCore.QSize(681, 16777215))
+        self.tableBooks.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
         self.tableBooks.setAlternatingRowColors(True)
         self.tableBooks.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         self.tableBooks.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)

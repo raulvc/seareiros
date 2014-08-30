@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/loading.ui'
 #
-# Created: Thu Aug 28 04:12:22 2014
+# Created: Sat Aug 30 08:19:36 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!

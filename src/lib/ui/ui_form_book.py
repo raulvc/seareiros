@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/form_book.ui'
 #
-# Created: Thu Aug 28 04:12:21 2014
+# Created: Sat Aug 30 08:19:35 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -201,6 +201,7 @@ class Ui_BookForm(object):
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.tableSubjects = QtGui.QTableWidget(self.groupBox_3)
         self.tableSubjects.setMinimumSize(QtCore.QSize(0, 130))
+        self.tableSubjects.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
         self.tableSubjects.setAlternatingRowColors(True)
         self.tableSubjects.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         self.tableSubjects.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)

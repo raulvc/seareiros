@@ -352,6 +352,9 @@
            <height>16777215</height>
           </size>
          </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
          <property name="alternatingRowColors">
           <bool>true</bool>
          </property>

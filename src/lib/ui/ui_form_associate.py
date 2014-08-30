@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'src/lib/ui/form_associate.ui'
 #
-# Created: Thu Aug 28 04:12:21 2014
+# Created: Sat Aug 30 08:19:35 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -306,6 +306,7 @@ class Ui_AssociateForm(object):
         self.gridLayout_4.addWidget(self.btnCleanActivities, 0, 2, 1, 1)
         self.tableActivities = QtGui.QTableWidget(self.groupBox_4)
         self.tableActivities.setMinimumSize(QtCore.QSize(0, 130))
+        self.tableActivities.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
         self.tableActivities.setAlternatingRowColors(True)
         self.tableActivities.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         self.tableActivities.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)

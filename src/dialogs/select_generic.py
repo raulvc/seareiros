@@ -18,7 +18,9 @@ class GenericSelect(QDialog, Ui_Dialog):
         self.setup_search()
 
         self._record = None
-        self._searchForm.viewSearch.doubleClicked.connect(self.selected_record)
+        # selection shouldn't trigger an edit
+        self._searchForm.viewSearch.doubleClicked.disconnect()
+        self._searchForm.viewSearch.doubleClicked.connect(self.on_btnSelect_clicked)
 
         self._function = None
         self.toggle_function()
